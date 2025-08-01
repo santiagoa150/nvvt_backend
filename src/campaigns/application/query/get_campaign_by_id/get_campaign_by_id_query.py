@@ -1,4 +1,4 @@
-from shared.infrastructure.cqrs.query.iquery import IQuery
+from shared.domain.cqrs.query.iquery import IQuery
 
 
 class GetCampaignByIdQuery(IQuery):

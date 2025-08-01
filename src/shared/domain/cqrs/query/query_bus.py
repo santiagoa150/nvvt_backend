@@ -1,9 +1,12 @@
 from typing import Type, Dict, TypeVar
 
-from shared.infrastructure.cqrs.query.iquery import IQuery
-from shared.infrastructure.cqrs.query.iquery_handler import IQueryHandler
+from shared.domain.cqrs.query.iquery import IQuery
+from shared.domain.cqrs.query.iquery_handler import IQueryHandler
+from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
+from shared.domain.exceptions.cqrs_exception import CqrsException
 
 Query = TypeVar("Query", bound=IQuery)
+
 
 class QueryBus:
     """QueryBus is responsible for dispatching queries to their respective handlers."""
@@ -19,7 +22,7 @@ class QueryBus:
         """
 
         if not issubclass(query, IQuery):
-            raise TypeError(f"{query} must be subclass of IQuery")
+            raise CqrsException(CommonExceptionMessages.INVALID_QUERY_SUB_CLASS.format(query=query))
 
         if query not in self._handlers:
             self._handlers[query] = handler()
@@ -33,7 +36,7 @@ class QueryBus:
         query_type = type(query)
 
         if query_type not in self._handlers:
-            raise Exception(f"{query_type} not registered in QueryBus")
+            raise CqrsException(CommonExceptionMessages.QUERY_NOT_REGISTERED.format(query_type=query_type))
 
         handler = self._handlers[query_type]
 

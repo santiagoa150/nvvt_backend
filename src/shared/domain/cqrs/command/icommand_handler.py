@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic
 
-from shared.infrastructure.cqrs.command.icommand import ICommand
+from shared.domain.cqrs.command.icommand import ICommand
 
 Command = TypeVar('Command', bound=ICommand)
 

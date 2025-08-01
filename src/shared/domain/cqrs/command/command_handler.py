@@ -1,7 +1,7 @@
 from typing import Callable, Type
 
-from shared.infrastructure.cqrs.command.icommand import ICommand
-from shared.infrastructure.cqrs.command.icommand_handler import ICommandHandler
+from shared.domain.cqrs.command.icommand import ICommand
+from shared.domain.cqrs.command.icommand_handler import ICommandHandler
 
 _handler_factories: dict[Type[ICommand], Callable[[], ICommandHandler[ICommand]]] = {}
 

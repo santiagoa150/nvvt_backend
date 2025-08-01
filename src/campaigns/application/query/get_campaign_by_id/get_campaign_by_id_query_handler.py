@@ -1,5 +1,5 @@
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
-from shared.infrastructure.cqrs.query.iquery_handler import IQueryHandler, Query
+from shared.domain.cqrs.query.iquery_handler import IQueryHandler
 
 
 class GetCampaignByIdQueryHandler(IQueryHandler[GetCampaignByIdQuery]):

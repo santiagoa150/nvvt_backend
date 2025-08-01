@@ -1,7 +1,7 @@
-from shared.infrastructure.cqrs.command.command_bus import CommandBus
-from shared.infrastructure.cqrs.command.command_handler import get_registered_command_handlers
-from shared.infrastructure.cqrs.query.query_bus import QueryBus
-from shared.infrastructure.cqrs.query.query_handler import get_registered_query_handlers
+from shared.domain.cqrs.command.command_bus import CommandBus
+from shared.domain.cqrs.command.command_handler import get_registered_command_handlers
+from shared.domain.cqrs.query.query_bus import QueryBus
+from shared.domain.cqrs.query.query_handler import get_registered_query_handlers
 
 _query_bus: QueryBus | None = None
 _command_bus: CommandBus | None = None

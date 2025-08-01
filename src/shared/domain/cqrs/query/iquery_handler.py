@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar, Generic
 
-from shared.infrastructure.cqrs.query.iquery import IQuery
+from shared.domain.cqrs.query.iquery import IQuery
 
 Query = TypeVar("Query", bound=IQuery)
 

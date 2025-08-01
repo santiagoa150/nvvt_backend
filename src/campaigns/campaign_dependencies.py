@@ -1,6 +1,6 @@
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query_handler import GetCampaignByIdQueryHandler
-from shared.infrastructure.cqrs.query.query_handler import query_handler
+from shared.domain.cqrs.query.query_handler import query_handler
 
 
 @query_handler(GetCampaignByIdQuery)

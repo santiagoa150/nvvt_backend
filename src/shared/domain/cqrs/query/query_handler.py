@@ -1,7 +1,7 @@
 from typing import Callable, Type
 
-from shared.infrastructure.cqrs.query.iquery import IQuery
-from shared.infrastructure.cqrs.query.iquery_handler import IQueryHandler
+from shared.domain.cqrs.query.iquery import IQuery
+from shared.domain.cqrs.query.iquery_handler import IQueryHandler
 
 _handler_factories: dict[Type[IQuery], Callable[[], IQueryHandler[IQuery]]] = {}
 

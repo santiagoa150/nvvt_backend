@@ -1,9 +1,12 @@
 from typing import Type, Dict, TypeVar
 
-from shared.infrastructure.cqrs.command.icommand import ICommand
-from shared.infrastructure.cqrs.command.icommand_handler import ICommandHandler
+from shared.domain.cqrs.command.icommand import ICommand
+from shared.domain.cqrs.command.icommand_handler import ICommandHandler
+from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
+from shared.domain.exceptions.cqrs_exception import CqrsException
 
 Command = TypeVar("Command", bound=ICommand)
+
 
 class CommandBus:
     """CommandBus is responsible for save and dispatching commands to their respective handlers."""
@@ -19,7 +22,7 @@ class CommandBus:
         """
 
         if not issubclass(command, ICommand):
-            raise TypeError(f"{command} must be subclass of ICommand")
+            raise CqrsException(CommonExceptionMessages.INVALID_COMMAND_SUB_CLASS.format(command=command))
 
         if command not in self._handlers:
             self._handlers[command] = handler()
@@ -33,7 +36,7 @@ class CommandBus:
         command_type = type(command)
 
         if command_type not in self._handlers:
-            raise Exception(f"{command_type} not registered in CommandBus")
+            raise CqrsException(CommonExceptionMessages.COMMAND_NOT_REGISTERED.format(command_type=command_type))
 
         handler = self._handlers[command_type]
 

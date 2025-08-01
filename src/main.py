@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 
 from campaigns.infrastructure.http import http_campaign_router
-from shared.shared_dependencies import get_query_bus
+from shared.shared_dependencies import get_query_bus, get_command_bus
+
 
 def init_routes(api: FastAPI):
     """Initializes the routes for the FastAPI application."""
@@ -14,6 +15,7 @@ def init_cqrs():
 
     """Initializes the CQRS components for the application."""
     get_query_bus()
+    get_command_bus()
 
 
 app = FastAPI()

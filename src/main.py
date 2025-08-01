@@ -1,15 +1,22 @@
-from typing import Union
-
 from fastapi import FastAPI
+
+from campaigns.infrastructure.http import http_campaign_router
+from shared.shared_dependencies import get_query_bus
+
+def init_routes(api: FastAPI):
+    """Initializes the routes for the FastAPI application."""
+
+    api.include_router(http_campaign_router.router, prefix="/api/v1/campaigns", tags=["Campaigns"])
+
+
+def init_cqrs():
+    import campaigns # noqa: F401
+
+    """Initializes the CQRS components for the application."""
+    get_query_bus()
+
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+init_cqrs()
+init_routes(app)

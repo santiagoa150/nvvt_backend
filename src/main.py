@@ -1,10 +1,13 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from campaigns.infrastructure.http import http_campaign_router
+from settings import settings
+from shared import get_query_bus, get_command_bus
 from shared.domain.exceptions.common_exception import CommonException
-from shared.shared_dependencies import get_query_bus, get_command_bus
+from campaigns.infrastructure.http import http_campaign_router
 
 
 def init_cqrs():
@@ -21,6 +24,7 @@ def init_exception_handlers(api: FastAPI):
     async def service_exception_handler(_, error: CommonException):
         return JSONResponse(error.to_dict(), status_code=error.code)
 
+
 def init_middlewares(api: FastAPI):
     """Initializes the middlewares for the FastAPI application."""
 
@@ -31,6 +35,7 @@ def init_middlewares(api: FastAPI):
         allow_methods=['*'],
         allow_headers=['*'],
     )
+
 
 def init_routes(api: FastAPI):
     """Initializes the routes for the FastAPI application."""

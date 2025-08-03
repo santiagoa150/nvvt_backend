@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, Query, Body
 
 from campaigns.application.command.create_campaign.create_campaign_command import CreateCampaignCommand
+from campaigns.application.command.delete_campaign.delete_campaign_command import DeleteCampaignCommand
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.application.query.get_paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
-from campaigns.domain.campaign_dict import CampaignDict
 from campaigns.domain.value_objects.campaign_number import CampaignNumber
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
@@ -60,3 +60,12 @@ async def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get
         IdValueObject(campaign_id),
     ))
     return campaign.to_dict()
+
+
+@router.delete('/{campaign_id}')
+async def delete_campaign(campaign_id: str, command_bus: CommandBus = Depends(get_command_bus)):
+    """Delete a campaign by its ID."""
+    await command_bus.dispatch(DeleteCampaignCommand(
+        IdValueObject(campaign_id),
+    ))
+    return {}

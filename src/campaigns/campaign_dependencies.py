@@ -2,6 +2,8 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from campaigns.application.command.create_campaign.create_campaign_command import CreateCampaignCommand
 from campaigns.application.command.create_campaign.create_campaign_command_handler import CreateCampaignCommandHandler
+from campaigns.application.command.delete_campaign.delete_campaign_command import DeleteCampaignCommand
+from campaigns.application.command.delete_campaign.delete_campaign_command_handler import DeleteCampaignCommandHandler
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query_handler import GetCampaignByIdQueryHandler
 from campaigns.application.query.get_paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
@@ -78,7 +80,7 @@ async def create_get_paginated_campaigns_query_handler() -> GetPaginatedCampaign
 
 
 @command_handler(CreateCampaignCommand)
-async def create_create_campaign_command_handler() -> 'CreateCampaignCommandHandler':
+async def create_create_campaign_command_handler() -> CreateCampaignCommandHandler:
     """
     Creates a command handler for CreateCampaignCommand.
     This function is decorated with `@command_handler` to register the handler with the command bus automatically.
@@ -86,3 +88,13 @@ async def create_create_campaign_command_handler() -> 'CreateCampaignCommandHand
     read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
     return CreateCampaignCommandHandler(read_repository, write_repository)
+
+
+@command_handler(DeleteCampaignCommand)
+async def create_delete_campaign_command_handler() -> DeleteCampaignCommandHandler:
+    """
+    Creates a command handler for DeleteCampaignCommand.
+    This function is decorated with `@command_handler` to register the handler with the command bus automatically.
+    """
+    write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
+    return DeleteCampaignCommandHandler(write_repository)

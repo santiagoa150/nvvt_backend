@@ -4,7 +4,6 @@ from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query imp
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler
-from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 from shared.domain.exceptions.not_found_exception import NotFoundException
 
 
@@ -29,8 +28,6 @@ class GetCampaignByIdQueryHandler(IQueryHandler[GetCampaignByIdQuery]):
         campaign = await self._repository.get_campaign_by_id(query.campaign_id)
 
         if not campaign:
-            raise NotFoundException(
-                CommonExceptionMessages.ENTITY_NOT_FOUND.format(entity=Campaign.__name__, id=query.campaign_id.str)
-            )
+            raise NotFoundException.entity_not_found(Campaign.__name__, query.campaign_id.str)
 
         return campaign

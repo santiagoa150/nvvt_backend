@@ -1,16 +1,25 @@
+import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from shared import get_query_bus, get_command_bus, get_mongo_client
 from shared.domain.exceptions.common_exception import CommonException
 from campaigns.infrastructure.http import http_campaign_router
+from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s (%(asctime)s): %(name)s - %(funcName)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+
+logger = logging.getLogger(__name__)
 
 @asynccontextmanager
-async def lifespan(api: FastAPI):
+async def lifespan(_):
     """Lifespan context manager for the FastAPI application."""
 
     # Initialize CQRS components
@@ -30,7 +39,16 @@ def init_exception_handlers(api: FastAPI):
 
     @api.exception_handler(CommonException)
     async def service_exception_handler(_, error: CommonException):
+        logger.error('Service exception occurred', exc_info=error.__str__())
         return JSONResponse(error.to_dict(), status_code=error.code)
+
+    @api.exception_handler(Exception)
+    async def server_exception_handler(_, error: Exception):
+        logger.error('Unhandled exception occurred', exc_info=error)
+        return JSONResponse({
+            'code': status.HTTP_500_INTERNAL_SERVER_ERROR,
+            'message': CommonExceptionMessages.INTERNAL_SERVER_ERROR.value,
+        })
 
 
 def init_middlewares(api: FastAPI):

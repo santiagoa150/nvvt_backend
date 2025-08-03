@@ -1,3 +1,5 @@
+import logging
+
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.repository.campaign_repository import CampaignRepository
@@ -14,6 +16,7 @@ class GetCampaignByIdQueryHandler(IQueryHandler[GetCampaignByIdQuery]):
         :param repository: The campaign repository to use for fetching campaigns.
         """
         self._repository = repository
+        self._logger = logging.getLogger(__name__)
 
     async def handle(self, query: GetCampaignByIdQuery) -> Campaign:
         """
@@ -22,6 +25,7 @@ class GetCampaignByIdQueryHandler(IQueryHandler[GetCampaignByIdQuery]):
         :return: The campaign associated with the provided ID.
         :raises NotFoundException: If no campaign is found with the provided ID.
         """
+        self._logger.info(f'INIT :: CampaignID: {query.campaign_id.str}')
         campaign = await self._repository.get_campaign_by_id(query.campaign_id)
 
         if not campaign:

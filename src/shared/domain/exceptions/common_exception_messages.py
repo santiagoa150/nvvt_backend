@@ -4,6 +4,7 @@ from enum import Enum
 class CommonExceptionMessages(str, Enum):
     """Common exception messages used across the application."""
 
+    INTERNAL_SERVER_ERROR = "Internal Server Error"
     INVALID_COMMAND_SUB_CLASS = "{command} must be subclass of ICommand"
     INVALID_QUERY_SUB_CLASS = "{query} must be subclass of IQuery"
     COMMAND_NOT_REGISTERED = "{command_type} not registered in CommandBus"

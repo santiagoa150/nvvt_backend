@@ -10,9 +10,9 @@ router = APIRouter()
 
 
 @router.get('/{campaign_id}')
-def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get_query_bus)):
-    print("Hola")
-    campaign: Campaign = query_bus.query(GetCampaignByIdQuery(
+async def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get_query_bus)):
+
+    campaign: Campaign = await query_bus.query(GetCampaignByIdQuery(
         IdValueObject(campaign_id),
     ))
     return campaign.to_dict()

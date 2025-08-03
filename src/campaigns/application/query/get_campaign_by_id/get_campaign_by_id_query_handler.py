@@ -15,14 +15,14 @@ class GetCampaignByIdQueryHandler(IQueryHandler[GetCampaignByIdQuery]):
         """
         self._repository = repository
 
-    def handle(self, query: GetCampaignByIdQuery) -> Campaign:
+    async def handle(self, query: GetCampaignByIdQuery) -> Campaign:
         """
         Handle the GetCampaignByIdQuery to retrieve a campaign by its ID.
         :param query: The query containing the campaign ID.
         :return: The campaign associated with the provided ID.
         :raises NotFoundException: If no campaign is found with the provided ID.
         """
-        campaign = self._repository.get_campaign_by_id(query.campaign_id)
+        campaign = await self._repository.get_campaign_by_id(query.campaign_id)
 
         if not campaign:
             raise NotFoundException(

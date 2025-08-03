@@ -1,4 +1,5 @@
-from typing import Type, Dict, TypeVar
+from typing import Type, Dict, TypeVar, Any
+from collections.abc import Awaitable
 
 from shared.domain.cqrs.query.iquery import IQuery
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler
@@ -27,7 +28,7 @@ class QueryBus:
         if query not in self._handlers:
             self._handlers[query] = handler()
 
-    def query(self, query: IQuery):
+    def query(self, query: IQuery) -> Awaitable[Any]:
         """
         Dispatch a query to its handler and return the result.
         :param query: The query to be handled.

@@ -4,11 +4,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from settings import settings
-from shared import get_query_bus, get_command_bus
+from shared import get_query_bus, get_command_bus, get_mongo_client
 from shared.domain.exceptions.common_exception import CommonException
 from campaigns.infrastructure.http import http_campaign_router
-from shared.infrastructure.mongodb.mongodb_connection import MongoDBConnection
 
 
 @asynccontextmanager
@@ -20,12 +18,11 @@ async def lifespan(api: FastAPI):
     get_command_bus()
 
     # Initialize MongoDB connection
-    mongo = MongoDBConnection(uri=str(settings.mongodb_uri), db_name=settings.mongodb_database)
-    api.state.mongo = mongo
+    client = get_mongo_client()
 
     yield
     # Cleanup actions can be added here if needed
-    mongo.client.close()
+    client.client.close()
 
 
 def init_exception_handlers(api: FastAPI):

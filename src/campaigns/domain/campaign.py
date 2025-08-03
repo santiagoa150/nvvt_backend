@@ -23,7 +23,7 @@ class Campaign:
     def to_dict(self) -> CampaignDict:
         """Converts the campaign to a dictionary representation."""
         return CampaignDict(
-            campaign_id=self._name.str,
+            campaign_id=self._campaign_id.str,
             name=self._name.str,
             year=self._year.int,
             number=self._number.int,

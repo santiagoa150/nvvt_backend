@@ -3,7 +3,6 @@ from collections.abc import Awaitable
 
 from shared.domain.cqrs.query.iquery import IQuery
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler
-from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 from shared.domain.exceptions.cqrs_exception import CqrsException
 
 Query = TypeVar("Query", bound=IQuery)
@@ -15,7 +14,7 @@ class QueryBus:
     def __init__(self):
         self._handlers: Dict[Type[IQuery], IQueryHandler] = {}
 
-    def register_handler(self, query: Type[Query], handler: Type[IQueryHandler[Query]]):
+    def register_handler(self, query: Type[Query], handler: IQueryHandler[Query]):
         """
         Register a query handler for a specific query type.
         :param query: The query type that the handler will handle.
@@ -23,10 +22,10 @@ class QueryBus:
         """
 
         if not issubclass(query, IQuery):
-            raise CqrsException(CommonExceptionMessages.INVALID_QUERY_SUB_CLASS.format(query=query))
+            raise CqrsException.invalid_query_sub_class(query)
 
         if query not in self._handlers:
-            self._handlers[query] = handler()
+            self._handlers[query] = handler
 
     def query(self, query: IQuery) -> Awaitable[Any]:
         """
@@ -37,7 +36,7 @@ class QueryBus:
         query_type = type(query)
 
         if query_type not in self._handlers:
-            raise CqrsException(CommonExceptionMessages.QUERY_NOT_REGISTERED.format(query_type=query_type))
+            raise CqrsException.query_not_registered(str(query_type))
 
         handler = self._handlers[query_type]
 

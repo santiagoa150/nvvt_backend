@@ -2,7 +2,7 @@ import logging
 
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.domain.campaign import Campaign
-from campaigns.domain.repository.campaign_repository import CampaignRepository
+from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler
 from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 from shared.domain.exceptions.not_found_exception import NotFoundException
@@ -11,7 +11,7 @@ from shared.domain.exceptions.not_found_exception import NotFoundException
 class GetCampaignByIdQueryHandler(IQueryHandler[GetCampaignByIdQuery]):
     """Handler for the GetCampaignByIdQuery."""
 
-    def __init__(self, repository: CampaignRepository):
+    def __init__(self, repository: CampaignReadRepository):
         """
         :param repository: The campaign repository to use for fetching campaigns.
         """

@@ -22,3 +22,12 @@ class IdValueObject(StringValueObject):
             uuid.UUID(value)
         except ValueError:
             raise StringValueObjectException.value_must_be_and_id(value)
+
+    @staticmethod
+    def generate() -> str:
+        """
+        Generates a new UUID string.
+        Returns:
+            str: A new UUID string.
+        """
+        return str(uuid.uuid4())

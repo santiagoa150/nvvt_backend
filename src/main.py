@@ -23,8 +23,8 @@ async def lifespan(_):
     """Lifespan context manager for the FastAPI application."""
 
     # Initialize CQRS components
-    get_query_bus()
-    get_command_bus()
+    await get_query_bus()
+    await get_command_bus()
 
     # Initialize MongoDB connection
     client = get_mongo_client()
@@ -39,7 +39,6 @@ def init_exception_handlers(api: FastAPI):
 
     @api.exception_handler(CommonException)
     async def service_exception_handler(_, error: CommonException):
-        logger.error('Service exception occurred', exc_info=error.__str__())
         return JSONResponse(error.to_dict(), status_code=error.code)
 
     @api.exception_handler(Exception)

@@ -10,7 +10,7 @@ _command_bus: CommandBus | None = None
 _mongo_client: MongoDBClient | None = None
 
 
-def get_query_bus() -> QueryBus:
+async def get_query_bus() -> QueryBus:
     """
     This function initializes the QueryBus if it has not been created yet, and registers all query handlers.
     """
@@ -20,12 +20,12 @@ def get_query_bus() -> QueryBus:
     if _query_bus is None:
         _query_bus = QueryBus()
         for query_type, handler_factory in get_registered_query_handlers().items():
-            _query_bus.register_handler(query_type, handler_factory)
+            _query_bus.register_handler(query_type, await handler_factory())
 
     return _query_bus
 
 
-def get_command_bus() -> CommandBus:
+async def get_command_bus() -> CommandBus:
     """
     This function initializes the CommandBus if it has not been created yet, and registers all command handlers.
     """
@@ -36,7 +36,7 @@ def get_command_bus() -> CommandBus:
         _command_bus = CommandBus()
 
         for command_type, handler_factory in get_registered_command_handlers().items():
-            _command_bus.register_handler(command_type, handler_factory)
+            _command_bus.register_handler(command_type, await handler_factory())
 
     return _command_bus
 

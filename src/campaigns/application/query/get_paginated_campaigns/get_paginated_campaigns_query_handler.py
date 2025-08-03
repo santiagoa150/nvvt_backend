@@ -2,7 +2,7 @@ from typing import Awaitable
 
 from campaigns.application.query.get_paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
-from campaigns.domain.repository.campaign_repository import CampaignRepository
+from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler
 from shared.domain.pagination_dict import PaginationDict
 
@@ -10,7 +10,7 @@ from shared.domain.pagination_dict import PaginationDict
 class GetPaginatedCampaignsQueryHandler(IQueryHandler[GetPaginatedCampaignsQuery]):
     """Handler for the GetPaginatedCampaignsQuery."""
 
-    def __init__(self, repository: CampaignRepository):
+    def __init__(self, repository: CampaignReadRepository):
         """
         :param repository: The campaign repository to use for fetching campaigns.
         """

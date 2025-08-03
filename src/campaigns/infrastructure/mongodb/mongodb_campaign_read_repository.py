@@ -3,16 +3,18 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.campaign_dict import CampaignDict
-from campaigns.domain.repository.campaign_repository import CampaignRepository
+from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
+from campaigns.domain.value_objects.campaign_number import CampaignNumber
 from shared.domain.pagination_dict import PaginationDict, empty_pagination_dict
+from shared.domain.value_objects.common.year import Year
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.pagination.limit_param import LimitParam
 from shared.domain.value_objects.pagination.page_param import PageParam
 from shared.infrastructure.mongodb.mongodb_utils import MongoDBUtils
 
 
-class MongoDBCampaignRepository(CampaignRepository):
-    """MongoDB implementation of the CampaignRepository interface."""
+class MongoDBCampaignReadRepository(CampaignReadRepository):
+    """MongoDB implementation of the CampaignReadRepository interface for reading campaign data."""
 
     def __init__(self, collection: AsyncIOMotorCollection):
         """Initializes the MongoDBCampaignRepository with a MongoDB collection."""
@@ -39,3 +41,11 @@ class MongoDBCampaignRepository(CampaignRepository):
 
         campaigns = [Campaign.from_dict(cast(CampaignDict, doc)) for doc in aggregated['data']]
         return PaginationDict(data=campaigns, metadata=aggregated['metadata'])
+
+    async def exists_by_year_and_number(self, year: Year, number: CampaignNumber) -> bool:
+        """Checks if a campaign exists by year and number."""
+        document = await self._collection.find_one({
+            'year': year.int,
+            'number': number.int
+        })
+        return document is not None

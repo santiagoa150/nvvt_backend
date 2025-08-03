@@ -1,3 +1,4 @@
+import logging
 from typing import Awaitable
 
 from campaigns.application.query.get_paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
@@ -15,6 +16,7 @@ class GetPaginatedCampaignsQueryHandler(IQueryHandler[GetPaginatedCampaignsQuery
         :param repository: The campaign repository to use for fetching campaigns.
         """
         self._repository = repository
+        self._logger = logging.getLogger(__name__)
 
     def handle(self, query: GetPaginatedCampaignsQuery) -> Awaitable[PaginationDict[Campaign]]:
         """
@@ -22,4 +24,5 @@ class GetPaginatedCampaignsQueryHandler(IQueryHandler[GetPaginatedCampaignsQuery
         :param query: The query containing pagination parameters.
         :return: A list of campaigns for the requested page.
         """
+        self._logger.info(f'INIT :: Getting All Campaigns with Page: {query.page}, Limit: {query.limit}')
         return self._repository.get_paginated_campaigns(query.page, query.limit)

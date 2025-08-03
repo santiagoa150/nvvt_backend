@@ -1,3 +1,5 @@
+import logging
+
 from campaigns.application.command.create_campaign.create_campaign_command import CreateCampaignCommand
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.campaign_dict import CampaignDict
@@ -21,6 +23,7 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
         """
         self._read_repository = read_repository
         self._write_repository = write_repository
+        self._logger = logging.getLogger(__name__)
 
     async def handle(self, command: CreateCampaignCommand) -> None:
         """
@@ -28,6 +31,7 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
         :param command: The command containing the campaign details.
         :raises CampaignAlreadyExistsException: If a campaign with the same year and number already exists.
         """
+        self._logger.info(f'INIT :: Creating Campaign with params: {command.year}, {command.number}, {command.name}')
 
         if (await self._read_repository.exists_by_year_and_number(
                 command.year, command.number

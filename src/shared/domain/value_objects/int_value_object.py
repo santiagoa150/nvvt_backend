@@ -1,4 +1,3 @@
-from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 from shared.domain.exceptions.int_value_object_exception import IntValueObjectException
 
 
@@ -27,25 +26,13 @@ class IntValueObject:
         """
 
         if not isinstance(value, int):
-            raise IntValueObjectException(
-                CommonExceptionMessages.INT_VALUE_OBJECT_MUST_BE_INTEGER.format(integer=self._field_name)
-            )
+            raise IntValueObjectException.value_must_be_integer(self._field_name)
 
         if self._min_value is not None and value < self._min_value:
-            raise IntValueObjectException(
-                CommonExceptionMessages.INT_VALUE_OBJECT_MIN_VALUE.format(
-                    integer=self._field_name,
-                    min_value=self._min_value
-                )
-            )
+            raise IntValueObjectException.min_value_exceeded(self._field_name, self._min_value)
 
         if self._max_value is not None and value > self._max_value:
-            raise IntValueObjectException(
-                CommonExceptionMessages.INT_VALUE_OBJECT_MAX_VALUE.format(
-                    integer=self._field_name,
-                    max_value=self._max_value
-                )
-            )
+            raise IntValueObjectException.max_value_exceeded(self._field_name, self._max_value)
 
     @property
     def int(self) -> int:

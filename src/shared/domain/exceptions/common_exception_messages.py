@@ -15,6 +15,9 @@ class CommonExceptionMessages(str, Enum):
     INT_VALUE_OBJECT_MUST_BE_INTEGER = "{integer} must be an integer"
     INT_VALUE_OBJECT_MIN_VALUE = "{integer} must be greater than or equal to {min_value}"
     INT_VALUE_OBJECT_MAX_VALUE = "{integer} must be less than or equal to {max_value}"
+    FLOAT_VALUE_OBJECT_MUST_BE_FLOAT = "{float} must be a float"
+    FLOAT_VALUE_OBJECT_MIN_VALUE = "{float} must be greater than or equal to {min_value}"
+    FLOAT_VALUE_OBJECT_MAX_VALUE = "{float} must be less than or equal to {max_value}"
     ENTITY_NOT_FOUND = "{entity} with identifier {id} was not found"
 
     def format(self, **kwargs) -> str:

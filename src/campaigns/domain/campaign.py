@@ -2,7 +2,7 @@ from campaigns.domain.campaign_dict import CampaignDict
 from campaigns.domain.value_objects.campaign_number import CampaignNumber
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.string_value_object import StringValueObject
-from shared.domain.value_objects.year import Year
+from shared.domain.value_objects.common.year import Year
 
 
 class Campaign:

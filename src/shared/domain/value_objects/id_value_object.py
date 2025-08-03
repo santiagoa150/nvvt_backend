@@ -1,6 +1,5 @@
 import uuid
 
-from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 from shared.domain.exceptions.string_value_object_exception import StringValueObjectException
 from shared.domain.value_objects.string_value_object import StringValueObject
 
@@ -22,6 +21,4 @@ class IdValueObject(StringValueObject):
         try:
             uuid.UUID(value)
         except ValueError:
-            raise StringValueObjectException(
-                CommonExceptionMessages.ID_VALUE_OBJECT_MUST_BE_VALID_UUID.format(id=value)
-            )
+            raise StringValueObjectException.value_must_be_and_id(value)

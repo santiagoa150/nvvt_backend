@@ -1,6 +1,7 @@
 from fastapi import status
 
 from shared.domain.exceptions.common_exception import CommonException
+from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 
 
 class StringValueObjectException(CommonException):
@@ -8,3 +9,24 @@ class StringValueObjectException(CommonException):
 
     def __init__(self, message: str):
         super().__init__(status.HTTP_400_BAD_REQUEST, message)
+
+    @staticmethod
+    def value_must_be_string(field_name: str) -> "StringValueObjectException":
+        """Raises an exception when the value is not a string."""
+        return StringValueObjectException(
+            CommonExceptionMessages.STRING_VALUE_OBJECT_MUST_BE_STRING.format(string=field_name)
+        )
+
+    @staticmethod
+    def value_cannot_be_empty(field_name: str) -> "StringValueObjectException":
+        """Raises an exception when the value is an empty string."""
+        return StringValueObjectException(
+            CommonExceptionMessages.STRING_VALUE_OBJECT_CANNOT_BE_EMPTY.format(string=field_name)
+        )
+
+    @staticmethod
+    def value_must_be_and_id(value: str) -> "StringValueObjectException":
+        """Raises an exception when the value is not a valid ID."""
+        return StringValueObjectException(
+            CommonExceptionMessages.ID_VALUE_OBJECT_MUST_BE_VALID_UUID.format(id=value)
+        )

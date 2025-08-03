@@ -8,13 +8,24 @@ from settings import settings
 from shared import get_query_bus, get_command_bus
 from shared.domain.exceptions.common_exception import CommonException
 from campaigns.infrastructure.http import http_campaign_router
+from shared.infrastructure.mongodb.mongodb_connection import MongoDBConnection
 
 
-def init_cqrs():
-    """Initializes the CQRS components for the application."""
+@asynccontextmanager
+async def lifespan(api: FastAPI):
+    """Lifespan context manager for the FastAPI application."""
 
+    # Initialize CQRS components
     get_query_bus()
     get_command_bus()
+
+    # Initialize MongoDB connection
+    mongo = MongoDBConnection(uri=str(settings.mongodb_uri), db_name=settings.mongodb_database)
+    api.state.mongo = mongo
+
+    yield
+    # Cleanup actions can be added here if needed
+    mongo.client.close()
 
 
 def init_exception_handlers(api: FastAPI):
@@ -43,8 +54,7 @@ def init_routes(api: FastAPI):
     api.include_router(http_campaign_router.router, prefix="/api/v1/campaigns", tags=["Campaigns"])
 
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
-init_cqrs()
 init_exception_handlers(app)
 init_routes(app)

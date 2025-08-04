@@ -33,8 +33,8 @@ class Campaign:
     def from_dict(cls, campaign_dict: CampaignDict) -> "Campaign":
         """Creates a Campaign instance from a dictionary representation."""
         return cls(
-            campaign_id=IdValueObject(campaign_dict["campaign_id"]),
-            name=StringValueObject(campaign_dict["name"]),
-            year=Year(campaign_dict["year"]),
+            campaign_id=IdValueObject(campaign_dict["campaign_id"], "campaign_id"),
+            name=StringValueObject(campaign_dict["name"], "campaign_name"),
+            year=Year(campaign_dict["year"], "campaign_year"),
             number=CampaignNumber(campaign_dict["number"]),
         )

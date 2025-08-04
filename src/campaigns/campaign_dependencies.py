@@ -19,9 +19,9 @@ from shared import get_mongo_client
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
+_campaigns_collection: AsyncIOMotorCollection | None = None
 _mongo_campaign_read_repository: MongoDBCampaignReadRepository | None = None
 _mongo_campaign_write_repository: MongoDBCampaignWriteRepository | None = None
-_campaigns_collection: AsyncIOMotorCollection | None = None
 
 
 async def get_campaigns_collection() -> AsyncIOMotorCollection:

@@ -46,8 +46,8 @@ async def create_campaign(
 ):
     """Create a new campaign."""
     await command_bus.dispatch(CreateCampaignCommand(
-        StringValueObject(name),
-        Year(year),
+        StringValueObject(name, "campaign_name"),
+        Year(year, "campaign_year"),
         CampaignNumber(number),
     ))
     return {}
@@ -57,7 +57,7 @@ async def create_campaign(
 async def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get_query_bus)):
     """Retrieve a campaign by its ID."""
     campaign: Campaign = await query_bus.query(GetCampaignByIdQuery(
-        IdValueObject(campaign_id),
+        IdValueObject(campaign_id, "campaign_id"),
     ))
     return campaign.to_dict()
 
@@ -66,6 +66,6 @@ async def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get
 async def delete_campaign(campaign_id: str, command_bus: CommandBus = Depends(get_command_bus)):
     """Delete a campaign by its ID."""
     await command_bus.dispatch(DeleteCampaignCommand(
-        IdValueObject(campaign_id),
+        IdValueObject(campaign_id, "campaign_id"),
     ))
     return {}

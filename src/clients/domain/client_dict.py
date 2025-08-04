@@ -8,6 +8,6 @@ class ClientDict(TypedDict):
 
     client_id: str
     given_names: str
-    family_names: str
+    family_names: Optional[str]
     delivery_place: str
     phone: Optional[PhoneDict]

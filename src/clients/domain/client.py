@@ -13,7 +13,7 @@ class Client:
             self,
             client_id: IdValueObject,
             given_names: StringValueObject,
-            family_names: StringValueObject,
+            family_names: Optional[StringValueObject],
             delivery_place: StringValueObject,
             phone: Optional[Phone],
     ):
@@ -28,7 +28,7 @@ class Client:
         return ClientDict(
             client_id=self._client_id.str,
             given_names=self._given_names.str,
-            family_names=self._family_names.str,
+            family_names=self._family_names.str if self._family_names else None,
             delivery_place=self._delivery_place.str,
             phone=self._phone.to_dict() if self._phone else None
         )
@@ -39,7 +39,7 @@ class Client:
         return cls(
             client_id=IdValueObject(client_dict["client_id"], "client_id"),
             given_names=StringValueObject(client_dict["given_names"], "given_names"),
-            family_names=StringValueObject(client_dict["family_names"], "family_names"),
+            family_names=StringValueObject(client_dict["family_names"], "family_names") if client_dict.get("family_names") else None,
             delivery_place=StringValueObject(client_dict["delivery_place"], "delivery_place"),
             phone=Phone.from_dict(client_dict["phone"]) if client_dict.get("phone") else None
         )

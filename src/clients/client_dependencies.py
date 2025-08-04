@@ -1,5 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
 
+from clients.application.command.create_client.create_client_command import CreateClientCommand
+from clients.application.command.create_client.create_client_command_handler import CreateClientCommandHandler
 from clients.application.query.get_client_by_id.get_client_by_id_query import GetClientByIdQuery
 from clients.application.query.get_client_by_id.get_client_by_id_query_handler import GetClientByIdQueryHandler
 from clients.application.query.get_paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
@@ -10,6 +12,7 @@ from clients.infrastructure.mongodb.mongodb_client_read_repository import MongoD
 from clients.infrastructure.mongodb.mongodb_client_schema import create_client_indexes
 from clients.infrastructure.mongodb.mongodb_client_write_repository import MongoDBClientWriteRepository
 from shared import get_mongo_client
+from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
 _clients_collection: AsyncIOMotorCollection | None = None
@@ -66,3 +69,11 @@ async def create_get_paginated_clients_query_handler():
 
     repository = await create_mongodb_client_read_repository()
     return GetPaginatedClientsQueryHandler(repository)
+
+
+@command_handler(CreateClientCommand)
+async def create_create_client_command_handler():
+    """Creates a command handler for CreateClientCommand."""
+
+    repository = await create_mongodb_client_write_repository()
+    return CreateClientCommandHandler(repository)

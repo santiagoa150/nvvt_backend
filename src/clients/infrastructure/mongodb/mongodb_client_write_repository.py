@@ -2,6 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from clients.domain.client import Client
 from clients.domain.repository.client_write_repository import ClientWriteRepository
+from shared.domain.value_objects.id_value_object import IdValueObject
 
 
 class MongoDBClientWriteRepository(ClientWriteRepository):
@@ -14,3 +15,8 @@ class MongoDBClientWriteRepository(ClientWriteRepository):
     async def create_client(self, client: Client) -> None:
         """Create a new client."""
         await self._collection.insert_one(client.to_dict())
+
+    async def delete_client(self, client_id: IdValueObject) -> bool:
+        """Delete an existing client."""
+        result = await self._collection.delete_one({"client_id": client_id.str})
+        return result.deleted_count > 0

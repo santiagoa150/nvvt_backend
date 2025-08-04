@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Query, Body
 
 from clients.application.command.create_client.create_client_command import CreateClientCommand
+from clients.application.command.delete_client.delete_client_command import DeleteClientCommand
 from clients.application.query.get_client_by_id.get_client_by_id_query import GetClientByIdQuery
 from clients.application.query.get_paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
 from clients.domain.client import Client
@@ -62,3 +63,12 @@ async def get_client_by_id(client_id: str, query_bus: QueryBus = Depends(get_que
         IdValueObject(client_id, 'client_id')
     ))
     return client.to_dict()
+
+
+@router.delete('/{client_id}')
+async def delete_client(client_id: str, command_bus: CommandBus = Depends(get_command_bus)):
+    """Delete a client by its ID."""
+    await command_bus.dispatch(DeleteClientCommand(
+        IdValueObject(client_id, 'client_id')
+    ))
+    return {}

@@ -21,6 +21,7 @@ class DeleteCampaignCommandHandler(ICommandHandler[DeleteCampaignCommand]):
         """
         Handle the DeleteCampaignCommand to delete a campaign by its ID.
         :param command: The command containing the campaign ID.
+        :raises NotFoundException: If the campaign with the given ID does not exist.
         """
         self._logger.info(f'INIT :: Deleting campaign with ID: {command.campaign_id.str}')
         is_deleted = await self._repository.delete_campaign(command.campaign_id)

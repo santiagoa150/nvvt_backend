@@ -26,11 +26,11 @@ class CreateClientCommandHandler(ICommandHandler[CreateClientCommand]):
         """
         self._logger.info(
             f'INIT :: Creating Client with params: '
-            f'- {command.given_names}, '
-            f'- {command.family_names}, '
-            f'- {command.delivery_place}, '
-            f'- {command.phone_number}, '
-            f'- {command.country_phone_code}'
+            f'- {command.given_names.str}, '
+            f'- {command.family_names.str if command.family_names else None}, '
+            f'- {command.delivery_place.str}, '
+            f'- {command.phone_number.str if command.phone_number else None}, '
+            f'- {command.country_phone_code.int if command.country_phone_code else None}'
         )
 
         client = Client.from_dict(ClientDict(

@@ -2,6 +2,9 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from clients.application.query.get_client_by_id.get_client_by_id_query import GetClientByIdQuery
 from clients.application.query.get_client_by_id.get_client_by_id_query_handler import GetClientByIdQueryHandler
+from clients.application.query.get_paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
+from clients.application.query.get_paginated_clients.get_paginated_clients_query_handler import \
+    GetPaginatedClientsQueryHandler
 from clients.infrastructure.mongodb.mongodb_client_constants import MongoDBClientConstants
 from clients.infrastructure.mongodb.mongodb_client_read_repository import MongoDBClientReadRepository
 from clients.infrastructure.mongodb.mongodb_client_schema import create_client_indexes
@@ -55,3 +58,11 @@ async def create_get_client_by_id_query_handler():
 
     repository = await create_mongodb_client_read_repository()
     return GetClientByIdQueryHandler(repository)
+
+
+@query_handler(GetPaginatedClientsQuery)
+async def create_get_paginated_clients_query_handler():
+    """Creates a query handler for GetPaginatedClientsQuery."""
+
+    repository = await create_mongodb_client_read_repository()
+    return GetPaginatedClientsQueryHandler(repository)

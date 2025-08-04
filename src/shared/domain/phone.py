@@ -21,7 +21,7 @@ class Phone:
         """
         return PhoneDict(
             country_code=self.country_code.int,
-            number=self.number.int
+            number=self.number.str
         )
 
     @classmethod

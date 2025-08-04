@@ -20,6 +20,7 @@ class GetCampaignByIdQueryHandler(IQueryHandler[GetCampaignByIdQuery]):
     async def handle(self, query: GetCampaignByIdQuery) -> Campaign:
         """
         Handle the GetCampaignByIdQuery to retrieve a campaign by its ID.
+
         :param query: The query containing the campaign ID.
         :return: The campaign associated with the provided ID.
         :raises NotFoundException: If no campaign is found with the provided ID.

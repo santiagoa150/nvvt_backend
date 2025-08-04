@@ -1,10 +1,13 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
 
+from clients.application.query.get_client_by_id.get_client_by_id_query import GetClientByIdQuery
+from clients.application.query.get_client_by_id.get_client_by_id_query_handler import GetClientByIdQueryHandler
 from clients.infrastructure.mongodb.mongodb_client_constants import MongoDBClientConstants
 from clients.infrastructure.mongodb.mongodb_client_read_repository import MongoDBClientReadRepository
 from clients.infrastructure.mongodb.mongodb_client_schema import create_client_indexes
 from clients.infrastructure.mongodb.mongodb_client_write_repository import MongoDBClientWriteRepository
 from shared import get_mongo_client
+from shared.domain.cqrs.query.query_handler import query_handler
 
 _clients_collection: AsyncIOMotorCollection | None = None
 _mongo_client_read_repository: MongoDBClientReadRepository | None = None
@@ -44,3 +47,11 @@ async def create_mongodb_client_write_repository() -> MongoDBClientWriteReposito
         _mongo_client_write_repository = MongoDBClientWriteRepository(await get_clients_collection())
 
     return _mongo_client_write_repository
+
+
+@query_handler(GetClientByIdQuery)
+async def create_get_client_by_id_query_handler():
+    """Creates a query handler for GetClientByIdQuery."""
+
+    repository = await create_mongodb_client_read_repository()
+    return GetClientByIdQueryHandler(repository)

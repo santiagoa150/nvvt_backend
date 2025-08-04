@@ -1,4 +1,4 @@
-from typing import cast
+from typing import cast, Optional
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from campaigns.domain.campaign import Campaign
@@ -20,7 +20,7 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
         """Initializes the MongoDBCampaignRepository with a MongoDB collection."""
         self._collection = collection
 
-    async def get_campaign_by_id(self, campaign_id: IdValueObject) -> Campaign | None:
+    async def get_campaign_by_id(self, campaign_id: IdValueObject) -> Optional[Campaign]:
         """Retrieves a campaign by its ID from the MongoDB collection."""
         document = await self._collection.find_one({'campaign_id': campaign_id.str})
 

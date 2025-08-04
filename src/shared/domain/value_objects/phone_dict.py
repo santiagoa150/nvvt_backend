@@ -5,4 +5,4 @@ class PhoneDict(TypedDict):
     """Dictionary representation of a phone number."""
 
     country_code: int
-    number: int
+    number: str

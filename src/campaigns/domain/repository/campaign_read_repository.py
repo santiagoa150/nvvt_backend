@@ -15,15 +15,32 @@ class CampaignReadRepository(ABC):
 
     @abstractmethod
     async def get_campaign_by_id(self, campaign_id: IdValueObject) -> Optional[Campaign]:
-        """Retrieve a campaign by its ID."""
+        """
+        Retrieve a campaign by its ID.
+
+        :param campaign_id: The ID of the campaign to retrieve.
+        :return: An instance of Campaign if found, otherwise None.
+        """
         pass
 
     @abstractmethod
     async def get_paginated_campaigns(self, page: PageParam, limit: LimitParam) -> PaginationDict[Campaign]:
-        """Retrieve paginated campaigns."""
+        """
+        Retrieve paginated campaigns.
+
+        :param page: The page number to retrieve.
+        :param limit: The number of items per page.
+        :return: A PaginationDict containing the paginated campaigns.
+        """
         pass
 
     @abstractmethod
     async def exists_by_year_and_number(self, year: Year, number: CampaignNumber) -> bool:
-        """Check if a campaign exists by year and number."""
+        """
+        Check if a campaign exists by year and number.
+
+        :param year: The year of the campaign.
+        :param number: The number of the campaign.
+        :return: True if a campaign exists with the specified year and number, otherwise False.
+        """
         pass

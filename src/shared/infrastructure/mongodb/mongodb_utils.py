@@ -18,6 +18,7 @@ class MongoDBUtils:
             {
                 "$facet": {
                     "data": [
+                        {"$sort": {"_id": -1}},
                         {"$skip": skip},
                         {"$limit": limit.float}
                     ],

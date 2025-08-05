@@ -9,6 +9,7 @@ from shared import get_query_bus, get_command_bus, get_mongo_client
 from shared.domain.exceptions.common_exception import CommonException
 from campaigns.infrastructure.http import http_campaign_router
 from clients.infrastructure.http import http_client_router
+from orders.infrastructure.http import http_order_router
 from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 
 logging.basicConfig(
@@ -69,6 +70,7 @@ def init_routes(api: FastAPI):
 
     api.include_router(http_campaign_router.router, prefix="/api/v1/campaigns", tags=["Campaigns"])
     api.include_router(http_client_router.router, prefix="/api/v1/clients", tags=["Clients"])
+    api.include_router(http_order_router.router, prefix="/api/v1/orders", tags=["Orders"])
 
 
 app = FastAPI(lifespan=lifespan)

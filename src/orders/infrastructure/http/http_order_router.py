@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Query, Body, Header
 
 from orders.application.command.create_order.create_order_command import CreateOrderCommand
+from orders.application.command.delete_order.delete_order_command import DeleteOrderCommand
 from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
 from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
 from orders.domain.order import Order
@@ -44,6 +45,13 @@ async def get_order_by_id(order_id: str, query_bus: QueryBus = Depends(get_query
     """Retrieve an order by its ID."""
     order: Order = await query_bus.query(GetOrderByIdQuery.create(order_id))
     return order.to_dict()
+
+
+@router.delete('/{order_id}')
+async def delete_order_by_id(order_id: str, command_bus: CommandBus = Depends(get_command_bus)):
+    """Delete an order by its ID. (Not implemented)"""
+    await command_bus.dispatch(DeleteOrderCommand.create(order_id))
+    return {}
 
 
 @router.get('/by-campaign/{campaign_id}')

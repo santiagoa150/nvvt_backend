@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from orders.domain.order import Order
+from shared.domain.value_objects.id_value_object import IdValueObject
 
 
 class OrderWriteRepository(ABC):
@@ -12,5 +13,15 @@ class OrderWriteRepository(ABC):
         Create a new order.
 
         :param order: The order object to create.
+        """
+        pass
+
+    @abstractmethod
+    async def delete_order(self, order_id: IdValueObject) -> bool:
+        """
+        Delete an existing order.
+
+        :param order_id: The ID of the order to delete.
+        :return: True if the order was deleted successfully, False otherwise.
         """
         pass

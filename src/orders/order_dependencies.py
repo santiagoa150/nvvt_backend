@@ -2,6 +2,8 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from orders.application.command.create_order.create_order_command import CreateOrderCommand
 from orders.application.command.create_order.create_order_command_handler import CreateOrderCommandHandler
+from orders.application.command.delete_order.delete_order_command import DeleteOrderCommand
+from orders.application.command.delete_order.delete_order_command_handler import DeleteOrderCommandHandler
 from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
 from orders.application.query.get_order_by_id.get_order_by_id_query_handler import GetOrderByIdQueryHandler
 from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
@@ -91,3 +93,10 @@ async def create_order_command_handler():
     write_repository = await create_mongodb_order_write_repository()
     order_client = await create_nova_venta_order_client()
     return CreateOrderCommandHandler(query_bus, write_repository, order_client)
+
+
+@command_handler(DeleteOrderCommand)
+async def delete_order_command_handler():
+    """Creates a command handler for DeleteOrderCommand."""
+    repository = await create_mongodb_order_write_repository()
+    return DeleteOrderCommandHandler(repository)

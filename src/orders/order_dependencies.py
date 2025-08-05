@@ -5,7 +5,6 @@ from orders.application.query.get_order_by_id.get_order_by_id_query_handler impo
 from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
 from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query_handler import \
     GetOrdersByCampaignQueryHandler
-from orders.domain.order import Order
 from orders.infrastructure.mongodb.mongodb_order_constants import MongoDBOrderConstants
 from orders.infrastructure.mongodb.mongodb_order_read_repository import MongoDBOrderReadRepository
 from orders.infrastructure.mongodb.mongodb_order_schema import create_order_indexes

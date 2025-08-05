@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 
 from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
 from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
@@ -16,7 +16,11 @@ async def get_order_by_id(order_id: str, query_bus=Depends(get_query_bus)):
 
 
 @router.get('/by-campaign/{campaign_id}')
-async def get_orders_by_campaign(campaign_id: str, query_bus=Depends(get_query_bus)):
+async def get_orders_by_campaign(
+        campaign_id: str,
+        client_id: str = Query(None, description='Optional client ID to filter orders'),
+        query_bus=Depends(get_query_bus)
+):
     """Retrieve orders by campaign ID."""
-    orders: list[Order] = await query_bus.query(GetOrdersByCampaignQuery.create(campaign_id))
+    orders: list[Order] = await query_bus.query(GetOrdersByCampaignQuery.create(campaign_id, client_id))
     return [order.to_dict() for order in orders]

@@ -24,8 +24,17 @@ class MongoDBOrderReadRepository(OrderReadRepository):
 
         return Order.from_dict(cast(OrderDict, document))
 
-    async def get_orders_by_campaign(self, campaign_id: IdValueObject) -> list[Order]:
+    async def get_orders_by_campaign(
+            self,
+            campaign_id: IdValueObject,
+            client_id: Optional[IdValueObject]
+    ) -> list[Order]:
         """Retrieve all orders associated with a specific campaign ID."""
-        documents = await self._collection.find({"campaign_id": campaign_id.str}).to_list(length=None)
+        filters = {"campaign_id": campaign_id.str}
+
+        if client_id is not None:
+            filters["client_id"] = client_id.str
+
+        documents = await self._collection.find(filters).to_list(length=None)
 
         return [Order.from_dict(cast(OrderDict, doc)) for doc in documents] if documents else []

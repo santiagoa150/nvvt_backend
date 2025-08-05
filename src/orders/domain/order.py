@@ -57,6 +57,6 @@ class Order:
             product_name=StringValueObject(order_dict["product_name"], "product_name"),
             image_url=StringValueObject(order_dict["image_url"], "order_image_url"),
             quantity=PositiveIntValueObject(order_dict["quantity"], "order_quantity"),
-            catalog_price=PositiveFloatValueObject(order_dict["catalog_price"], "order_catalog_price"),
-            list_price=PositiveFloatValueObject(order_dict["list_price"], "order_list_price")
+            catalog_price=PositiveFloatValueObject(float(order_dict["catalog_price"]), "order_catalog_price"),
+            list_price=PositiveFloatValueObject(float(order_dict["list_price"]), "order_list_price")
         )

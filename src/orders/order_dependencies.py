@@ -2,6 +2,9 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
 from orders.application.query.get_order_by_id.get_order_by_id_query_handler import GetOrderByIdQueryHandler
+from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
+from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query_handler import \
+    GetOrdersByCampaignQueryHandler
 from orders.domain.order import Order
 from orders.infrastructure.mongodb.mongodb_order_constants import MongoDBOrderConstants
 from orders.infrastructure.mongodb.mongodb_order_read_repository import MongoDBOrderReadRepository
@@ -56,3 +59,11 @@ async def get_order_by_id_query_handler():
 
     repository = await create_mongodb_order_read_repository()
     return GetOrderByIdQueryHandler(repository)
+
+
+@query_handler(GetOrdersByCampaignQuery)
+async def get_orders_by_campaign_query_handler():
+    """Creates a query handler for GetOrdersByCampaignQuery."""
+
+    repository = await create_mongodb_order_read_repository()
+    return GetOrdersByCampaignQueryHandler(repository)

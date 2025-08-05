@@ -5,16 +5,10 @@ from campaigns.application.command.delete_campaign.delete_campaign_command impor
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.application.query.get_paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
-from campaigns.domain.value_objects.campaign_number import CampaignNumber
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 from shared.domain.cqrs.query.query_bus import QueryBus
 from shared.domain.pagination_dict import PaginationDict
-from shared.domain.value_objects.common.year import Year
-from shared.domain.value_objects.id_value_object import IdValueObject
-from shared.domain.value_objects.pagination.limit_param import LimitParam
-from shared.domain.value_objects.pagination.page_param import PageParam
-from shared.domain.value_objects.string_value_object import StringValueObject
 from shared.shared_dependencies import get_query_bus
 
 router = APIRouter()
@@ -27,9 +21,8 @@ async def get_paginated_campaigns(
         query_bus: QueryBus = Depends(get_query_bus)
 ):
     """Retrieve paginated campaigns."""
-    pagination: PaginationDict[Campaign] = await query_bus.query(GetPaginatedCampaignsQuery(
-        PageParam(page),
-        LimitParam(float(limit)),
+    pagination: PaginationDict[Campaign] = await query_bus.query(GetPaginatedCampaignsQuery.create(
+        page, limit,
     ))
     return PaginationDict(
         data=[campaign.to_dict() for campaign in pagination['data']],
@@ -45,10 +38,10 @@ async def create_campaign(
         command_bus: CommandBus = Depends(get_command_bus)
 ):
     """Create a new campaign."""
-    await command_bus.dispatch(CreateCampaignCommand(
-        StringValueObject(name, "campaign_name"),
-        Year(year, "campaign_year"),
-        CampaignNumber(number),
+    await command_bus.dispatch(CreateCampaignCommand.create(
+        name=name,
+        year=year,
+        number=number,
     ))
     return {}
 
@@ -56,16 +49,12 @@ async def create_campaign(
 @router.get('/{campaign_id}')
 async def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get_query_bus)):
     """Retrieve a campaign by its ID."""
-    campaign: Campaign = await query_bus.query(GetCampaignByIdQuery(
-        IdValueObject(campaign_id, "campaign_id"),
-    ))
+    campaign: Campaign = await query_bus.query(GetCampaignByIdQuery.create(campaign_id))
     return campaign.to_dict()
 
 
 @router.delete('/{campaign_id}')
 async def delete_campaign(campaign_id: str, command_bus: CommandBus = Depends(get_command_bus)):
     """Delete a campaign by its ID."""
-    await command_bus.dispatch(DeleteCampaignCommand(
-        IdValueObject(campaign_id, "campaign_id"),
-    ))
+    await command_bus.dispatch(DeleteCampaignCommand.create(campaign_id))
     return {}

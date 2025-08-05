@@ -10,3 +10,10 @@ class GetCampaignByIdQuery(IQuery):
         :param campaign_id: The ID of the campaign to retrieve.
         """
         self.campaign_id = campaign_id
+
+    @staticmethod
+    def create(campaign_id: str):
+        """Factory method to create a GetCampaignByIdQuery instance."""
+        return GetCampaignByIdQuery(
+            campaign_id=IdValueObject(campaign_id, "campaign_id")
+        )

@@ -21,3 +21,16 @@ class CreateCampaignCommand(ICommand):
         self.name = name
         self.year = year
         self.number = number
+
+    @staticmethod
+    def create(
+            name: str,
+            year: int,
+            number: int,
+    ) -> 'CreateCampaignCommand':
+        """Factory method to create a CreateCampaignCommand instance."""
+        return CreateCampaignCommand(
+            name=StringValueObject(name, "campaign_name"),
+            year=Year(year, "campaign_year"),
+            number=CampaignNumber(number),
+        )

@@ -10,3 +10,10 @@ class DeleteCampaignCommand(ICommand):
         :param campaign_id: The ID of the campaign to delete.
         """
         self.campaign_id = campaign_id
+
+    @staticmethod
+    def create(campaign_id: str):
+        """Factory method to create a DeleteCampaignCommand instance."""
+        return DeleteCampaignCommand(
+            campaign_id=IdValueObject(campaign_id, "campaign_id")
+        )

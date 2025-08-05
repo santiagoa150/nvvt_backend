@@ -10,3 +10,10 @@ class DeleteClientCommand(ICommand):
         :param client_id: The ID of the client to delete.
         """
         self.client_id = client_id
+
+    @staticmethod
+    def create(client_id: str):
+        """Factory method to create a DeleteClientCommand instance."""
+        return DeleteClientCommand(
+            client_id=IdValueObject(client_id, "client_id")
+        )

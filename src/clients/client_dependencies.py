@@ -4,6 +4,8 @@ from clients.application.command.create_client.create_client_command import Crea
 from clients.application.command.create_client.create_client_command_handler import CreateClientCommandHandler
 from clients.application.command.delete_client.delete_client_command import DeleteClientCommand
 from clients.application.command.delete_client.delete_client_command_handler import DeleteClientCommandHandler
+from clients.application.command.update_client.update_client_command import UpdateClientCommand
+from clients.application.command.update_client.update_client_command_handler import UpdateClientCommandHandler
 from clients.application.query.get_client_by_id.get_client_by_id_query import GetClientByIdQuery
 from clients.application.query.get_client_by_id.get_client_by_id_query_handler import GetClientByIdQueryHandler
 from clients.application.query.get_paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
@@ -87,3 +89,12 @@ async def create_delete_client_command_handler():
 
     repository = await create_mongodb_client_write_repository()
     return DeleteClientCommandHandler(repository)
+
+
+@command_handler(UpdateClientCommand)
+async def create_update_client_command_handler():
+    """Creates a command handler for UpdateClientCommand."""
+
+    read_repository = await create_mongodb_client_read_repository()
+    write_repository = await create_mongodb_client_write_repository()
+    return UpdateClientCommandHandler(read_repository, write_repository)

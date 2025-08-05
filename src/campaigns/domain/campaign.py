@@ -8,6 +8,8 @@ from shared.domain.value_objects.common.year import Year
 class Campaign:
     """Represents a campaign with its associated properties."""
 
+    __slots__ = ("_campaign_id", "_name", "_year", "_number")
+
     def __init__(
             self,
             campaign_id: IdValueObject,

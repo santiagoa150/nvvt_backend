@@ -4,14 +4,17 @@ from shared.domain.value_objects.phone_dict import PhoneDict
 
 
 class Phone:
+    """Represents a phone number with its country code."""
+
+    __slots__ = ("_country_code", "_number")
 
     def __init__(self, country_code: CountryPhoneCode, number: PhoneNumber):
         """
         :param country_code: The country phone code.
         :param number: The phone number.
         """
-        self.country_code = country_code
-        self.number = number
+        self._country_code = country_code
+        self._number = number
 
     def to_dict(self) -> PhoneDict:
         """
@@ -20,8 +23,8 @@ class Phone:
         :return: A dictionary with country code and phone number.
         """
         return PhoneDict(
-            country_code=self.country_code.int,
-            number=self.number.str
+            country_code=self._country_code.int,
+            number=self._number.str
         )
 
     @classmethod

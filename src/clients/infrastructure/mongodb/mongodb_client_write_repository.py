@@ -20,3 +20,13 @@ class MongoDBClientWriteRepository(ClientWriteRepository):
         """Delete an existing client."""
         result = await self._collection.delete_one({"client_id": client_id.str})
         return result.deleted_count > 0
+
+    async def update_client(self, client: Client) -> None:
+        """Update an existing client."""
+        update_data = dict(client.to_dict())
+        update_data.pop("client_id", None)
+
+        await self._collection.update_one(
+            {"client_id": client.client_id.str},
+            {"$set": update_data}
+        )

@@ -23,3 +23,11 @@ class ClientWriteRepository(ABC):
         :return: True if the client was deleted successfully, False otherwise.
         """
         pass
+
+    @abstractmethod
+    async def update_client(self, client: Client) -> None:
+        """
+        Update an existing client.
+        :param client: The client object with updated information.
+        """
+        pass

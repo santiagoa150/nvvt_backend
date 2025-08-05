@@ -1,6 +1,11 @@
+from typing import Optional, cast
+
 from motor.motor_asyncio import AsyncIOMotorCollection
 
+from orders.domain.order import Order
+from orders.domain.order_dict import OrderDict
 from orders.domain.repository.order_read_repository import OrderReadRepository
+from shared.domain.value_objects.id_value_object import IdValueObject
 
 
 class MongoDBOrderReadRepository(OrderReadRepository):
@@ -9,3 +14,12 @@ class MongoDBOrderReadRepository(OrderReadRepository):
     def __init__(self, collection: AsyncIOMotorCollection):
         """Initializes the MongoDBOrderReadRepository with a MongoDB collection."""
         self._collection = collection
+
+    async def get_order_by_id(self, order_id: IdValueObject) -> Optional[Order]:
+        """Retrieve an order by its ID."""
+        document = await self._collection.find_one({"order_id": order_id.str})
+
+        if document is None:
+            return None
+
+        return Order.from_dict(cast(OrderDict, document))

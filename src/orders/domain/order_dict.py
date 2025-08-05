@@ -7,8 +7,8 @@ class OrderDict(TypedDict):
     order_id: str
     campaign_id: str
     client_id: str
-    code: str
-    name: str
+    product_code: str
+    product_name: str
     image_url: str
     quantity: int
     catalog_price: float

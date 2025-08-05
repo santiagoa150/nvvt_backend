@@ -1,10 +1,14 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
 
+from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
+from orders.application.query.get_order_by_id.get_order_by_id_query_handler import GetOrderByIdQueryHandler
+from orders.domain.order import Order
 from orders.infrastructure.mongodb.mongodb_order_constants import MongoDBOrderConstants
 from orders.infrastructure.mongodb.mongodb_order_read_repository import MongoDBOrderReadRepository
 from orders.infrastructure.mongodb.mongodb_order_schema import create_order_indexes
 from orders.infrastructure.mongodb.mongodb_order_write_repository import MongoDBOrderWriteRepository
 from shared import get_mongo_client
+from shared.domain.cqrs.query.query_handler import query_handler
 
 _orders_collection: AsyncIOMotorCollection | None = None
 _mongo_order_read_repository: MongoDBOrderReadRepository | None = None
@@ -44,3 +48,11 @@ async def create_mongodb_order_write_repository() -> MongoDBOrderWriteRepository
         _mongo_order_write_repository = MongoDBOrderWriteRepository(await get_clients_collection())
 
     return _mongo_order_write_repository
+
+
+@query_handler(GetOrderByIdQuery)
+async def get_order_by_id_query_handler():
+    """Creates a query handler for GetOrderByIdQuery."""
+
+    repository = await create_mongodb_order_read_repository()
+    return GetOrderByIdQueryHandler(repository)

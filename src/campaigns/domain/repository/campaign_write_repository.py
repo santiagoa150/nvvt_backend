@@ -11,6 +11,7 @@ class CampaignWriteRepository(ABC):
     async def create_campaign(self, campaign: Campaign) -> None:
         """
         Create a new campaign.
+
         :param campaign: The campaign object to create.
         """
         pass
@@ -19,6 +20,7 @@ class CampaignWriteRepository(ABC):
     async def delete_campaign(self, campaign_id: IdValueObject) -> bool:
         """
         Delete an existing campaign.
+
         :param campaign_id: The ID of the campaign to delete.
         :return: True if the campaign was deleted successfully, False otherwise.
         """

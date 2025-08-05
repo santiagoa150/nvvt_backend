@@ -1,5 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
 
+from orders.application.command.create_order.create_order_command import CreateOrderCommand
+from orders.application.command.create_order.create_order_command_handler import CreateOrderCommandHandler
 from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
 from orders.application.query.get_order_by_id.get_order_by_id_query_handler import GetOrderByIdQueryHandler
 from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
@@ -9,12 +11,15 @@ from orders.infrastructure.mongodb.mongodb_order_constants import MongoDBOrderCo
 from orders.infrastructure.mongodb.mongodb_order_read_repository import MongoDBOrderReadRepository
 from orders.infrastructure.mongodb.mongodb_order_schema import create_order_indexes
 from orders.infrastructure.mongodb.mongodb_order_write_repository import MongoDBOrderWriteRepository
-from shared import get_mongo_client
+from orders.infrastructure.novaventa.nova_venta_order_client import NovaVentaOrderClient
+from shared import get_mongo_client, get_query_bus
+from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
 _orders_collection: AsyncIOMotorCollection | None = None
 _mongo_order_read_repository: MongoDBOrderReadRepository | None = None
 _mongo_order_write_repository: MongoDBOrderWriteRepository | None = None
+_nova_venta_order_client: NovaVentaOrderClient | None = None
 
 
 async def get_clients_collection() -> AsyncIOMotorCollection:
@@ -52,6 +57,17 @@ async def create_mongodb_order_write_repository() -> MongoDBOrderWriteRepository
     return _mongo_order_write_repository
 
 
+async def create_nova_venta_order_client() -> NovaVentaOrderClient:
+    """Creates an instance of NovaVentaOrderClient."""
+
+    global _nova_venta_order_client
+
+    if _nova_venta_order_client is None:
+        _nova_venta_order_client = NovaVentaOrderClient()
+
+    return _nova_venta_order_client
+
+
 @query_handler(GetOrderByIdQuery)
 async def get_order_by_id_query_handler():
     """Creates a query handler for GetOrderByIdQuery."""
@@ -66,3 +82,12 @@ async def get_orders_by_campaign_query_handler():
 
     repository = await create_mongodb_order_read_repository()
     return GetOrdersByCampaignQueryHandler(repository)
+
+
+@command_handler(CreateOrderCommand)
+async def create_order_command_handler():
+    """Creates a command handler for CreateOrderCommand."""
+    query_bus = await get_query_bus()
+    write_repository = await create_mongodb_order_write_repository()
+    order_client = await create_nova_venta_order_client()
+    return CreateOrderCommandHandler(query_bus, write_repository, order_client)

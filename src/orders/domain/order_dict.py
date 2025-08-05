@@ -1,5 +1,7 @@
 from typing import TypedDict
 
+from orders.domain.product_dict import ProductDict
+
 
 class OrderDict(TypedDict):
     """Dictionary representation of an order."""
@@ -7,9 +9,5 @@ class OrderDict(TypedDict):
     order_id: str
     campaign_id: str
     client_id: str
-    product_code: str
-    product_name: str
-    image_url: str
     quantity: int
-    catalog_price: float
-    list_price: float
+    product: ProductDict

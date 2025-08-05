@@ -1,5 +1,5 @@
-from orders.domain.order_provider import OrderProvider
-from orders.domain.order_provider_dict import OrderProviderDict
+from orders.domain.product_provider import ProductProvider
+from orders.domain.product_provider_dict import ProductProviderDict
 from shared.domain.cqrs.command.icommand import ICommand
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.positive_int_value_object import PositiveIntValueObject
@@ -11,7 +11,7 @@ class CreateOrderCommand(ICommand):
 
     def __init__(
             self,
-            provider: OrderProvider,
+            provider: ProductProvider,
             product_url: StringValueObject,
             campaign_id: IdValueObject,
             client_id: IdValueObject,
@@ -43,7 +43,7 @@ class CreateOrderCommand(ICommand):
     ) -> "CreateOrderCommand":
         """Factory method to create a CreateOrderCommand instance."""
         return CreateOrderCommand(
-            provider=OrderProvider.from_dict(OrderProviderDict(
+            provider=ProductProvider.from_dict(ProductProviderDict(
                 session_id=session_id,
                 route=route,
                 accelerator_secure_guid=accelerator_secure_guid,

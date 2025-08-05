@@ -1,7 +1,7 @@
 from typing import TypedDict
 
 
-class OrderProviderDict(TypedDict):
+class ProductProviderDict(TypedDict):
     """Dictionary representation of an order provider."""
 
     session_id: str

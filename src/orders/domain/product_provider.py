@@ -1,8 +1,8 @@
-from orders.domain.order_provider_dict import OrderProviderDict
+from orders.domain.product_provider_dict import ProductProviderDict
 from shared.domain.value_objects.string_value_object import StringValueObject
 
 
-class OrderProvider:
+class ProductProvider:
     """Represents an order provider in the system."""
 
     __slots__ = ("_session_id", "_route", "_accelerator_secure_guid", "_cebs_p", "_cebs")
@@ -41,9 +41,9 @@ class OrderProvider:
     def cebs(self) -> StringValueObject:
         return self._cebs
 
-    def to_dict(self) -> OrderProviderDict:
+    def to_dict(self) -> ProductProviderDict:
         """Converts the order provider to a dictionary representation."""
-        return OrderProviderDict(
+        return ProductProviderDict(
             session_id=self._session_id.str,
             route=self._route.str,
             accelerator_secure_guid=self._accelerator_secure_guid.str,
@@ -52,14 +52,14 @@ class OrderProvider:
         )
 
     @classmethod
-    def from_dict(cls, order_provider_dict: OrderProviderDict) -> "OrderProvider":
+    def from_dict(cls, product_provider_dict: ProductProviderDict) -> "ProductProvider":
         """Creates an OrderProvider instance from a dictionary representation."""
         return cls(
-            session_id=StringValueObject(order_provider_dict["session_id"], "session_id"),
-            route=StringValueObject(order_provider_dict["route"], "route"),
+            session_id=StringValueObject(product_provider_dict["session_id"], "session_id"),
+            route=StringValueObject(product_provider_dict["route"], "route"),
             accelerator_secure_guid=StringValueObject(
-                order_provider_dict["accelerator_secure_guid"], "accelerator_secure_guid"
+                product_provider_dict["accelerator_secure_guid"], "accelerator_secure_guid"
             ),
-            cebs_p=StringValueObject(order_provider_dict["cebs_p"], "cebs_p"),
-            cebs=StringValueObject(order_provider_dict["cebs"], "cebs")
+            cebs_p=StringValueObject(product_provider_dict["cebs_p"], "cebs_p"),
+            cebs=StringValueObject(product_provider_dict["cebs"], "cebs")
         )

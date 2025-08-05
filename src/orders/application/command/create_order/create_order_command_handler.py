@@ -39,8 +39,8 @@ class CreateOrderCommandHandler(ICommandHandler[CreateOrderCommand]):
         self._logger.info(
             f'INIT :: Validating Campaign and Client :: {command.campaign_id.str}, {command.client_id.str}'
         )
-        await self._query_bus.query(GetCampaignByIdQuery.create(command.campaign_id.str))
-        await self._query_bus.query(GetClientByIdQuery.create(command.client_id.str))
+        await self._query_bus.query(GetCampaignByIdQuery(command.campaign_id))
+        await self._query_bus.query(GetClientByIdQuery(command.client_id))
 
         self._logger.info(f'Searching {command.product_url.str} on client')
         product = await self._order_client.build_product(command.provider, command.product_url)

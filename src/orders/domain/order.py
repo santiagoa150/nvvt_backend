@@ -22,6 +22,18 @@ class Order:
         self._quantity = quantity
         self._product = product
 
+    @property
+    def order_id(self) -> IdValueObject:
+        return self._order_id
+
+    @property
+    def quantity(self) -> PositiveIntValueObject:
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, value: PositiveIntValueObject):
+        self._quantity = value
+
     def to_dict(self) -> OrderDict:
         """Converts the order to a dictionary representation."""
         return OrderDict(

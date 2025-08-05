@@ -25,3 +25,12 @@ class OrderWriteRepository(ABC):
         :return: True if the order was deleted successfully, False otherwise.
         """
         pass
+
+    @abstractmethod
+    async def update_order(self, order: Order) -> None:
+        """
+        Update an existing order.
+
+        :param order: The order object with updated information.
+        """
+        pass

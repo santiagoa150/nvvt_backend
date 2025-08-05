@@ -20,3 +20,13 @@ class MongoDBOrderWriteRepository(OrderWriteRepository):
         """Deletes an existing order by its ID."""
         result = await self._collection.delete_one({"order_id": order_id.str})
         return result.deleted_count > 0
+
+    async def update_order(self, order: Order) -> None:
+        """Update an existing order."""
+        update_data = dict(order.to_dict())
+        update_data.pop("order_id", None)
+
+        await self._collection.update_one(
+            {"order_id": order.order_id.str},
+            {"$set": update_data}
+        )

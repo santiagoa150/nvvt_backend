@@ -8,6 +8,7 @@ from shared.domain.value_objects.string_value_object import StringValueObject
 
 
 class UpdateClientCommand(ICommand):
+    """Command to update an existing client."""
 
     def __init__(
             self,

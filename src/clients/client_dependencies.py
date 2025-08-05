@@ -15,7 +15,7 @@ from clients.infrastructure.mongodb.mongodb_client_constants import MongoDBClien
 from clients.infrastructure.mongodb.mongodb_client_read_repository import MongoDBClientReadRepository
 from clients.infrastructure.mongodb.mongodb_client_schema import create_client_indexes
 from clients.infrastructure.mongodb.mongodb_client_write_repository import MongoDBClientWriteRepository
-from shared import get_mongo_client
+from shared import get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
@@ -95,6 +95,6 @@ async def create_delete_client_command_handler():
 async def create_update_client_command_handler():
     """Creates a command handler for UpdateClientCommand."""
 
-    read_repository = await create_mongodb_client_read_repository()
+    query_bus = await get_query_bus()
     write_repository = await create_mongodb_client_write_repository()
-    return UpdateClientCommandHandler(read_repository, write_repository)
+    return UpdateClientCommandHandler(query_bus, write_repository)

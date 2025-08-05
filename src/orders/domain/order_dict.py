@@ -9,6 +9,7 @@ class OrderDict(TypedDict):
     client_id: str
     code: str
     name: str
+    image_url: str
     quantity: int
     catalog_price: float
     list_price: float

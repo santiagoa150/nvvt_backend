@@ -7,7 +7,8 @@ from shared.domain.value_objects.string_value_object import StringValueObject
 
 class Order:
     """Represents an order in the system."""
-    __slots__ = ("_order_id", "_campaign_id", "_client_id", "_code", "_name", "_quantity", "_catalog_price",
+    __slots__ = ("_order_id", "_campaign_id", "_client_id", "_code", "_name", "_image_url", "_quantity",
+                 "_catalog_price",
                  "_list_price")
 
     def __init__(
@@ -17,6 +18,7 @@ class Order:
             client_id: IdValueObject,
             code: StringValueObject,
             name: StringValueObject,
+            image_url: StringValueObject,
             quantity: PositiveIntValueObject,
             catalog_price: PositiveFloatValueObject,
             list_price: PositiveFloatValueObject,
@@ -26,6 +28,7 @@ class Order:
         self._client_id = client_id
         self._code = code
         self._name = name
+        self._image_url = image_url
         self._quantity = quantity
         self._catalog_price = catalog_price
         self._list_price = list_price
@@ -38,6 +41,7 @@ class Order:
             client_id=self._client_id.str,
             code=self._code.str,
             name=self._name.str,
+            image_url=self._image_url.str,
             quantity=self._quantity.int,
             catalog_price=self._catalog_price.float,
             list_price=self._list_price.float
@@ -52,6 +56,7 @@ class Order:
             client_id=IdValueObject(order_dict["client_id"], "client_id"),
             code=StringValueObject(order_dict["code"], "order_code"),
             name=StringValueObject(order_dict["name"], "order_name"),
+            image_url=StringValueObject(order_dict["image_url"], "order_image_url"),
             quantity=PositiveIntValueObject(order_dict["quantity"], "order_quantity"),
             catalog_price=PositiveFloatValueObject(order_dict["catalog_price"], "order_catalog_price"),
             list_price=PositiveFloatValueObject(order_dict["list_price"], "order_list_price")

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from clients.application.command.create_client.create_client_command import CreateClientCommand
@@ -19,9 +21,9 @@ from shared import get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
-_clients_collection: AsyncIOMotorCollection | None = None
-_mongo_client_read_repository: MongoDBClientReadRepository | None = None
-_mongo_client_write_repository: MongoDBClientWriteRepository | None = None
+_clients_collection: Optional[AsyncIOMotorCollection] = None
+_mongo_client_read_repository: Optional[MongoDBClientReadRepository] = None
+_mongo_client_write_repository: Optional[MongoDBClientWriteRepository] = None
 
 
 async def get_clients_collection() -> AsyncIOMotorCollection:

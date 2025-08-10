@@ -10,6 +10,7 @@ from shared.domain.exceptions.common_exception import CommonException
 from campaigns.infrastructure.http import http_campaign_router
 from clients.infrastructure.http import http_client_router
 from orders.infrastructure.http import http_order_router
+from receipts.infrastructure.http import http_receipt_router
 from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 
 logging.basicConfig(
@@ -71,6 +72,7 @@ def init_routes(api: FastAPI):
     api.include_router(http_campaign_router.router, prefix="/api/v1/campaigns", tags=["Campaigns"])
     api.include_router(http_client_router.router, prefix="/api/v1/clients", tags=["Clients"])
     api.include_router(http_order_router.router, prefix="/api/v1/orders", tags=["Orders"])
+    api.include_router(http_receipt_router.router, prefix="/api/v1/receipts", tags=["Receipts"])
 
 
 app = FastAPI(lifespan=lifespan)

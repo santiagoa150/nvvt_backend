@@ -1,3 +1,5 @@
+from typing import Optional
+
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from orders.application.command.create_order.create_order_command import CreateOrderCommand
@@ -21,10 +23,10 @@ from shared import get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
-_orders_collection: AsyncIOMotorCollection | None = None
-_mongo_order_read_repository: MongoDBOrderReadRepository | None = None
-_mongo_order_write_repository: MongoDBOrderWriteRepository | None = None
-_nova_venta_order_client: NovaVentaOrderClient | None = None
+_orders_collection: Optional[AsyncIOMotorCollection] = None
+_mongo_order_read_repository: Optional[MongoDBOrderReadRepository] = None
+_mongo_order_write_repository: Optional[MongoDBOrderWriteRepository] = None
+_nova_venta_order_client: Optional[NovaVentaOrderClient] = None
 
 
 async def get_clients_collection() -> AsyncIOMotorCollection:

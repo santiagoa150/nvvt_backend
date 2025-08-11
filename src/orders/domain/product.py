@@ -26,6 +26,18 @@ class Product:
     def code(self) -> StringValueObject:
         return self._code
 
+    @property
+    def name(self) -> StringValueObject:
+        return self._name
+
+    @property
+    def catalog_price(self) -> PositiveFloatValueObject:
+        return self._catalog_price
+
+    @property
+    def list_price(self) -> PositiveFloatValueObject:
+        return self._list_price
+
     def to_dict(self) -> ProductDict:
         """Converts the product to a dictionary representation."""
         return ProductDict(

@@ -22,6 +22,14 @@ class Campaign:
         self._year = year
         self._number = number
 
+    @property
+    def year(self) -> Year:
+        return self._year
+
+    @property
+    def number(self) -> CampaignNumber:
+        return self._number
+
     def to_dict(self) -> CampaignDict:
         """Converts the campaign to a dictionary representation."""
         return CampaignDict(

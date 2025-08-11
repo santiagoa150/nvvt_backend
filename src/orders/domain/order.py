@@ -34,6 +34,10 @@ class Order:
     def quantity(self, value: PositiveIntValueObject):
         self._quantity = value
 
+    @property
+    def product(self) -> Product:
+        return self._product
+
     def to_dict(self) -> OrderDict:
         """Converts the order to a dictionary representation."""
         return OrderDict(

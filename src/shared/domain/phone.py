@@ -16,6 +16,10 @@ class Phone:
         self._country_code = country_code
         self._number = number
 
+    def to_e164(self) -> str:
+        """Converts the phone number to E.164 format."""
+        return f"+{self._country_code.int}{self._number.str}"
+
     def to_dict(self) -> PhoneDict:
         """
         Converts the Phone object to a dictionary representation.

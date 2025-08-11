@@ -55,6 +55,12 @@ class Client:
         self._family_names = value
 
     @property
+    def full_name(self) -> StringValueObject:
+        if self._family_names:
+            return StringValueObject(f"{self._given_names.str} {self._family_names.str}", "client_full_name")
+        return self._given_names
+
+    @property
     def delivery_place(self) -> StringValueObject:
         return self._delivery_place
 

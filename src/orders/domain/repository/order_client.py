@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from orders.domain.product_provider import ProductProvider
-from orders.domain.product import Product
+from orders.domain.product.product_provider import ProductProvider
+from orders.domain.product.product import Product
 from shared.domain.value_objects.string_value_object import StringValueObject
 
 

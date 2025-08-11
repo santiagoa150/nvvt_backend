@@ -24,6 +24,7 @@ async def create_order(
         campaign_id: str = Body(..., description='Campaign ID for the order'),
         client_id: str = Body(..., description='Client ID placing the order'),
         quantity: int = Body(..., description='Quantity of the product to order'),
+        status: str = Body(..., description='Optional status for the order'),
         command_bus: CommandBus = Depends(get_command_bus)
 ):
     """Endpoint to create a new order."""
@@ -36,7 +37,8 @@ async def create_order(
         product_url=product_url,
         campaign_id=campaign_id,
         client_id=client_id,
-        quantity=quantity
+        quantity=quantity,
+        status=status
     ))
     return {}
 
@@ -73,5 +75,5 @@ async def get_orders_by_campaign(
         query_bus: QueryBus = Depends(get_query_bus)
 ):
     """Retrieve orders by campaign ID."""
-    orders: list[Order] = await query_bus.query(GetOrdersByCampaignQuery.create(campaign_id, client_id))
-    return [order.to_dict() for order in orders]
+    orders: dict[str, list[Order]] = await query_bus.query(GetOrdersByCampaignQuery.create(campaign_id, client_id))
+    return {k: [order.to_dict() for order in v] for k, v in orders.items()}

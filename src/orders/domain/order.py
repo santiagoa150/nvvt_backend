@@ -1,12 +1,13 @@
 from orders.domain.order_dict import OrderDict
-from orders.domain.product import Product
+from orders.domain.order_status import OrderStatus
+from orders.domain.product.product import Product
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.positive_int_value_object import PositiveIntValueObject
 
 
 class Order:
     """Represents an order in the system."""
-    __slots__ = ("_order_id", "_campaign_id", "_client_id", "_quantity", "_product")
+    __slots__ = ("_order_id", "_campaign_id", "_client_id", "_quantity", "_status", "_product")
 
     def __init__(
             self,
@@ -14,12 +15,14 @@ class Order:
             campaign_id: IdValueObject,
             client_id: IdValueObject,
             quantity: PositiveIntValueObject,
+            status: OrderStatus,
             product: Product,
     ):
         self._order_id = order_id
         self._campaign_id = campaign_id
         self._client_id = client_id
         self._quantity = quantity
+        self._status = status
         self._product = product
 
     @property
@@ -35,6 +38,10 @@ class Order:
         self._quantity = value
 
     @property
+    def status(self) -> OrderStatus:
+        return self._status
+
+    @property
     def product(self) -> Product:
         return self._product
 
@@ -45,6 +52,7 @@ class Order:
             campaign_id=self._campaign_id.str,
             client_id=self._client_id.str,
             quantity=self._quantity.int,
+            status=self._status.value,
             product=self._product.to_dict()
         )
 
@@ -56,5 +64,6 @@ class Order:
             campaign_id=IdValueObject(order_dict["campaign_id"], "campaign_id"),
             client_id=IdValueObject(order_dict["client_id"], "client_id"),
             quantity=PositiveIntValueObject(order_dict["quantity"], "order_quantity"),
+            status=OrderStatus(order_dict["status"]),
             product=Product.from_dict(order_dict["product"])
         )

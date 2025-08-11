@@ -17,7 +17,7 @@ class GetOrdersByCampaignQueryHandler(IQueryHandler[GetOrdersByCampaignQuery]):
         self._repository = repository
         self._logger = logging.getLogger(__name__)
 
-    def handle(self, query: GetOrdersByCampaignQuery) -> Awaitable[list[Order]]:
+    def handle(self, query: GetOrdersByCampaignQuery) -> Awaitable[dict[str, list[Order]]]:
         """
         Handle the GetOrdersByCampaignQuery to retrieve orders by campaign ID.
 

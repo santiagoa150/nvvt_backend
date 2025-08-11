@@ -23,12 +23,12 @@ class OrderReadRepository(ABC):
             self,
             campaign_id: IdValueObject,
             client_id: Optional[IdValueObject]
-    ) -> list[Order]:
+    ) -> dict[str, list[Order]]:
         """
         Retrieve all orders associated with a specific campaign ID.
 
         :param campaign_id: The ID of the campaign to retrieve orders for.
         :param client_id: Optional client ID to filter orders.
-        :return: A list of Order objects associated with the provided campaign ID.
+        :return: A dictionary grouping orders by their state.
         """
         pass

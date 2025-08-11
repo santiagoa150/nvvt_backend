@@ -52,6 +52,7 @@ class CreateOrderCommandHandler(ICommandHandler[CreateOrderCommand]):
             campaign_id=command.campaign_id.str,
             client_id=command.client_id.str,
             quantity=command.quantity.int,
+            status=command.status.value
         ))
 
         await self._write_repository.create_order(order)

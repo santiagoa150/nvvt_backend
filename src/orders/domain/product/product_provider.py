@@ -1,4 +1,4 @@
-from orders.domain.product_provider_dict import ProductProviderDict
+from orders.domain.product.product_provider_dict import ProductProviderDict
 from shared.domain.value_objects.string_value_object import StringValueObject
 
 

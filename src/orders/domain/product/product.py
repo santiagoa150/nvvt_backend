@@ -1,4 +1,4 @@
-from orders.domain.product_dict import ProductDict
+from orders.domain.product.product_dict import ProductDict
 from shared.domain.value_objects.positive_float_value_object import PositiveFloatValueObject
 from shared.domain.value_objects.string_value_object import StringValueObject
 

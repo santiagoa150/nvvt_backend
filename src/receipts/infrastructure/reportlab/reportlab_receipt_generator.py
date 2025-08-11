@@ -1,5 +1,5 @@
 from io import BytesIO
-from typing import List
+from typing import List, Optional
 
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
@@ -22,6 +22,7 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
         self._custom_colors = {
             'primary': colors.HexColor("#1f96ab"),
             'text': colors.HexColor("#4a4a4a"),
+            'red': colors.HexColor("#ff0000"),
         }
         self._custom_styles = {
             'texts': {
@@ -54,7 +55,13 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
             }
         }
 
-    async def create_client_receipt(self, campaign: Campaign, client: Client, orders: List[Order]) -> BytesIO:
+    async def create_client_receipt(
+            self,
+            campaign: Campaign,
+            client: Client,
+            active_orders: List[Order],
+            out_of_stock_orders: Optional[List[Order]],
+    ) -> BytesIO:
         buffer = BytesIO()
 
         doc = SimpleDocTemplate(buffer, pagesize=A4)
@@ -88,8 +95,8 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
         ]))
 
         # Summary Configuration
-        total_products = sum(order.quantity.int for order in orders)
-        total_catalog_price = sum(order.product.catalog_price.float * order.quantity.int for order in orders)
+        total_products = sum(order.quantity.int for order in active_orders)
+        total_catalog_price = sum(order.product.catalog_price.float * order.quantity.int for order in active_orders)
 
         summary = [
             [
@@ -110,15 +117,64 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ]))
 
-        # Products Configuration
-        products_title_table = Table(
+        elements = [
+            title,
+            HRFlowable(width="100%", thickness=1, color=colors.black),
+            Spacer(1, 0.5 * cm),
+            cliente_table,
+            Spacer(1, 0.5 * cm),
+            summary_table,
+            Spacer(1, 0.5 * cm),
+        ]
+
+        if out_of_stock_orders is not None:
+            # Out of stock products Configuration
+            no_stock_products_title_table = Table(
+                [[Paragraph("<b>AGOTADOS</b>", self._custom_styles['texts']['white'])]],
+                colWidths=[available_width]
+            )
+            no_stock_products_title_table.setStyle(TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), self._custom_colors['red']),
+            ]))
+            no_stock_products = [
+                [
+                    Paragraph("<b>Código</b>", self._custom_styles['texts']['small']),
+                    Paragraph("<b>Descripción</b>", self._custom_styles['texts']['small']),
+                    Paragraph("<b>Cant.</b>", self._custom_styles['texts']['small']),
+                ]
+            ]
+            no_stock_products += [
+                [
+                    Paragraph(order.product.code.str, self._custom_styles['texts']['small']),
+                    Paragraph(order.product.name.str, self._custom_styles['texts']['small']),
+                    Paragraph(str(order.quantity.int), self._custom_styles['texts']['small']),
+                ] for order in out_of_stock_orders
+            ]
+            no_stock_products_table = Table(no_stock_products, colWidths=[
+                0.12 * available_width,
+                0.80 * available_width,
+                0.08 * available_width,
+            ])
+            no_stock_products_table.setStyle(TableStyle([
+                ("ROWBACKGROUNDS", (0, 0), (-1, -1), [colors.white, colors.lightgrey]),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ]))
+
+            elements += [
+                no_stock_products_title_table,
+                no_stock_products_table,
+                Spacer(1, 0.5 * cm),
+            ]
+
+        # Active Products Configuration
+        active_products_title_table = Table(
             [[Paragraph("<b>TUS PRODUCTOS</b>", self._custom_styles['texts']['white'])]],
             colWidths=[available_width]
         )
-        products_title_table.setStyle(TableStyle([
+        active_products_title_table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), self._custom_colors['primary']),
         ]))
-        products = [
+        active_products = [
             [
                 Paragraph("<b>Código</b>", self._custom_styles['texts']['small']),
                 Paragraph("<b>Descripción</b>", self._custom_styles['texts']['small']),
@@ -127,7 +183,7 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
                 Paragraph("<b>Total</b>", self._custom_styles['texts']['small']),
             ]
         ]
-        products = products + [
+        active_products += [
             [
                 Paragraph(order.product.code.str, self._custom_styles['texts']['small']),
                 Paragraph(order.product.name.str, self._custom_styles['texts']['small']),
@@ -136,34 +192,26 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
                           self._custom_styles['texts']['small']),
                 Paragraph(f"${(order.product.catalog_price.float * order.quantity.int):,.0f}",
                           self._custom_styles['texts']['small'])
-            ] for order in orders
+            ] for order in active_orders
         ]
-        products_table = Table(products, colWidths=[
+        active_products_table = Table(active_products, colWidths=[
             0.12 * available_width,
             0.52 * available_width,
             0.08 * available_width,
             0.14 * available_width,
             0.14 * available_width,
         ])
-        products_table.setStyle(TableStyle([
+        active_products_table.setStyle(TableStyle([
             ("ROWBACKGROUNDS", (0, 0), (-1, -1), [colors.white, colors.lightgrey]),
-            ("ALIGN", (0, 0), (0, -1), "CENTER"),
-            ("ALIGN", (2, 0), (-1, -1), "CENTER"),
-            ("FONTSIZE", (0, 0), (-1, -1), 9),
             ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
         ]))
 
-        doc.build([
-            title,
-            HRFlowable(width="100%", thickness=1, color=colors.black),
-            Spacer(1, 0.5 * cm),
-            cliente_table,
-            Spacer(1, 0.5 * cm),
-            summary_table,
-            Spacer(1, 0.5 * cm),
-            products_title_table,
-            products_table,
-        ])
+        elements += [
+            active_products_title_table,
+            active_products_table,
+        ]
+
+        doc.build(elements)
         buffer.seek(0)
 
         return buffer

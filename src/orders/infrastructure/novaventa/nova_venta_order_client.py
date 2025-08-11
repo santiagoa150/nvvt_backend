@@ -4,10 +4,10 @@ import requests
 from bs4 import BeautifulSoup
 
 from orders.domain.exceptions.product_provider_exception import ProductProviderException
-from orders.domain.product_dict import ProductDict
+from orders.domain.product.product_dict import ProductDict
 from settings import settings
-from orders.domain.product_provider import ProductProvider
-from orders.domain.product import Product
+from orders.domain.product.product_provider import ProductProvider
+from orders.domain.product.product import Product
 from orders.domain.repository.order_client import OrderClient
 from shared.domain.value_objects.string_value_object import StringValueObject
 

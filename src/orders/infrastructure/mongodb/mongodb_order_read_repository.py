@@ -28,7 +28,7 @@ class MongoDBOrderReadRepository(OrderReadRepository):
             self,
             campaign_id: IdValueObject,
             client_id: Optional[IdValueObject]
-    ) -> list[Order]:
+    ) -> dict[str, list[Order]]:
         """Retrieve all orders associated with a specific campaign ID."""
         filters = {"campaign_id": campaign_id.str}
 
@@ -37,4 +37,9 @@ class MongoDBOrderReadRepository(OrderReadRepository):
 
         documents = await self._collection.find(filters).to_list(length=None)
 
-        return [Order.from_dict(cast(OrderDict, doc)) for doc in documents] if documents else []
+        grouped: dict[str, list[Order]] = {}
+        for doc in documents or []:
+            order = Order.from_dict(cast(OrderDict, doc))
+            grouped.setdefault(order.status.value, []).append(order)
+
+        return grouped

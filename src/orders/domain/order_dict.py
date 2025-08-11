@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-from orders.domain.product_dict import ProductDict
+from orders.domain.product.product_dict import ProductDict
 
 
 class OrderDict(TypedDict):
@@ -10,4 +10,5 @@ class OrderDict(TypedDict):
     campaign_id: str
     client_id: str
     quantity: int
+    status: str
     product: ProductDict

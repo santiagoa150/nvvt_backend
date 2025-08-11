@@ -6,6 +6,7 @@ from orders.domain.order import Order
 from orders.domain.order_dict import OrderDict
 from orders.domain.repository.order_read_repository import OrderReadRepository
 from shared.domain.value_objects.id_value_object import IdValueObject
+from shared.domain.value_objects.string_value_object import StringValueObject
 
 
 class MongoDBOrderReadRepository(OrderReadRepository):
@@ -18,6 +19,24 @@ class MongoDBOrderReadRepository(OrderReadRepository):
     async def get_order_by_id(self, order_id: IdValueObject) -> Optional[Order]:
         """Retrieve an order by its ID."""
         document = await self._collection.find_one({"order_id": order_id.str})
+
+        if document is None:
+            return None
+
+        return Order.from_dict(cast(OrderDict, document))
+
+    async def get_order_by_campaign_client_code(
+            self,
+            campaign_id: IdValueObject,
+            client_id: IdValueObject,
+            code: StringValueObject
+    ) -> Optional[Order]:
+        """Retrieve an order by its code associated with a specific campaign and client."""
+        document = await self._collection.find_one({
+            "campaign_id": campaign_id.str,
+            "client_id": client_id.str,
+            "product.code": code.str
+        })
 
         if document is None:
             return None

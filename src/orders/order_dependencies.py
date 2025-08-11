@@ -95,9 +95,10 @@ async def get_orders_by_campaign_query_handler():
 async def create_order_command_handler():
     """Creates a command handler for CreateOrderCommand."""
     query_bus = await get_query_bus()
+    read_repository = await create_mongodb_order_read_repository()
     write_repository = await create_mongodb_order_write_repository()
     order_client = await create_nova_venta_order_client()
-    return CreateOrderCommandHandler(query_bus, write_repository, order_client)
+    return CreateOrderCommandHandler(query_bus, read_repository, write_repository, order_client)
 
 
 @command_handler(DeleteOrderCommand)

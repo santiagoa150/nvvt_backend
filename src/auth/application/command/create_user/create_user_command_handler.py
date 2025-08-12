@@ -7,7 +7,7 @@ from auth.domain.repository.user_write_repository import UserWriteRepository
 from auth.domain.user import User
 from auth.domain.user_dict import UserDict
 from auth.domain.value_objects.password_hash import PasswordHash
-from shared.domain.cqrs.command.icommand_handler import ICommandHandler, Command
+from shared.domain.cqrs.command.icommand_handler import ICommandHandler
 from shared.domain.value_objects.id_value_object import IdValueObject
 
 

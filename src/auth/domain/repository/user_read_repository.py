@@ -17,3 +17,13 @@ class UserReadRepository(ABC):
         :return: An instance of User if found, otherwise None.
         """
         pass
+
+    @abstractmethod
+    async def get_active_user_by_email(self, email: Email) -> Optional[User]:
+        """
+        Retrieve an active user by their email address.
+
+        :param email: The email of the user to retrieve.
+        :return: An instance of User if found and active, otherwise None.
+        """
+        pass

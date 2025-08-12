@@ -27,6 +27,14 @@ class PasswordHash(StringValueObject):
         if self._REGEX.match(value) is None:
             raise PasswordException.invalid_password_hash()
 
+    def compare(self, password: Password) -> bool:
+        """
+        Compares the password hash with a Password value object.
+        :param password: The Password value object to compare against.
+        :return: True if the password matches the hash, False otherwise.
+        """
+        return self.str == PasswordHash.create_from(password).str
+
     @staticmethod
     def create_from(password: Password) -> 'PasswordHash':
         """

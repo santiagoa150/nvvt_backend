@@ -31,6 +31,18 @@ class User:
             is_active=self._is_active.bool
         )
 
+    @property
+    def user_id(self) -> IdValueObject:
+        return self._user_id
+
+    @property
+    def email(self) -> Email:
+        return self._email
+
+    @property
+    def password(self) -> PasswordHash:
+        return self._password
+
     @classmethod
     def from_dict(cls, user_dict: UserDict) -> 'User':
         """Create a User object from a dictionary representation."""

@@ -25,7 +25,7 @@ class GetCampaignByIdQueryHandler(IQueryHandler[GetCampaignByIdQuery]):
         :return: The campaign associated with the provided ID.
         :raises NotFoundException: If no campaign is found with the provided ID.
         """
-        self._logger.info(f'INIT :: CampaignID: {query.campaign_id.str}')
+        self._logger.info(f"INIT :: CampaignID: {query.campaign_id.str}")
         campaign = await self._repository.get_campaign_by_id(query.campaign_id)
 
         if not campaign:

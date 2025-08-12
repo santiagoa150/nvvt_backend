@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import TypeVar, Generic
+from typing import Generic, TypeVar
 
 from shared.domain.cqrs.query.iquery import IQuery
 
 Query = TypeVar("Query", bound=IQuery)
+
 
 class IQueryHandler(ABC, Generic[Query]):
     """Interface for a query handler in the CQRS pattern."""

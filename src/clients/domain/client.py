@@ -8,15 +8,16 @@ from shared.domain.value_objects.str_value_object import StringValueObject
 
 class Client:
     """Represents a client in the system with its associated properties."""
+
     __slots__ = ("_client_id", "_given_names", "_family_names", "_delivery_place", "_phone")
 
     def __init__(
-            self,
-            client_id: IdValueObject,
-            given_names: StringValueObject,
-            family_names: Optional[StringValueObject],
-            delivery_place: StringValueObject,
-            phone: Optional[Phone],
+        self,
+        client_id: IdValueObject,
+        given_names: StringValueObject,
+        family_names: Optional[StringValueObject],
+        delivery_place: StringValueObject,
+        phone: Optional[Phone],
     ):
         self._client_id = client_id
         self._given_names = given_names
@@ -47,7 +48,9 @@ class Client:
     @property
     def full_name(self) -> StringValueObject:
         if self._family_names:
-            return StringValueObject(f"{self._given_names.str} {self._family_names.str}", "client_full_name")
+            return StringValueObject(
+                f"{self._given_names.str} {self._family_names.str}", "client_full_name"
+            )
         return self._given_names
 
     @property
@@ -73,7 +76,7 @@ class Client:
             given_names=self._given_names.str,
             family_names=self._family_names.str if self._family_names else None,
             delivery_place=self._delivery_place.str,
-            phone=self._phone.to_dict() if self._phone else None
+            phone=self._phone.to_dict() if self._phone else None,
         )
 
     @classmethod
@@ -82,9 +85,11 @@ class Client:
         return cls(
             client_id=IdValueObject(client_dict["client_id"], "client_id"),
             given_names=StringValueObject(client_dict["given_names"], "given_names"),
-            family_names=StringValueObject(
-                client_dict["family_names"], "family_names"
-            ) if client_dict.get("family_names") else None,
+            family_names=(
+                StringValueObject(client_dict["family_names"], "family_names")
+                if client_dict.get("family_names")
+                else None
+            ),
             delivery_place=StringValueObject(client_dict["delivery_place"], "delivery_place"),
-            phone=Phone.from_dict(client_dict["phone"]) if client_dict.get("phone") else None
+            phone=Phone.from_dict(client_dict["phone"]) if client_dict.get("phone") else None,
         )

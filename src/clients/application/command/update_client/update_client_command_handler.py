@@ -12,11 +12,7 @@ from shared.domain.phone import Phone
 class UpdateClientCommandHandler(ICommandHandler[UpdateClientCommand]):
     """Handler for the UpdateClientCommand."""
 
-    def __init__(
-            self,
-            query_bus: QueryBus,
-            write_repository: ClientWriteRepository
-    ):
+    def __init__(self, query_bus: QueryBus, write_repository: ClientWriteRepository):
         """
         :param write_repository: The client repository to use for updating clients.
         """
@@ -43,9 +39,8 @@ class UpdateClientCommandHandler(ICommandHandler[UpdateClientCommand]):
             client.delivery_place = command.delivery_place
 
         if command.phone_number is not None and command.country_phone_code is not None:
-            client.phone = Phone.from_dict({
-                "country_code": command.country_phone_code.int,
-                "number": command.phone_number.str
-            })
+            client.phone = Phone.from_dict(
+                {"country_code": command.country_phone_code.int, "number": command.phone_number.str}
+            )
 
         await self._write_repository.update_client(client)

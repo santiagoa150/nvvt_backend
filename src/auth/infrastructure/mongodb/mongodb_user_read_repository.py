@@ -26,10 +26,7 @@ class MongoDBUserReadRepository(UserReadRepository):
 
     async def get_active_user_by_email(self, email: Email) -> Optional[User]:
         """Retrieve an active user by their email address."""
-        document = await self._collection.find_one({
-            "is_active": True,
-            "email": email.str
-        })
+        document = await self._collection.find_one({"is_active": True, "email": email.str})
 
         if document is None:
             return None

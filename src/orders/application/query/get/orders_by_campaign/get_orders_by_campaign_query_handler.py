@@ -24,7 +24,9 @@ class GetOrdersByCampaignQueryHandler(IQueryHandler[GetOrdersByCampaignQuery]):
         :param query: The query containing the campaign ID.
         :return: A list of orders associated with the provided campaign ID.
         """
-        self._logger.info(f'INIT :: Getting All Orders by '
-                          f'CampaignID: {query.campaign_id.str} '
-                          f'and ClientID: {query.client_id.str if query.client_id else None}')
+        self._logger.info(
+            f"INIT :: Getting All Orders by "
+            f"CampaignID: {query.campaign_id.str} "
+            f"and ClientID: {query.client_id.str if query.client_id else None}"
+        )
         return self._repository.get_orders_by_campaign(query.campaign_id, query.client_id)

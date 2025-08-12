@@ -1,6 +1,8 @@
 from fastapi import status
 
-from campaigns.domain.exceptions.campaign_exception_messages import CampaignExceptionMessages
+from campaigns.domain.exceptions.campaign_exception_messages import (
+    CampaignExceptionMessages,
+)
 from shared.domain.exceptions.common_exception import CommonException
 
 
@@ -14,5 +16,7 @@ class CampaignAlreadyExistsException(CommonException):
     def year_and_number_already_exists(year: int, number: int) -> "CampaignAlreadyExistsException":
         """Raises an exception when a campaign with the same year and number already exists."""
         return CampaignAlreadyExistsException(
-            CampaignExceptionMessages.YEAR_AND_NUMBER_ALREADY_EXISTS.format(year=year, number=number)
+            CampaignExceptionMessages.YEAR_AND_NUMBER_ALREADY_EXISTS.format(
+                year=year, number=number
+            )
         )

@@ -14,6 +14,4 @@ class DeleteClientCommand(ICommand):
     @staticmethod
     def create(client_id: str):
         """Factory method to create a DeleteClientCommand instance."""
-        return DeleteClientCommand(
-            client_id=IdValueObject(client_id, "client_id")
-        )
+        return DeleteClientCommand(client_id=IdValueObject(client_id, "client_id"))

@@ -2,14 +2,30 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from clients.application.command import CreateClientCommand, CreateClientCommandHandler, DeleteClientCommand, \
-    DeleteClientCommandHandler, UpdateClientCommand, UpdateClientCommandHandler
-from clients.application.query import GetClientByIdQuery, GetClientByIdQueryHandler, GetPaginatedClientsQuery, \
-    GetPaginatedClientsQueryHandler
-from clients.infrastructure.mongodb.mongodb_client_constants import MongoDBClientConstants
-from clients.infrastructure.mongodb.mongodb_client_read_repository import MongoDBClientReadRepository
+from clients.application.command import (
+    CreateClientCommand,
+    CreateClientCommandHandler,
+    DeleteClientCommand,
+    DeleteClientCommandHandler,
+    UpdateClientCommand,
+    UpdateClientCommandHandler,
+)
+from clients.application.query import (
+    GetClientByIdQuery,
+    GetClientByIdQueryHandler,
+    GetPaginatedClientsQuery,
+    GetPaginatedClientsQueryHandler,
+)
+from clients.infrastructure.mongodb.mongodb_client_constants import (
+    MongoDBClientConstants,
+)
+from clients.infrastructure.mongodb.mongodb_client_read_repository import (
+    MongoDBClientReadRepository,
+)
 from clients.infrastructure.mongodb.mongodb_client_schema import create_client_indexes
-from clients.infrastructure.mongodb.mongodb_client_write_repository import MongoDBClientWriteRepository
+from clients.infrastructure.mongodb.mongodb_client_write_repository import (
+    MongoDBClientWriteRepository,
+)
 from shared import get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
@@ -49,7 +65,9 @@ async def create_mongodb_client_write_repository() -> MongoDBClientWriteReposito
     global _mongo_client_write_repository
 
     if _mongo_client_write_repository is None:
-        _mongo_client_write_repository = MongoDBClientWriteRepository(await get_clients_collection())
+        _mongo_client_write_repository = MongoDBClientWriteRepository(
+            await get_clients_collection()
+        )
 
     return _mongo_client_write_repository
 

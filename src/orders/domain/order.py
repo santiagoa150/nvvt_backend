@@ -7,16 +7,17 @@ from shared.domain.value_objects.positive_int_value_object import PositiveIntVal
 
 class Order:
     """Represents an order in the system."""
+
     __slots__ = ("_order_id", "_campaign_id", "_client_id", "_quantity", "_status", "_product")
 
     def __init__(
-            self,
-            order_id: IdValueObject,
-            campaign_id: IdValueObject,
-            client_id: IdValueObject,
-            quantity: PositiveIntValueObject,
-            status: OrderStatus,
-            product: Product,
+        self,
+        order_id: IdValueObject,
+        campaign_id: IdValueObject,
+        client_id: IdValueObject,
+        quantity: PositiveIntValueObject,
+        status: OrderStatus,
+        product: Product,
     ):
         self._order_id = order_id
         self._campaign_id = campaign_id
@@ -53,7 +54,7 @@ class Order:
             client_id=self._client_id.str,
             quantity=self._quantity.int,
             status=self._status.value,
-            product=self._product.to_dict()
+            product=self._product.to_dict(),
         )
 
     @classmethod
@@ -65,5 +66,5 @@ class Order:
             client_id=IdValueObject(order_dict["client_id"], "client_id"),
             quantity=PositiveIntValueObject(order_dict["quantity"], "order_quantity"),
             status=OrderStatus.create(order_dict["status"]),
-            product=Product.from_dict(order_dict["product"])
+            product=Product.from_dict(order_dict["product"]),
         )

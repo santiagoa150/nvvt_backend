@@ -1,6 +1,8 @@
-from fastapi import Request, Depends
-from auth.application.query.verify_user_access_token.verify_user_access_token_query import \
-    VerifyUserAccessTokenQuery
+from fastapi import Depends, Request
+
+from auth.application.query.verify_user_access_token.verify_user_access_token_query import (
+    VerifyUserAccessTokenQuery,
+)
 from auth.domain.auth_data import AuthData
 from auth.domain.exceptions.unauthorized_exception import UnauthorizedException
 from shared import get_query_bus

@@ -1,4 +1,4 @@
-from typing import TypedDict, Optional
+from typing import Optional, TypedDict
 
 from shared.domain.value_objects.phone_dict import PhoneDict
 

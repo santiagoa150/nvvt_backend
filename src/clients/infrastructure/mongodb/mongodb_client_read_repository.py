@@ -21,14 +21,16 @@ class MongoDBClientReadRepository(ClientReadRepository):
 
     async def get_client_by_id(self, client_id: IdValueObject) -> Optional[Client]:
         """Retrieves a client by its ID from the MongoDB collection."""
-        document = await self._collection.find_one({'client_id': client_id.str})
+        document = await self._collection.find_one({"client_id": client_id.str})
 
         if document is None:
             return None
 
         return Client.from_dict(cast(ClientDict, document))
 
-    async def get_paginated_clients(self, page: PageParam, limit: LimitParam) -> PaginationDict[Client]:
+    async def get_paginated_clients(
+        self, page: PageParam, limit: LimitParam
+    ) -> PaginationDict[Client]:
         """Retrieves paginated clients from the MongoDB clients collection."""
         pipeline = MongoDBUtils.build_paginated_query(page, limit)
         result = await self._collection.aggregate(pipeline).to_list(length=1)
@@ -37,5 +39,5 @@ class MongoDBClientReadRepository(ClientReadRepository):
         if not result or not aggregated:
             return empty_pagination_dict()
 
-        clients = [Client.from_dict(cast(ClientDict, doc)) for doc in aggregated['data']]
-        return PaginationDict(data=clients, metadata=aggregated['metadata'])
+        clients = [Client.from_dict(cast(ClientDict, doc)) for doc in aggregated["data"]]
+        return PaginationDict(data=clients, metadata=aggregated["metadata"])

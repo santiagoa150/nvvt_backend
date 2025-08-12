@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from orders.domain.product.product_provider import ProductProvider
 from orders.domain.product.product import Product
+from orders.domain.product.product_provider import ProductProvider
 from shared.domain.value_objects.str_value_object import StringValueObject
 
 
@@ -9,7 +9,9 @@ class OrderClient(ABC):
     """Interface for Order Client."""
 
     @abstractmethod
-    async def build_product(self, provider: ProductProvider, product_url: StringValueObject) -> Product:
+    async def build_product(
+        self, provider: ProductProvider, product_url: StringValueObject
+    ) -> Product:
         """
         Build an order based on the provided order provider and product code.
 

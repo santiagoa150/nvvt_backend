@@ -1,5 +1,5 @@
-import re
 import hashlib
+import re
 
 from auth.domain.exceptions.password_exception import PasswordException
 from auth.domain.value_objects.password import Password
@@ -9,7 +9,7 @@ from shared.domain.value_objects.str_value_object import StringValueObject
 class PasswordHash(StringValueObject):
     """Value object representing a password hash."""
 
-    _REGEX = re.compile(r'^[a-fA-F0-9]{64}$')
+    _REGEX = re.compile(r"^[a-fA-F0-9]{64}$")
 
     def __init__(self, value: str, field_name: str = "password_hash"):
         """
@@ -36,13 +36,11 @@ class PasswordHash(StringValueObject):
         return self.str == PasswordHash.create_from(password).str
 
     @staticmethod
-    def create_from(password: Password) -> 'PasswordHash':
+    def create_from(password: Password) -> "PasswordHash":
         """
         Creates a PasswordHash from a Password value object.
         :param password: The Password value object.
         :return: A PasswordHash value object.
         """
 
-        return PasswordHash(
-            hashlib.sha256(password.str.encode('utf-8')).hexdigest()
-        )
+        return PasswordHash(hashlib.sha256(password.str.encode("utf-8")).hexdigest())

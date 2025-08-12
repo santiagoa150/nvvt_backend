@@ -2,7 +2,9 @@ import logging
 
 from campaigns.application.command import DeleteCampaignCommand
 from campaigns.domain.campaign import Campaign
-from campaigns.domain.repository.campaign_write_repository import CampaignWriteRepository
+from campaigns.domain.repository.campaign_write_repository import (
+    CampaignWriteRepository,
+)
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler
 from shared.domain.exceptions.not_found_exception import NotFoundException
 
@@ -23,7 +25,7 @@ class DeleteCampaignCommandHandler(ICommandHandler[DeleteCampaignCommand]):
         :param command: The command containing the campaign ID.
         :raises NotFoundException: If the campaign with the given ID does not exist.
         """
-        self._logger.info(f'INIT :: Deleting campaign with ID: {command.campaign_id.str}')
+        self._logger.info(f"INIT :: Deleting campaign with ID: {command.campaign_id.str}")
         is_deleted = await self._repository.delete_campaign(command.campaign_id)
         if not is_deleted:
             raise NotFoundException.entity_not_found(Campaign.__name__, command.campaign_id.str)

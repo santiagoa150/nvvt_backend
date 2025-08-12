@@ -21,12 +21,16 @@ class FloatValueObjectException(CommonException):
     def min_value_exceeded(field_name: str, min_value: float) -> "FloatValueObjectException":
         """Raises an exception when the value is less than the minimum allowed."""
         return FloatValueObjectException(
-            CommonExceptionMessages.FLOAT_VALUE_OBJECT_MIN_VALUE.format(float=field_name, min_value=min_value)
+            CommonExceptionMessages.FLOAT_VALUE_OBJECT_MIN_VALUE.format(
+                float=field_name, min_value=min_value
+            )
         )
 
     @staticmethod
     def max_value_exceeded(field_name: str, max_value: float) -> "FloatValueObjectException":
         """Raises an exception when the value is greater than the maximum allowed."""
         return FloatValueObjectException(
-            CommonExceptionMessages.FLOAT_VALUE_OBJECT_MAX_VALUE.format(float=field_name, max_value=max_value)
+            CommonExceptionMessages.FLOAT_VALUE_OBJECT_MAX_VALUE.format(
+                float=field_name, max_value=max_value
+            )
         )

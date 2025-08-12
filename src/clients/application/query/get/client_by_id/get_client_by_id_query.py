@@ -14,6 +14,4 @@ class GetClientByIdQuery(IQuery):
     @staticmethod
     def create(client_id: str):
         """Factory method to create a GetClientByIdQuery instance."""
-        return GetClientByIdQuery(
-            client_id=IdValueObject(client_id, "client_id")
-        )
+        return GetClientByIdQuery(client_id=IdValueObject(client_id, "client_id"))

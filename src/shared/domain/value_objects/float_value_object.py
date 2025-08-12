@@ -1,16 +1,18 @@
-from shared.domain.exceptions.float_value_object_exception import FloatValueObjectException
+from shared.domain.exceptions.float_value_object_exception import (
+    FloatValueObjectException,
+)
 
 
 class FloatValueObject:
     """A value object that represents a float with optional constraints."""
 
     def __init__(
-            self,
-            value: float,
-            field_name: str = "float",
-            *,
-            min_value: float | None = None,
-            max_value: float | None = None,
+        self,
+        value: float,
+        field_name: str = "float",
+        *,
+        min_value: float | None = None,
+        max_value: float | None = None,
     ):
         self._field_name = field_name
         self._min_value = min_value

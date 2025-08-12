@@ -26,10 +26,7 @@ class Phone:
 
         :return: A dictionary with country code and phone number.
         """
-        return PhoneDict(
-            country_code=self._country_code.int,
-            number=self._number.str
-        )
+        return PhoneDict(country_code=self._country_code.int, number=self._number.str)
 
     @classmethod
     def from_dict(cls, phone_dict: PhoneDict) -> "Phone":
@@ -39,5 +36,5 @@ class Phone:
         """
         return cls(
             country_code=CountryPhoneCode(phone_dict["country_code"]),
-            number=PhoneNumber(phone_dict["number"])
+            number=PhoneNumber(phone_dict["number"]),
         )

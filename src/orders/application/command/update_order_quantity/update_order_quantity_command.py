@@ -19,5 +19,5 @@ class UpdateOrderQuantityCommand(ICommand):
         """Factory method to create an UpdateOrderQuantityCommand instance."""
         return UpdateOrderQuantityCommand(
             order_id=IdValueObject(order_id, "order_id"),
-            quantity=PositiveIntValueObject(quantity, "order_quantity")
+            quantity=PositiveIntValueObject(quantity, "order_quantity"),
         )

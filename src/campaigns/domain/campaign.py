@@ -1,8 +1,8 @@
 from campaigns.domain.campaign_dict import CampaignDict
 from campaigns.domain.value_objects.campaign_number import CampaignNumber
+from shared.domain.value_objects.common.year import Year
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.str_value_object import StringValueObject
-from shared.domain.value_objects.common.year import Year
 
 
 class Campaign:
@@ -11,11 +11,11 @@ class Campaign:
     __slots__ = ("_campaign_id", "_name", "_year", "_number")
 
     def __init__(
-            self,
-            campaign_id: IdValueObject,
-            name: StringValueObject,
-            year: Year,
-            number: CampaignNumber,
+        self,
+        campaign_id: IdValueObject,
+        name: StringValueObject,
+        year: Year,
+        number: CampaignNumber,
     ):
         self._campaign_id = campaign_id
         self._name = name

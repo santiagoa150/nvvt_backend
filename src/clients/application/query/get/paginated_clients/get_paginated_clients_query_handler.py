@@ -24,5 +24,7 @@ class GetPaginatedClientsQueryHandler(IQueryHandler[GetPaginatedClientsQuery]):
         :param query: The query containing pagination parameters.
         :return: A list of clients for the requested page.
         """
-        self._logger.info(f'INIT :: Getting All Clients with Page: {query.page}, Limit: {query.limit}')
+        self._logger.info(
+            f"INIT :: Getting All Clients with Page: {query.page}, Limit: {query.limit}"
+        )
         return self._repository.get_paginated_clients(query.page, query.limit)

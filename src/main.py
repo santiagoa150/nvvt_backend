@@ -5,14 +5,16 @@ from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from shared import get_query_bus, get_command_bus, get_mongo_client
-from shared.domain.exceptions.common_exception import CommonException
 from auth.infrastructure.http import http_auth_router
 from campaigns.infrastructure.http import http_campaign_router
 from clients.infrastructure.http import http_client_router
 from orders.infrastructure.http import http_order_router
 from receipts.infrastructure.http import http_receipt_router
-from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
+from shared import get_command_bus, get_mongo_client, get_query_bus
+from shared.domain.exceptions.common_exception import CommonException
+from shared.domain.exceptions.common_exception_messages import (
+    CommonExceptionMessages,
+)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -48,11 +50,13 @@ def init_exception_handlers(api: FastAPI):
 
     @api.exception_handler(Exception)
     async def server_exception_handler(_, error: Exception):
-        logger.error('Unhandled exception occurred', exc_info=error)
-        return JSONResponse({
-            'code': status.HTTP_500_INTERNAL_SERVER_ERROR,
-            'message': CommonExceptionMessages.INTERNAL_SERVER_ERROR.value,
-        })
+        logger.error("Unhandled exception occurred", exc_info=error)
+        return JSONResponse(
+            {
+                "code": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                "message": CommonExceptionMessages.INTERNAL_SERVER_ERROR.value,
+            }
+        )
 
 
 def init_middlewares(api: FastAPI):
@@ -60,10 +64,10 @@ def init_middlewares(api: FastAPI):
 
     api.add_middleware(
         CORSMiddleware,
-        allow_origins=['*'],
+        allow_origins=["*"],
         allow_credentials=False,
-        allow_methods=['*'],
-        allow_headers=['*'],
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
 
@@ -71,10 +75,18 @@ def init_routes(api: FastAPI):
     """Initializes the routes for the FastAPI application."""
 
     api.include_router(http_auth_router.router, prefix="/api/v1/auth", tags=["Auth"])
-    api.include_router(http_campaign_router.router, prefix="/api/v1/campaigns", tags=["Campaigns"])
+    api.include_router(
+        http_campaign_router.router,
+        prefix="/api/v1/campaigns",
+        tags=["Campaigns"],
+    )
     api.include_router(http_client_router.router, prefix="/api/v1/clients", tags=["Clients"])
     api.include_router(http_order_router.router, prefix="/api/v1/orders", tags=["Orders"])
-    api.include_router(http_receipt_router.router, prefix="/api/v1/receipts", tags=["Receipts"])
+    api.include_router(
+        http_receipt_router.router,
+        prefix="/api/v1/receipts",
+        tags=["Receipts"],
+    )
 
 
 app = FastAPI(lifespan=lifespan)

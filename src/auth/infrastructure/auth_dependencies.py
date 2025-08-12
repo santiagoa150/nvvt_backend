@@ -3,20 +3,34 @@ from typing import Optional
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from auth.application.command.create_user.create_user_command import CreateUserCommand
-from auth.application.command.create_user.create_user_command_handler import CreateUserCommandHandler
+from auth.application.command.create_user.create_user_command_handler import (
+    CreateUserCommandHandler,
+)
 from auth.application.command.login_user.login_user_command import LoginUserCommand
-from auth.application.command.login_user.login_user_command_handler import LoginUserCommandHandler
-from auth.application.query.get.active_user_by_email.get_active_user_by_email_query import GetActiveUserByEmailQuery
-from auth.application.query.get.active_user_by_email.get_active_user_by_email_query_handler import \
-    GetActiveUserByEmailQueryHandler
-from auth.application.query.verify_user_access_token.verify_user_access_token_query import VerifyUserAccessTokenQuery
-from auth.application.query.verify_user_access_token.verify_user_access_token_query_handler import \
-    VerifyUserAccessTokenQueryHandler
+from auth.application.command.login_user.login_user_command_handler import (
+    LoginUserCommandHandler,
+)
+from auth.application.query.get.active_user_by_email.get_active_user_by_email_query import (
+    GetActiveUserByEmailQuery,
+)
+from auth.application.query.get.active_user_by_email.get_active_user_by_email_query_handler import (
+    GetActiveUserByEmailQueryHandler,
+)
+from auth.application.query.verify_user_access_token.verify_user_access_token_query import (
+    VerifyUserAccessTokenQuery,
+)
+from auth.application.query.verify_user_access_token.verify_user_access_token_query_handler import (
+    VerifyUserAccessTokenQueryHandler,
+)
 from auth.infrastructure.jwt.jwt_token_repository import JwtTokenRepository
 from auth.infrastructure.mongodb.mongodb_user_constants import MongoDBUserConstants
-from auth.infrastructure.mongodb.mongodb_user_read_repository import MongoDBUserReadRepository
+from auth.infrastructure.mongodb.mongodb_user_read_repository import (
+    MongoDBUserReadRepository,
+)
 from auth.infrastructure.mongodb.mongodb_user_schema import create_user_indexes
-from auth.infrastructure.mongodb.mongodb_user_write_repository import MongoDBUserWriteRepository
+from auth.infrastructure.mongodb.mongodb_user_write_repository import (
+    MongoDBUserWriteRepository,
+)
 from shared import get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler

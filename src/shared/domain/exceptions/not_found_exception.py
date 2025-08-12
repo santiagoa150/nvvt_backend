@@ -11,7 +11,7 @@ class NotFoundException(CommonException):
         super().__init__(status.HTTP_404_NOT_FOUND, message)
 
     @staticmethod
-    def entity_not_found(entity: str, entity_id: str) -> 'NotFoundException':
+    def entity_not_found(entity: str, entity_id: str) -> "NotFoundException":
         """Create a NotFoundException for a specific entity and ID."""
         return NotFoundException(
             CommonExceptionMessages.ENTITY_NOT_FOUND.format(entity=entity, id=entity_id)

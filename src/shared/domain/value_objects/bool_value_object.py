@@ -1,4 +1,6 @@
-from shared.domain.exceptions.bool_value_object_exception import BoolValueObjectException
+from shared.domain.exceptions.bool_value_object_exception import (
+    BoolValueObjectException,
+)
 
 
 class BoolValueObject:

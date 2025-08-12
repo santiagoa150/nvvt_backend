@@ -1,4 +1,4 @@
-from typing import Type, Dict, TypeVar, Awaitable, Any
+from typing import Any, Awaitable, Dict, Type, TypeVar
 
 from shared.domain.cqrs.command.icommand import ICommand
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler

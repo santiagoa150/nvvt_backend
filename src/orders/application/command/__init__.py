@@ -2,5 +2,9 @@ from .create_order.create_order_command import CreateOrderCommand
 from .create_order.create_order_command_handler import CreateOrderCommandHandler
 from .delete_order.delete_order_command import DeleteOrderCommand
 from .delete_order.delete_order_command_handler import DeleteOrderCommandHandler
-from .update_order_quantity.update_order_quantity_command import UpdateOrderQuantityCommand
-from .update_order_quantity.update_order_quantity_command_handler import UpdateOrderQuantityCommandHandler
+from .update_order_quantity.update_order_quantity_command import (
+    UpdateOrderQuantityCommand,
+)
+from .update_order_quantity.update_order_quantity_command_handler import (
+    UpdateOrderQuantityCommandHandler,
+)

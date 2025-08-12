@@ -1,3 +1,7 @@
-from .create_client_receipt.create_client_receipt_command import CreateClientReceiptCommand, \
-    CreateClientReceiptCommandResponse
-from .create_client_receipt.create_client_receipt_command_handler import CreateClientReceiptCommandHandler
+from .create_client_receipt.create_client_receipt_command import (
+    CreateClientReceiptCommand,
+    CreateClientReceiptCommandResponse,
+)
+from .create_client_receipt.create_client_receipt_command_handler import (
+    CreateClientReceiptCommandHandler,
+)

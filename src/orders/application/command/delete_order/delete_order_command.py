@@ -15,5 +15,5 @@ class DeleteOrderCommand(ICommand):
     def create(order_id: str) -> "DeleteOrderCommand":
         """Factory method to create a DeleteOrderCommand instance."""
         return DeleteOrderCommand(
-            IdValueObject(order_id, 'order_id'),
+            IdValueObject(order_id, "order_id"),
         )

@@ -1,13 +1,14 @@
 import logging
 from typing import cast
 
+from auth.application.command.refresh_user_auth_tokens.refresh_user_auth_tokens_command import (
+    RefreshUserAuthTokensCommand,
+)
+from auth.domain.auth_tokens import AuthTokens
 from auth.domain.exceptions.unauthorized_exception import UnauthorizedException
 from auth.domain.refresh_data import RefreshData
-from settings import settings
-from auth.application.command.refresh_user_auth_tokens.refresh_user_auth_tokens_command import \
-    RefreshUserAuthTokensCommand
-from auth.domain.auth_tokens import AuthTokens
 from auth.domain.repository.token_repository import TokenRepository
+from settings import settings
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler
 from shared.domain.cqrs.query.query_bus import QueryBus
 
@@ -19,9 +20,9 @@ class RefreshUserAuthTokensCommandHandler(ICommandHandler[RefreshUserAuthTokensC
     """
 
     def __init__(
-            self,
-            query_bus: QueryBus,
-            token_repository: TokenRepository,
+        self,
+        query_bus: QueryBus,
+        token_repository: TokenRepository,
     ):
         """
         :param query_bus: The query bus to use for querying user information.
@@ -38,7 +39,9 @@ class RefreshUserAuthTokensCommandHandler(ICommandHandler[RefreshUserAuthTokensC
         """
         self._logger.info("Refreshing user authentication tokens")
 
-        raw_refresh_data = await self._token_repository.verify(command.refresh_token, settings.jwt_refresh_secret)
+        raw_refresh_data = await self._token_repository.verify(
+            command.refresh_token, settings.jwt_refresh_secret
+        )
 
         if not raw_refresh_data:
             raise UnauthorizedException.invalid_refresh_token()

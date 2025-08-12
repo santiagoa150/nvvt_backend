@@ -22,7 +22,9 @@ class ClientReadRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_paginated_clients(self, page: PageParam, limit: LimitParam) -> PaginationDict[Client]:
+    async def get_paginated_clients(
+        self, page: PageParam, limit: LimitParam
+    ) -> PaginationDict[Client]:
         """
         Retrieve paginated clients.
 

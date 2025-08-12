@@ -1,4 +1,6 @@
-from shared.domain.exceptions.phone_value_object_exception import PhoneValueObjectException
+from shared.domain.exceptions.phone_value_object_exception import (
+    PhoneValueObjectException,
+)
 from shared.domain.value_objects.str_value_object import StringValueObject
 
 

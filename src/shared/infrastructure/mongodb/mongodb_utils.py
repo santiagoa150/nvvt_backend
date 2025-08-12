@@ -17,18 +17,16 @@ class MongoDBUtils:
         return [
             {
                 "$facet": {
-                    "data": [
-                        {"$sort": {"_id": -1}},
-                        {"$skip": skip},
-                        {"$limit": limit.float}
-                    ],
+                    "data": [{"$sort": {"_id": -1}}, {"$skip": skip}, {"$limit": limit.float}],
                     "metadata": [
                         {"$count": "total"},
-                        {"$addFields": {
-                            "total_pages": {"$ceil": {"$divide": ["$total", limit.float]}},
-                            "page": page.int,
-                        }}
-                    ]
+                        {
+                            "$addFields": {
+                                "total_pages": {"$ceil": {"$divide": ["$total", limit.float]}},
+                                "page": page.int,
+                            }
+                        },
+                    ],
                 }
             }
         ]

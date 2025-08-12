@@ -10,16 +10,16 @@ class CommonException(Exception):
         self.detail = detail
 
     def __str__(self):
-        return f'''
+        return f"""
             code: {self.code}
             message: {self.message}
             detail: {self.detail}
             traceback: {self.__traceback__}
-            '''
+            """
 
     def to_dict(self):
         return {
-            'code': self.code,
-            'message': self.message,
-            'detail': self.detail,
+            "code": self.code,
+            "message": self.message,
+            "detail": self.detail,
         }

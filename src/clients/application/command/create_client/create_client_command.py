@@ -10,12 +10,12 @@ class CreateClientCommand(ICommand):
     """Command to create a new client."""
 
     def __init__(
-            self,
-            given_names: StringValueObject,
-            family_names: Optional[StringValueObject],
-            delivery_place: StringValueObject,
-            phone_number: Optional[PhoneNumber],
-            country_phone_code: Optional[CountryPhoneCode],
+        self,
+        given_names: StringValueObject,
+        family_names: Optional[StringValueObject],
+        delivery_place: StringValueObject,
+        phone_number: Optional[PhoneNumber],
+        country_phone_code: Optional[CountryPhoneCode],
     ):
         """
         :param given_names: The given names of the client.
@@ -32,19 +32,23 @@ class CreateClientCommand(ICommand):
 
     @staticmethod
     def create(
-            given_names: str,
-            family_names: Optional[str],
-            delivery_place: str,
-            phone_number: Optional[str],
-            country_phone_code: Optional[int],
+        given_names: str,
+        family_names: Optional[str],
+        delivery_place: str,
+        phone_number: Optional[str],
+        country_phone_code: Optional[int],
     ):
         """Factory method to create a CreateClientCommand instance."""
         return CreateClientCommand(
             given_names=StringValueObject(given_names, "client_given_names"),
-            family_names=StringValueObject(family_names, "client_family_names") if family_names else None,
+            family_names=(
+                StringValueObject(family_names, "client_family_names") if family_names else None
+            ),
             delivery_place=StringValueObject(delivery_place, "client_delivery_place"),
             phone_number=PhoneNumber(phone_number, "client_phone_number") if phone_number else None,
-            country_phone_code=CountryPhoneCode(
-                country_phone_code, "client_country_phone_code"
-            ) if country_phone_code else None,
+            country_phone_code=(
+                CountryPhoneCode(country_phone_code, "client_country_phone_code")
+                if country_phone_code
+                else None
+            ),
         )

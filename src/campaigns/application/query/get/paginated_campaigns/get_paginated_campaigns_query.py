@@ -17,7 +17,4 @@ class GetPaginatedCampaignsQuery(IQuery):
     @staticmethod
     def create(page: int, limit: int | float):
         """Factory method to create a GetPaginatedCampaignsQuery instance."""
-        return GetPaginatedCampaignsQuery(
-            page=PageParam(page),
-            limit=LimitParam(float(limit))
-        )
+        return GetPaginatedCampaignsQuery(page=PageParam(page), limit=LimitParam(float(limit)))

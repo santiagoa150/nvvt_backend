@@ -25,7 +25,7 @@ class GetClientByIdQueryHandler(IQueryHandler[GetClientByIdQuery]):
         :return: The client associated with the provided ID.
         :raises NotFoundException: If no client is found with the provided ID.
         """
-        self._logger.info(f'INIT :: ClientID: {query.client_id.str}')
+        self._logger.info(f"INIT :: ClientID: {query.client_id.str}")
         client = await self._repository.get_client_by_id(query.client_id)
 
         if not client:

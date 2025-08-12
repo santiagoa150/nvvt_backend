@@ -2,16 +2,34 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from campaigns.application.command import CreateCampaignCommand, CreateCampaignCommandHandler, DeleteCampaignCommand, \
-    DeleteCampaignCommandHandler
-from campaigns.application.query import GetCampaignByIdQuery, GetCampaignByIdQueryHandler, GetPaginatedCampaignsQuery, \
-    GetPaginatedCampaignsQueryHandler
+from campaigns.application.command import (
+    CreateCampaignCommand,
+    CreateCampaignCommandHandler,
+    DeleteCampaignCommand,
+    DeleteCampaignCommandHandler,
+)
+from campaigns.application.query import (
+    GetCampaignByIdQuery,
+    GetCampaignByIdQueryHandler,
+    GetPaginatedCampaignsQuery,
+    GetPaginatedCampaignsQueryHandler,
+)
 from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
-from campaigns.domain.repository.campaign_write_repository import CampaignWriteRepository
-from campaigns.infrastructure.mongodb.mongodb_campaign_constants import MongoDBCampaignConstants
-from campaigns.infrastructure.mongodb.mongodb_campaign_read_repository import MongoDBCampaignReadRepository
-from campaigns.infrastructure.mongodb.mongodb_campaign_schema import create_campaign_indexes
-from campaigns.infrastructure.mongodb.mongodb_campaign_write_repository import MongoDBCampaignWriteRepository
+from campaigns.domain.repository.campaign_write_repository import (
+    CampaignWriteRepository,
+)
+from campaigns.infrastructure.mongodb.mongodb_campaign_constants import (
+    MongoDBCampaignConstants,
+)
+from campaigns.infrastructure.mongodb.mongodb_campaign_read_repository import (
+    MongoDBCampaignReadRepository,
+)
+from campaigns.infrastructure.mongodb.mongodb_campaign_schema import (
+    create_campaign_indexes,
+)
+from campaigns.infrastructure.mongodb.mongodb_campaign_write_repository import (
+    MongoDBCampaignWriteRepository,
+)
 from shared import get_mongo_client
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
@@ -40,7 +58,9 @@ async def create_mongodb_campaign_read_repository() -> MongoDBCampaignReadReposi
     global _mongo_campaign_read_repository
 
     if _mongo_campaign_read_repository is None:
-        _mongo_campaign_read_repository = MongoDBCampaignReadRepository(await get_campaigns_collection())
+        _mongo_campaign_read_repository = MongoDBCampaignReadRepository(
+            await get_campaigns_collection()
+        )
 
     return _mongo_campaign_read_repository
 
@@ -51,7 +71,9 @@ async def create_mongodb_campaign_write_repository() -> MongoDBCampaignWriteRepo
     global _mongo_campaign_write_repository
 
     if _mongo_campaign_write_repository is None:
-        _mongo_campaign_write_repository = MongoDBCampaignWriteRepository(await get_campaigns_collection())
+        _mongo_campaign_write_repository = MongoDBCampaignWriteRepository(
+            await get_campaigns_collection()
+        )
 
     return _mongo_campaign_write_repository
 

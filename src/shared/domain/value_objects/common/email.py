@@ -8,7 +8,7 @@ class Email(StringValueObject):
     """Represents an email address as a value object."""
 
     _REGEX = re.compile(
-        r'^(?!.*\+)([A-Za-z0-9](?:[A-Za-z0-9._%\-]*[A-Za-z0-9])?)@([A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*)\.[A-Za-z]{2,}$'
+        r"^(?!.*\+)([A-Za-z0-9](?:[A-Za-z0-9._%\-]*[A-Za-z0-9])?)@([A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*)\.[A-Za-z]{2,}$"
     )
 
     def __init__(self, value: str, field_name: str = "email"):

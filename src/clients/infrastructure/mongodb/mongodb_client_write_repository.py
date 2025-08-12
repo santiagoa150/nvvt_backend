@@ -27,6 +27,5 @@ class MongoDBClientWriteRepository(ClientWriteRepository):
         update_data.pop("client_id", None)
 
         await self._collection.update_one(
-            {"client_id": client.client_id.str},
-            {"$set": update_data}
+            {"client_id": client.client_id.str}, {"$set": update_data}
         )

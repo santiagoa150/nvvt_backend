@@ -1,7 +1,9 @@
 import logging
 from typing import Optional, cast
 
-from auth.application.query.verify_user_access_token.verify_user_access_token_query import VerifyUserAccessTokenQuery
+from auth.application.query.verify_user_access_token.verify_user_access_token_query import (
+    VerifyUserAccessTokenQuery,
+)
 from auth.domain.auth_data import AuthData
 from auth.domain.repository.token_repository import TokenRepository
 from settings import settings
@@ -25,7 +27,7 @@ class VerifyUserAccessTokenQueryHandler(IQueryHandler[VerifyUserAccessTokenQuery
         :param query: The query containing the access token.
         :return: True if the access token is valid, False otherwise.
         """
-        self._logger.info(f'INIT :: Verifying access token')
+        self._logger.info(f"INIT :: Verifying access token")
         auth_data = await self._repository.verify(query.access_token, settings.jwt_secret)
 
         if not auth_data:

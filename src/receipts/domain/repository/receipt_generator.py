@@ -12,11 +12,11 @@ class ReceiptGenerator(ABC):
 
     @abstractmethod
     async def create_client_receipt(
-            self,
-            campaign: Campaign,
-            client: Client,
-            active_orders: List[Order],
-            out_of_stock_orders: Optional[List[Order]],
+        self,
+        campaign: Campaign,
+        client: Client,
+        active_orders: List[Order],
+        out_of_stock_orders: Optional[List[Order]],
     ) -> BytesIO:
         """
         Create a receipt for a client based on the campaign and orders.

@@ -13,29 +13,24 @@ class ProductProviderException(CommonException):
     @staticmethod
     def cannot_get_product_provider() -> "ProductProviderException":
         """Raises an exception when the order provider cannot be retrieved."""
-        return ProductProviderException(
-            OrderExceptionMessages.CANNOT_GET_PRODUCT_PROVIDER.value
-        )
+        return ProductProviderException(OrderExceptionMessages.CANNOT_GET_PRODUCT_PROVIDER.value)
 
     @staticmethod
     def invalid_product_url(product_url: str) -> "ProductProviderException":
         """Raises an exception when the product URL is invalid."""
         return ProductProviderException(
             OrderExceptionMessages.INVALID_PRODUCT_URL.format(product_url=product_url),
-            status.HTTP_400_BAD_REQUEST
+            status.HTTP_400_BAD_REQUEST,
         )
 
     @staticmethod
     def expired_provider_credentials() -> "ProductProviderException":
         """Raises an exception when the order provider credentials have expired."""
         return ProductProviderException(
-            OrderExceptionMessages.PROVIDER_CREDENTIALS_EXPIRED.value,
-            status.HTTP_400_BAD_REQUEST
+            OrderExceptionMessages.PROVIDER_CREDENTIALS_EXPIRED.value, status.HTTP_400_BAD_REQUEST
         )
 
     @staticmethod
     def cannot_build_product_data() -> "ProductProviderException":
         """Raises an exception when there is an error building product data."""
-        return ProductProviderException(
-            OrderExceptionMessages.CANNOT_BUILD_PRODUCT_DATA.value
-        )
+        return ProductProviderException(OrderExceptionMessages.CANNOT_BUILD_PRODUCT_DATA.value)

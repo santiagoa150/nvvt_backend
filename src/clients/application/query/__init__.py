@@ -1,4 +1,6 @@
 from .get.client_by_id.get_client_by_id_query import GetClientByIdQuery
 from .get.client_by_id.get_client_by_id_query_handler import GetClientByIdQueryHandler
 from .get.paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
-from .get.paginated_clients.get_paginated_clients_query_handler import GetPaginatedClientsQueryHandler
+from .get.paginated_clients.get_paginated_clients_query_handler import (
+    GetPaginatedClientsQueryHandler,
+)

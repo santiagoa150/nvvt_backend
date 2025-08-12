@@ -12,6 +12,6 @@ class GetActiveUserByEmailQuery(IQuery):
         self.email = email
 
     @staticmethod
-    def create(email: str) -> 'GetActiveUserByEmailQuery':
+    def create(email: str) -> "GetActiveUserByEmailQuery":
         """Factory method to create a GetActiveUserByEmailQuery from a string email."""
         return GetActiveUserByEmailQuery(Email(email, "user_email"))

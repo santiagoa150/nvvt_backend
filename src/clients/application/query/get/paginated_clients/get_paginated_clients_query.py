@@ -17,7 +17,4 @@ class GetPaginatedClientsQuery(IQuery):
     @staticmethod
     def create(page: int, limit: int | float):
         """Factory method to create a GetPaginatedClientsQuery instance."""
-        return GetPaginatedClientsQuery(
-            page=PageParam(page),
-            limit=LimitParam(float(limit))
-        )
+        return GetPaginatedClientsQuery(page=PageParam(page), limit=LimitParam(float(limit)))

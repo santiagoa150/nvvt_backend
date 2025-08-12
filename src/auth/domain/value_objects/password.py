@@ -7,9 +7,7 @@ from shared.domain.value_objects.str_value_object import StringValueObject
 class Password(StringValueObject):
     """Value object representing a password."""
 
-    _REGEX = re.compile(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$'
-    )
+    _REGEX = re.compile(r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$")
 
     def __init__(self, value: str, field_name: str = "password"):
         """

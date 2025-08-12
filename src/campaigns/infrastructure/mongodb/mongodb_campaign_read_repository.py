@@ -1,4 +1,5 @@
-from typing import cast, Optional
+from typing import Optional, cast
+
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from campaigns.domain.campaign import Campaign
@@ -22,14 +23,16 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
 
     async def get_campaign_by_id(self, campaign_id: IdValueObject) -> Optional[Campaign]:
         """Retrieves a campaign by its ID from the MongoDB collection."""
-        document = await self._collection.find_one({'campaign_id': campaign_id.str})
+        document = await self._collection.find_one({"campaign_id": campaign_id.str})
 
         if document is None:
             return None
 
         return Campaign.from_dict(cast(CampaignDict, document))
 
-    async def get_paginated_campaigns(self, page: PageParam, limit: LimitParam) -> PaginationDict[Campaign]:
+    async def get_paginated_campaigns(
+        self, page: PageParam, limit: LimitParam
+    ) -> PaginationDict[Campaign]:
         """Retrieves paginated campaigns from the MongoDB collection."""
 
         pipeline = MongoDBUtils.build_paginated_query(page, limit)
@@ -39,13 +42,10 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
         if not result or not aggregated:
             return empty_pagination_dict()
 
-        campaigns = [Campaign.from_dict(cast(CampaignDict, doc)) for doc in aggregated['data']]
-        return PaginationDict(data=campaigns, metadata=aggregated['metadata'])
+        campaigns = [Campaign.from_dict(cast(CampaignDict, doc)) for doc in aggregated["data"]]
+        return PaginationDict(data=campaigns, metadata=aggregated["metadata"])
 
     async def exists_by_year_and_number(self, year: Year, number: CampaignNumber) -> bool:
         """Checks if a campaign exists by year and number."""
-        document = await self._collection.find_one({
-            'year': year.int,
-            'number': number.int
-        })
+        document = await self._collection.find_one({"year": year.int, "number": number.int})
         return document is not None

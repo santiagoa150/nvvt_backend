@@ -1,10 +1,11 @@
-from typing import TypedDict, TypeVar, Generic
+from typing import Generic, TypedDict, TypeVar
 
 T = TypeVar("T")
 
 
 class MetadataDict(TypedDict):
     """Dictionary representation of pagination metadata."""
+
     total: int
     total_pages: int
     page: int
@@ -12,6 +13,7 @@ class MetadataDict(TypedDict):
 
 class PaginationDict(Generic[T], TypedDict):
     """Dictionary representation of paginated data."""
+
     data: list[T]
     metadata: MetadataDict
 

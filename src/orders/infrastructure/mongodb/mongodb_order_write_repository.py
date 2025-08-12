@@ -26,7 +26,4 @@ class MongoDBOrderWriteRepository(OrderWriteRepository):
         update_data = dict(order.to_dict())
         update_data.pop("order_id", None)
 
-        await self._collection.update_one(
-            {"order_id": order.order_id.str},
-            {"$set": update_data}
-        )
+        await self._collection.update_one({"order_id": order.order_id.str}, {"$set": update_data})

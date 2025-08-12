@@ -22,7 +22,7 @@ class DeleteOrderCommandHandler(ICommandHandler[DeleteOrderCommand]):
         Handle the DeleteOrderCommand to delete an order by its ID.
         :param command: The command containing the order ID.
         """
-        self._logger.info(f'INIT :: Deleting order with ID: {command.order_id.str}')
+        self._logger.info(f"INIT :: Deleting order with ID: {command.order_id.str}")
         is_deleted = await self._repository.delete_order(command.order_id)
         if not is_deleted:
             raise NotFoundException.entity_not_found(Order.__name__, command.order_id.str)

@@ -7,9 +7,9 @@ class CreateUserCommand(ICommand):
     """Command to create a new user."""
 
     def __init__(
-            self,
-            email: Email,
-            password: Password,
+        self,
+        email: Email,
+        password: Password,
     ):
         """
         :param email: The email of the user.
@@ -20,8 +20,8 @@ class CreateUserCommand(ICommand):
 
     @staticmethod
     def create(
-            email: str,
-            password: str,
+        email: str,
+        password: str,
     ):
         """Factory method to create a CreateUserCommand instance."""
         return CreateUserCommand(

@@ -14,6 +14,4 @@ class GetOrderByIdQuery(IQuery):
     @staticmethod
     def create(order_id: str):
         """Factory method to create a GetOrderByIdQuery instance."""
-        return GetOrderByIdQuery(
-            IdValueObject(order_id, "order_id")
-        )
+        return GetOrderByIdQuery(IdValueObject(order_id, "order_id"))

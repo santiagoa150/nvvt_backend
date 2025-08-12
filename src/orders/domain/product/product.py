@@ -1,5 +1,7 @@
 from orders.domain.product.product_dict import ProductDict
-from shared.domain.value_objects.positive_float_value_object import PositiveFloatValueObject
+from shared.domain.value_objects.positive_float_value_object import (
+    PositiveFloatValueObject,
+)
 from shared.domain.value_objects.str_value_object import StringValueObject
 
 
@@ -9,12 +11,12 @@ class Product:
     __slots__ = ("_code", "_name", "_image_url", "_catalog_price", "_list_price")
 
     def __init__(
-            self,
-            code: StringValueObject,
-            name: StringValueObject,
-            image_url: StringValueObject,
-            catalog_price: PositiveFloatValueObject,
-            list_price: PositiveFloatValueObject
+        self,
+        code: StringValueObject,
+        name: StringValueObject,
+        image_url: StringValueObject,
+        catalog_price: PositiveFloatValueObject,
+        list_price: PositiveFloatValueObject,
     ):
         self._code = code
         self._name = name
@@ -45,7 +47,7 @@ class Product:
             name=self._name.str,
             image_url=self._image_url.str,
             catalog_price=self._catalog_price.float,
-            list_price=self._list_price.float
+            list_price=self._list_price.float,
         )
 
     @classmethod
@@ -55,6 +57,10 @@ class Product:
             code=StringValueObject(product_dict["code"], "product_code"),
             name=StringValueObject(product_dict["name"], "product_name"),
             image_url=StringValueObject(product_dict["image_url"], "product_image_url"),
-            catalog_price=PositiveFloatValueObject(float(product_dict["catalog_price"]), "product_catalog_price"),
-            list_price=PositiveFloatValueObject(float(product_dict["list_price"]), "product_list_price")
+            catalog_price=PositiveFloatValueObject(
+                float(product_dict["catalog_price"]), "product_catalog_price"
+            ),
+            list_price=PositiveFloatValueObject(
+                float(product_dict["list_price"]), "product_list_price"
+            ),
         )

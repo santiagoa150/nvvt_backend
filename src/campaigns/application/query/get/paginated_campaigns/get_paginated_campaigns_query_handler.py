@@ -24,5 +24,7 @@ class GetPaginatedCampaignsQueryHandler(IQueryHandler[GetPaginatedCampaignsQuery
         :param query: The query containing pagination parameters.
         :return: A list of campaigns for the requested page.
         """
-        self._logger.info(f'INIT :: Getting All Campaigns with Page: {query.page}, Limit: {query.limit}')
+        self._logger.info(
+            f"INIT :: Getting All Campaigns with Page: {query.page}, Limit: {query.limit}"
+        )
         return self._repository.get_paginated_campaigns(query.page, query.limit)

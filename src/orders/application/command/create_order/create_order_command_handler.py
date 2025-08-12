@@ -18,11 +18,11 @@ class CreateOrderCommandHandler(ICommandHandler[CreateOrderCommand]):
     """Handler for the CreateOrderCommand."""
 
     def __init__(
-            self,
-            query_bus: QueryBus,
-            read_repository: OrderReadRepository,
-            write_repository: OrderWriteRepository,
-            order_client: OrderClient,
+        self,
+        query_bus: QueryBus,
+        read_repository: OrderReadRepository,
+        write_repository: OrderWriteRepository,
+        order_client: OrderClient,
     ):
         """
         :param query_bus: The query bus to use for querying order providers.
@@ -42,34 +42,40 @@ class CreateOrderCommandHandler(ICommandHandler[CreateOrderCommand]):
         :param command: The command containing the order details.
         """
         self._logger.info(
-            f'INIT :: Validating Campaign and Client :: {command.campaign_id.str}, {command.client_id.str}'
+            f"INIT :: Validating Campaign and Client :: {command.campaign_id.str}, {command.client_id.str}"
         )
         await self._query_bus.query(GetCampaignByIdQuery(command.campaign_id))
         await self._query_bus.query(GetClientByIdQuery(command.client_id))
 
-        self._logger.info(f'Searching {command.product_url.str} on client')
+        self._logger.info(f"Searching {command.product_url.str} on client")
         product = await self._order_client.build_product(command.provider, command.product_url)
 
         current_order = await self._read_repository.get_order_by_campaign_client_code(
-            command.campaign_id,
-            command.client_id,
-            product.code
+            command.campaign_id, command.client_id, product.code
         )
 
         if current_order:
-            self._logger.info(f'Order with product {product.code.str} already exists, updating quantity')
-            current_order.quantity = PositiveIntValueObject(current_order.quantity.int + command.quantity.int)
+            self._logger.info(
+                f"Order with product {product.code.str} already exists, updating quantity"
+            )
+            current_order.quantity = PositiveIntValueObject(
+                current_order.quantity.int + command.quantity.int
+            )
             await self._write_repository.update_order(current_order)
 
         else:
-            self._logger.info(f'Creating order with product {product.code.str} and quantity {command.quantity.int}')
-            order = Order.from_dict(OrderDict(
-                order_id=IdValueObject.generate(),
-                product=product.to_dict(),
-                campaign_id=command.campaign_id.str,
-                client_id=command.client_id.str,
-                quantity=command.quantity.int,
-                status=command.status.value
-            ))
+            self._logger.info(
+                f"Creating order with product {product.code.str} and quantity {command.quantity.int}"
+            )
+            order = Order.from_dict(
+                OrderDict(
+                    order_id=IdValueObject.generate(),
+                    product=product.to_dict(),
+                    campaign_id=command.campaign_id.str,
+                    client_id=command.client_id.str,
+                    quantity=command.quantity.int,
+                    status=command.status.value,
+                )
+            )
 
             await self._write_repository.create_order(order)

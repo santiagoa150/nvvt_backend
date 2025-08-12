@@ -14,6 +14,4 @@ class DeleteCampaignCommand(ICommand):
     @staticmethod
     def create(campaign_id: str):
         """Factory method to create a DeleteCampaignCommand instance."""
-        return DeleteCampaignCommand(
-            campaign_id=IdValueObject(campaign_id, "campaign_id")
-        )
+        return DeleteCampaignCommand(campaign_id=IdValueObject(campaign_id, "campaign_id"))

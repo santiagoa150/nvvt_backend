@@ -22,7 +22,7 @@ class DeleteClientCommandHandler(ICommandHandler[DeleteClientCommand]):
         Handle the DeleteClientCommand to delete a client by its ID.
         :param command: The command containing the client ID.
         """
-        self._logger.info(f'INIT :: Deleting client with ID: {command.client_id.str}')
+        self._logger.info(f"INIT :: Deleting client with ID: {command.client_id.str}")
         is_deleted = await self._repository.delete_client(command.client_id)
         if not is_deleted:
             raise NotFoundException.entity_not_found(Client.__name__, command.client_id.str)

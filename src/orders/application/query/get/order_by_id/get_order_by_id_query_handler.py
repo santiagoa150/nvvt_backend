@@ -24,7 +24,7 @@ class GetOrderByIdQueryHandler(IQueryHandler[GetOrderByIdQuery]):
         :param query: The query containing the order ID.
         :return: The order associated with the provided ID.
         """
-        self._logger.info(f'INIT :: OrderID: {query.order_id.str}')
+        self._logger.info(f"INIT :: OrderID: {query.order_id.str}")
         order = await self._repository.get_order_by_id(query.order_id)
 
         if not order:

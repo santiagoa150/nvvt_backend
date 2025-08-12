@@ -14,6 +14,4 @@ class GetCampaignByIdQuery(IQuery):
     @staticmethod
     def create(campaign_id: str):
         """Factory method to create a GetCampaignByIdQuery instance."""
-        return GetCampaignByIdQuery(
-            campaign_id=IdValueObject(campaign_id, "campaign_id")
-        )
+        return GetCampaignByIdQuery(campaign_id=IdValueObject(campaign_id, "campaign_id"))

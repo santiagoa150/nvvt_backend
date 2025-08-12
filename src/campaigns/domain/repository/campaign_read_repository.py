@@ -24,7 +24,9 @@ class CampaignReadRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_paginated_campaigns(self, page: PageParam, limit: LimitParam) -> PaginationDict[Campaign]:
+    async def get_paginated_campaigns(
+        self, page: PageParam, limit: LimitParam
+    ) -> PaginationDict[Campaign]:
         """
         Retrieve paginated campaigns.
 

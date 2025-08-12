@@ -21,12 +21,16 @@ class IntValueObjectException(CommonException):
     def min_value_exceeded(field_name: str, min_value: int) -> "IntValueObjectException":
         """Raises an exception when the value is less than the minimum allowed."""
         return IntValueObjectException(
-            CommonExceptionMessages.INT_VALUE_OBJECT_MIN_VALUE.format(integer=field_name, min_value=min_value)
+            CommonExceptionMessages.INT_VALUE_OBJECT_MIN_VALUE.format(
+                integer=field_name, min_value=min_value
+            )
         )
 
     @staticmethod
     def max_value_exceeded(field_name: str, max_value: int) -> "IntValueObjectException":
         """Raises an exception when the value is greater than the maximum allowed."""
         return IntValueObjectException(
-            CommonExceptionMessages.INT_VALUE_OBJECT_MAX_VALUE.format(integer=field_name, max_value=max_value)
+            CommonExceptionMessages.INT_VALUE_OBJECT_MAX_VALUE.format(
+                integer=field_name, max_value=max_value
+            )
         )

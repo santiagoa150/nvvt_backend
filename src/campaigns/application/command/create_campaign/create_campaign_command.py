@@ -8,10 +8,10 @@ class CreateCampaignCommand(ICommand):
     """Command to create a new campaign."""
 
     def __init__(
-            self,
-            name: StringValueObject,
-            year: Year,
-            number: CampaignNumber,
+        self,
+        name: StringValueObject,
+        year: Year,
+        number: CampaignNumber,
     ):
         """
         :param name: The name of the campaign.
@@ -24,10 +24,10 @@ class CreateCampaignCommand(ICommand):
 
     @staticmethod
     def create(
-            name: str,
-            year: int,
-            number: int,
-    ) -> 'CreateCampaignCommand':
+        name: str,
+        year: int,
+        number: int,
+    ) -> "CreateCampaignCommand":
         """Factory method to create a CreateCampaignCommand instance."""
         return CreateCampaignCommand(
             name=StringValueObject(name, "campaign_name"),

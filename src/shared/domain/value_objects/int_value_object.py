@@ -5,12 +5,12 @@ class IntValueObject:
     """Base class for integer value objects."""
 
     def __init__(
-            self,
-            value: int,
-            field_name: str = "integer",
-            *,
-            min_value: int | None = None,
-            max_value: int | None = None,
+        self,
+        value: int,
+        field_name: str = "integer",
+        *,
+        min_value: int | None = None,
+        max_value: int | None = None,
     ):
         self._field_name = field_name
         self._min_value = min_value

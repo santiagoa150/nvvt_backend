@@ -1,7 +1,9 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from campaigns.domain.campaign import Campaign
-from campaigns.domain.repository.campaign_write_repository import CampaignWriteRepository
+from campaigns.domain.repository.campaign_write_repository import (
+    CampaignWriteRepository,
+)
 from shared.domain.value_objects.id_value_object import IdValueObject
 
 

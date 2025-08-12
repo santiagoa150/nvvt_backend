@@ -20,5 +20,5 @@ class GetOrdersByCampaignQuery(IQuery):
         """Factory method to create a GetOrdersByCampaignQuery instance."""
         return GetOrdersByCampaignQuery(
             IdValueObject(campaign_id, "campaign_id"),
-            IdValueObject(client_id, "client_id") if client_id else None
+            IdValueObject(client_id, "client_id") if client_id else None,
         )

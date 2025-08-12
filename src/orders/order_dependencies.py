@@ -2,14 +2,28 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from orders.application.command import CreateOrderCommand, CreateOrderCommandHandler, DeleteOrderCommand, \
-    DeleteOrderCommandHandler, UpdateOrderQuantityCommand, UpdateOrderQuantityCommandHandler
-from orders.application.query import GetOrderByIdQuery, GetOrderByIdQueryHandler, GetOrdersByCampaignQuery, \
-    GetOrdersByCampaignQueryHandler
+from orders.application.command import (
+    CreateOrderCommand,
+    CreateOrderCommandHandler,
+    DeleteOrderCommand,
+    DeleteOrderCommandHandler,
+    UpdateOrderQuantityCommand,
+    UpdateOrderQuantityCommandHandler,
+)
+from orders.application.query import (
+    GetOrderByIdQuery,
+    GetOrderByIdQueryHandler,
+    GetOrdersByCampaignQuery,
+    GetOrdersByCampaignQueryHandler,
+)
 from orders.infrastructure.mongodb.mongodb_order_constants import MongoDBOrderConstants
-from orders.infrastructure.mongodb.mongodb_order_read_repository import MongoDBOrderReadRepository
+from orders.infrastructure.mongodb.mongodb_order_read_repository import (
+    MongoDBOrderReadRepository,
+)
 from orders.infrastructure.mongodb.mongodb_order_schema import create_order_indexes
-from orders.infrastructure.mongodb.mongodb_order_write_repository import MongoDBOrderWriteRepository
+from orders.infrastructure.mongodb.mongodb_order_write_repository import (
+    MongoDBOrderWriteRepository,
+)
 from orders.infrastructure.novaventa.nova_venta_order_client import NovaVentaOrderClient
 from shared import get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler

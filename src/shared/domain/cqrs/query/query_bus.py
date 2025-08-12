@@ -1,5 +1,5 @@
-from typing import Type, Dict, TypeVar, Any
 from collections.abc import Awaitable
+from typing import Any, Dict, Type, TypeVar
 
 from shared.domain.cqrs.query.iquery import IQuery
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler

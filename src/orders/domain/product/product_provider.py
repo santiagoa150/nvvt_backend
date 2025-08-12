@@ -8,12 +8,12 @@ class ProductProvider:
     __slots__ = ("_session_id", "_route", "_accelerator_secure_guid", "_cebs_p", "_cebs")
 
     def __init__(
-            self,
-            session_id: StringValueObject,
-            route: StringValueObject,
-            accelerator_secure_guid: StringValueObject,
-            cebs_p: StringValueObject,
-            cebs: StringValueObject
+        self,
+        session_id: StringValueObject,
+        route: StringValueObject,
+        accelerator_secure_guid: StringValueObject,
+        cebs_p: StringValueObject,
+        cebs: StringValueObject,
     ):
         self._session_id = session_id
         self._route = route
@@ -48,7 +48,7 @@ class ProductProvider:
             route=self._route.str,
             accelerator_secure_guid=self._accelerator_secure_guid.str,
             cebs_p=self._cebs_p.str,
-            cebs=self._cebs.str
+            cebs=self._cebs.str,
         )
 
     @classmethod
@@ -61,5 +61,5 @@ class ProductProvider:
                 product_provider_dict["accelerator_secure_guid"], "accelerator_secure_guid"
             ),
             cebs_p=StringValueObject(product_provider_dict["cebs_p"], "cebs_p"),
-            cebs=StringValueObject(product_provider_dict["cebs"], "cebs")
+            cebs=StringValueObject(product_provider_dict["cebs"], "cebs"),
         )

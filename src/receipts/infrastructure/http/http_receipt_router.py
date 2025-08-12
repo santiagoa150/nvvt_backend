@@ -1,14 +1,20 @@
 from fastapi import APIRouter, Depends, Response
+from fastapi.security import HTTPBearer
 
 from receipts.application.command.create_client_receipt.create_client_receipt_command import CreateClientReceiptCommand, \
     CreateClientReceiptCommandResponse
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
+from shared.infrastructure.jwt.jwt_guard import jwt_guard
 
 router = APIRouter()
+bearer_scheme = HTTPBearer()
 
 
-@router.post('/by-client/{client_id}/by-campaign/{campaign_id}')
+@router.post(
+    '/by-client/{client_id}/by-campaign/{campaign_id}',
+    dependencies=[Depends(bearer_scheme), Depends(jwt_guard)]
+)
 async def create_client_receipt(
         client_id: str,
         campaign_id: str,

@@ -79,5 +79,6 @@ def init_routes(api: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+init_middlewares(app)
 init_exception_handlers(app)
 init_routes(app)

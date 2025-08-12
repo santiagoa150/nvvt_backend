@@ -4,11 +4,14 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from auth.application.command.create_user.create_user_command import CreateUserCommand
 from auth.application.command.create_user.create_user_command_handler import CreateUserCommandHandler
-from auth.application.command.login.login_user_command import LoginUserCommand
-from auth.application.command.login.login_user_command_handler import LoginUserCommandHandler
+from auth.application.command.login_user.login_user_command import LoginUserCommand
+from auth.application.command.login_user.login_user_command_handler import LoginUserCommandHandler
 from auth.application.query.get_active_user_by_email.get_active_user_by_email_query import GetActiveUserByEmailQuery
 from auth.application.query.get_active_user_by_email.get_active_user_by_email_query_handler import \
     GetActiveUserByEmailQueryHandler
+from auth.application.query.verify_user_access_token.verify_user_access_token_query import VerifyUserAccessTokenQuery
+from auth.application.query.verify_user_access_token.verify_user_access_token_query_handler import \
+    VerifyUserAccessTokenQueryHandler
 from auth.infrastructure.jwt.jwt_token_repository import JwtTokenRepository
 from auth.infrastructure.mongodb.mongodb_user_constants import MongoDBUserConstants
 from auth.infrastructure.mongodb.mongodb_user_read_repository import MongoDBUserReadRepository
@@ -96,3 +99,11 @@ async def create_login_user_command_handler() -> LoginUserCommandHandler:
     token_repository = await get_jwt_token_repository()
 
     return LoginUserCommandHandler(query_bus, token_repository)
+
+
+@query_handler(VerifyUserAccessTokenQuery)
+async def create_verify_user_access_token_query_handler() -> VerifyUserAccessTokenQueryHandler:
+    """Creates a query handler for VerifyUserAccessTokenQuery."""
+
+    repository = await get_jwt_token_repository()
+    return VerifyUserAccessTokenQueryHandler(repository)

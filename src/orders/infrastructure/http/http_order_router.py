@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query, Body, Header
+from fastapi.security import HTTPBearer
 
 from orders.application.command.create_order.create_order_command import CreateOrderCommand
 from orders.application.command.delete_order.delete_order_command import DeleteOrderCommand
@@ -9,11 +10,13 @@ from orders.domain.order import Order
 from shared import get_query_bus, get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 from shared.domain.cqrs.query.query_bus import QueryBus
+from shared.infrastructure.jwt.jwt_guard import jwt_guard
 
 router = APIRouter()
+bearer_scheme = HTTPBearer()
 
 
-@router.post('/')
+@router.post('/', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def create_order(
         x_session_id: str = Header(..., description="Provided session ID for the request"),
         x_route: str = Header(..., description="Provider route for the request"),
@@ -43,21 +46,21 @@ async def create_order(
     return {}
 
 
-@router.get('/{order_id}')
+@router.get('/{order_id}', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def get_order_by_id(order_id: str, query_bus: QueryBus = Depends(get_query_bus)):
     """Retrieve an order by its ID."""
     order: Order = await query_bus.query(GetOrderByIdQuery.create(order_id))
     return order.to_dict()
 
 
-@router.delete('/{order_id}')
+@router.delete('/{order_id}', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def delete_order_by_id(order_id: str, command_bus: CommandBus = Depends(get_command_bus)):
     """Delete an order by its ID."""
     await command_bus.dispatch(DeleteOrderCommand.create(order_id))
     return {}
 
 
-@router.patch('/{order_id}/quantity')
+@router.patch('/{order_id}/quantity', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def update_order_quantity(
         order_id: str,
         quantity: int = Body(..., description='New quantity for the order'),
@@ -68,7 +71,7 @@ async def update_order_quantity(
     return {}
 
 
-@router.get('/by-campaign/{campaign_id}')
+@router.get('/by-campaign/{campaign_id}', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def get_orders_by_campaign(
         campaign_id: str,
         client_id: str = Query(None, description='Optional client ID to filter orders'),

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query, Body
+from fastapi.security import HTTPBearer
 
 from clients.application.command.create_client.create_client_command import CreateClientCommand
 from clients.application.command.delete_client.delete_client_command import DeleteClientCommand
@@ -10,11 +11,13 @@ from shared import get_query_bus, get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 from shared.domain.cqrs.query.query_bus import QueryBus
 from shared.domain.pagination_dict import PaginationDict
+from shared.infrastructure.jwt.jwt_guard import jwt_guard
 
 router = APIRouter()
+bearer_scheme = HTTPBearer()
 
 
-@router.get('/')
+@router.get('/', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def get_paginated_clients(
         page: int = Query(1, description='Page number to retrieve'),
         limit: int = Query(20, description='Number of items per page'),
@@ -28,7 +31,7 @@ async def get_paginated_clients(
     )
 
 
-@router.post('/')
+@router.post('/', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def create_client(
         given_names: str = Body(..., description='Given names of the client'),
         family_names: str = Body(None, description='Family names of the client'),
@@ -48,14 +51,14 @@ async def create_client(
     return {}
 
 
-@router.get('/{client_id}')
+@router.get('/{client_id}', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def get_client_by_id(client_id: str, query_bus: QueryBus = Depends(get_query_bus)):
     """Retrieve a client by its ID."""
     client: Client = await query_bus.query(GetClientByIdQuery.create(client_id))
     return client.to_dict()
 
 
-@router.patch('/{client_id}')
+@router.patch('/{client_id}', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def update_client_by_id(
         client_id: str,
         given_names: str = Body(None, description='Given names of the client'),
@@ -77,7 +80,7 @@ async def update_client_by_id(
     return {}
 
 
-@router.delete('/{client_id}')
+@router.delete('/{client_id}', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def delete_client(client_id: str, command_bus: CommandBus = Depends(get_command_bus)):
     """Delete a client by its ID."""
     await command_bus.dispatch(DeleteClientCommand.create(client_id))

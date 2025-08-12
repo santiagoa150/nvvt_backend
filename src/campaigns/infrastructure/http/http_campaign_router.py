@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query, Body
+from fastapi.security import HTTPBearer
 
 from campaigns.application.command.create_campaign.create_campaign_command import CreateCampaignCommand
 from campaigns.application.command.delete_campaign.delete_campaign_command import DeleteCampaignCommand
@@ -9,12 +10,14 @@ from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 from shared.domain.cqrs.query.query_bus import QueryBus
 from shared.domain.pagination_dict import PaginationDict
+from shared.infrastructure.jwt.jwt_guard import jwt_guard
 from shared.shared_dependencies import get_query_bus
 
 router = APIRouter()
+bearer_scheme = HTTPBearer()
 
 
-@router.get('/')
+@router.get('/', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def get_paginated_campaigns(
         page: int = Query(1, description="Page number to retrieve"),
         limit: int = Query(20, description="Number of items per page"),
@@ -30,7 +33,7 @@ async def get_paginated_campaigns(
     )
 
 
-@router.post('/')
+@router.post('/', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def create_campaign(
         name: str = Body(..., description="Name of the campaign"),
         year: int = Body(..., description="Year of the campaign"),
@@ -46,14 +49,14 @@ async def create_campaign(
     return {}
 
 
-@router.get('/{campaign_id}')
+@router.get('/{campaign_id}', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get_query_bus)):
     """Retrieve a campaign by its ID."""
     campaign: Campaign = await query_bus.query(GetCampaignByIdQuery.create(campaign_id))
     return campaign.to_dict()
 
 
-@router.delete('/{campaign_id}')
+@router.delete('/{campaign_id}', dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
 async def delete_campaign(campaign_id: str, command_bus: CommandBus = Depends(get_command_bus)):
     """Delete a campaign by its ID."""
     await command_bus.dispatch(DeleteCampaignCommand.create(campaign_id))

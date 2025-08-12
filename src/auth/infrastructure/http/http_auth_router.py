@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Body
 
 from auth.application.command.create_user.create_user_command import CreateUserCommand
-from auth.application.command.login.login_user_command import LoginUserCommand
+from auth.application.command.login_user.login_user_command import LoginUserCommand
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 

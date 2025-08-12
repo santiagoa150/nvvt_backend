@@ -1,7 +1,7 @@
 import logging
 from typing import Awaitable
 
-from campaigns.application.query.get_paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
+from campaigns.application.query.get.paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler

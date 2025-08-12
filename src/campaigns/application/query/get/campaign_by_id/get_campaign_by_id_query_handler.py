@@ -1,6 +1,6 @@
 import logging
 
-from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
+from campaigns.application.query.get.campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler

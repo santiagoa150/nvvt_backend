@@ -1,6 +1,6 @@
 import logging
 
-from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
+from orders.application.query.get.order_by_id.get_order_by_id_query import GetOrderByIdQuery
 from orders.domain.order import Order
 from orders.domain.repository.order_read_repository import OrderReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler

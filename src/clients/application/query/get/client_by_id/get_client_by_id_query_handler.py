@@ -1,6 +1,6 @@
 import logging
 
-from clients.application.query.get_client_by_id.get_client_by_id_query import GetClientByIdQuery
+from clients.application.query.get.client_by_id.get_client_by_id_query import GetClientByIdQuery
 from clients.domain.client import Client
 from clients.domain.repository.client_read_repository import ClientReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler

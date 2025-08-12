@@ -6,8 +6,8 @@ from auth.application.command.create_user.create_user_command import CreateUserC
 from auth.application.command.create_user.create_user_command_handler import CreateUserCommandHandler
 from auth.application.command.login_user.login_user_command import LoginUserCommand
 from auth.application.command.login_user.login_user_command_handler import LoginUserCommandHandler
-from auth.application.query.get_active_user_by_email.get_active_user_by_email_query import GetActiveUserByEmailQuery
-from auth.application.query.get_active_user_by_email.get_active_user_by_email_query_handler import \
+from auth.application.query.get.active_user_by_email.get_active_user_by_email_query import GetActiveUserByEmailQuery
+from auth.application.query.get.active_user_by_email.get_active_user_by_email_query_handler import \
     GetActiveUserByEmailQueryHandler
 from auth.application.query.verify_user_access_token.verify_user_access_token_query import VerifyUserAccessTokenQuery
 from auth.application.query.verify_user_access_token.verify_user_access_token_query_handler import \

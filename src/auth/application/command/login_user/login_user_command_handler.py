@@ -6,7 +6,7 @@ from auth.domain.refresh_data import RefreshData
 from settings import settings
 
 from auth.application.command.login_user.login_user_command import LoginUserCommand
-from auth.application.query.get_active_user_by_email.get_active_user_by_email_query import GetActiveUserByEmailQuery
+from auth.application.query.get.active_user_by_email.get_active_user_by_email_query import GetActiveUserByEmailQuery
 from auth.domain.auth_data import AuthData
 from auth.domain.repository.token_repository import TokenRepository
 from auth.domain.user import User

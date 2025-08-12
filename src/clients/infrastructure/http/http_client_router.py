@@ -4,8 +4,8 @@ from fastapi.security import HTTPBearer
 from clients.application.command.create_client.create_client_command import CreateClientCommand
 from clients.application.command.delete_client.delete_client_command import DeleteClientCommand
 from clients.application.command.update_client.update_client_command import UpdateClientCommand
-from clients.application.query.get_client_by_id.get_client_by_id_query import GetClientByIdQuery
-from clients.application.query.get_paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
+from clients.application.query.get.client_by_id.get_client_by_id_query import GetClientByIdQuery
+from clients.application.query.get.paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
 from clients.domain.client import Client
 from shared import get_query_bus, get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus

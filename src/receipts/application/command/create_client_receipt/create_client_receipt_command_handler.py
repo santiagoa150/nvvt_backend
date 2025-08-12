@@ -1,10 +1,10 @@
 import logging
 
-from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
+from campaigns.application.query.get.campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.domain.campaign import Campaign
-from clients.application.query.get_client_by_id.get_client_by_id_query import GetClientByIdQuery
+from clients.application.query.get.client_by_id.get_client_by_id_query import GetClientByIdQuery
 from clients.domain.client import Client
-from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
+from orders.application.query.get.orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
 from orders.domain.order import Order
 from orders.domain.order_status import OrderStatus
 from receipts.application.command.create_client_receipt.create_client_receipt_command import CreateClientReceiptCommand, \

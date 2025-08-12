@@ -14,3 +14,8 @@ class UnauthorizedException(CommonException):
     def user_not_authenticated() -> "UnauthorizedException":
         """Raises an exception when the user is not authenticated."""
         return UnauthorizedException(UserExceptionMessages.USER_NOT_AUTHENTICATED.value)
+
+    @staticmethod
+    def invalid_refresh_token() -> "UnauthorizedException":
+        """Raises an exception when the refresh token is invalid."""
+        return UnauthorizedException(UserExceptionMessages.INVALID_REFRESH_TOKEN.value)

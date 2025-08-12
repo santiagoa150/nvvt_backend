@@ -1,7 +1,7 @@
 import logging
 from typing import Awaitable
 
-from clients.application.query.get_paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
+from clients.application.query.get.paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
 from clients.domain.client import Client
 from clients.domain.repository.client_read_repository import ClientReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler

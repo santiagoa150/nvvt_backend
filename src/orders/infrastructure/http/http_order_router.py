@@ -4,8 +4,8 @@ from fastapi.security import HTTPBearer
 from orders.application.command.create_order.create_order_command import CreateOrderCommand
 from orders.application.command.delete_order.delete_order_command import DeleteOrderCommand
 from orders.application.command.update_order_quantity.update_order_quantity_command import UpdateOrderQuantityCommand
-from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
-from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
+from orders.application.query.get.order_by_id.get_order_by_id_query import GetOrderByIdQuery
+from orders.application.query.get.orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
 from orders.domain.order import Order
 from shared import get_query_bus, get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus

@@ -8,6 +8,7 @@ class UserExceptionMessages(str, Enum):
     INVALID_PASSWORD_HASH = "Invalid password hash. It must be a 64-character hexadecimal string."
     EMAIL_ALREADY_EXISTS = "User with email '{email}' already exists."
     USER_NOT_AUTHENTICATED = "User is not authenticated."
+    INVALID_REFRESH_TOKEN = "Invalid refresh token."
 
     def format(self, **kwargs) -> str:
         """Format the message with the provided keyword arguments."""

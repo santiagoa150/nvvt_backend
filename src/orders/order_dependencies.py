@@ -9,10 +9,10 @@ from orders.application.command.delete_order.delete_order_command_handler import
 from orders.application.command.update_order_quantity.update_order_quantity_command import UpdateOrderQuantityCommand
 from orders.application.command.update_order_quantity.update_order_quantity_command_handler import \
     UpdateOrderQuantityCommandHandler
-from orders.application.query.get_order_by_id.get_order_by_id_query import GetOrderByIdQuery
-from orders.application.query.get_order_by_id.get_order_by_id_query_handler import GetOrderByIdQueryHandler
-from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
-from orders.application.query.get_orders_by_campaign.get_orders_by_campaign_query_handler import \
+from orders.application.query.get.order_by_id.get_order_by_id_query import GetOrderByIdQuery
+from orders.application.query.get.order_by_id.get_order_by_id_query_handler import GetOrderByIdQueryHandler
+from orders.application.query.get.orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
+from orders.application.query.get.orders_by_campaign.get_orders_by_campaign_query_handler import \
     GetOrdersByCampaignQueryHandler
 from orders.infrastructure.mongodb.mongodb_order_constants import MongoDBOrderConstants
 from orders.infrastructure.mongodb.mongodb_order_read_repository import MongoDBOrderReadRepository

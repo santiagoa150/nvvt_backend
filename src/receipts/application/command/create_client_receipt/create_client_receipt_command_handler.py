@@ -1,5 +1,4 @@
 import logging
-from typing import List
 
 from campaigns.application.query.get_campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
 from campaigns.domain.campaign import Campaign

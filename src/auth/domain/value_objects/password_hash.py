@@ -1,4 +1,5 @@
 import re
+import hashlib
 
 from auth.domain.exceptions.password_exception import PasswordException
 from auth.domain.value_objects.password import Password
@@ -34,4 +35,6 @@ class PasswordHash(StringValueObject):
         :return: A PasswordHash value object.
         """
 
-        return PasswordHash(value=password.str)
+        return PasswordHash(
+            hashlib.sha256(password.str.encode('utf-8')).hexdigest()
+        )

@@ -2,17 +2,9 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from orders.application.command.create_order.create_order_command import CreateOrderCommand
-from orders.application.command.create_order.create_order_command_handler import CreateOrderCommandHandler
-from orders.application.command.delete_order.delete_order_command import DeleteOrderCommand
-from orders.application.command.delete_order.delete_order_command_handler import DeleteOrderCommandHandler
-from orders.application.command.update_order_quantity.update_order_quantity_command import UpdateOrderQuantityCommand
-from orders.application.command.update_order_quantity.update_order_quantity_command_handler import \
-    UpdateOrderQuantityCommandHandler
-from orders.application.query.get.order_by_id.get_order_by_id_query import GetOrderByIdQuery
-from orders.application.query.get.order_by_id.get_order_by_id_query_handler import GetOrderByIdQueryHandler
-from orders.application.query.get.orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
-from orders.application.query.get.orders_by_campaign.get_orders_by_campaign_query_handler import \
+from orders.application.command import CreateOrderCommand, CreateOrderCommandHandler, DeleteOrderCommand, \
+    DeleteOrderCommandHandler, UpdateOrderQuantityCommand, UpdateOrderQuantityCommandHandler
+from orders.application.query import GetOrderByIdQuery, GetOrderByIdQueryHandler, GetOrdersByCampaignQuery, \
     GetOrdersByCampaignQueryHandler
 from orders.infrastructure.mongodb.mongodb_order_constants import MongoDBOrderConstants
 from orders.infrastructure.mongodb.mongodb_order_read_repository import MongoDBOrderReadRepository

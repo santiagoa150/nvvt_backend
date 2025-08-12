@@ -1,8 +1,6 @@
 from typing import Optional
 
-from receipts.application.command.create_client_receipt.create_client_receipt_command import CreateClientReceiptCommand
-from receipts.application.command.create_client_receipt.create_client_receipt_command_handler import \
-    CreateClientReceiptCommandHandler
+from receipts.application.command import CreateClientReceiptCommand, CreateClientReceiptCommandHandler
 from receipts.infrastructure.reportlab.reportlab_receipt_generator import ReportlabReceiptGenerator
 from shared import get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler

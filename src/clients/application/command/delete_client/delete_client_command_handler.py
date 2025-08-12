@@ -1,6 +1,6 @@
 import logging
 
-from clients.application.command.delete_client.delete_client_command import DeleteClientCommand
+from clients.application.command import DeleteClientCommand
 from clients.domain.client import Client
 from clients.domain.repository.client_write_repository import ClientWriteRepository
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler

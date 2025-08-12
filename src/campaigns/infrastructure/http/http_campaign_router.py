@@ -1,10 +1,8 @@
 from fastapi import APIRouter, Depends, Query, Body
 from fastapi.security import HTTPBearer
 
-from campaigns.application.command.create_campaign.create_campaign_command import CreateCampaignCommand
-from campaigns.application.command.delete_campaign.delete_campaign_command import DeleteCampaignCommand
-from campaigns.application.query.get.campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
-from campaigns.application.query.get.paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
+from campaigns.application.command import CreateCampaignCommand, DeleteCampaignCommand
+from campaigns.application.query import GetCampaignByIdQuery, GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus

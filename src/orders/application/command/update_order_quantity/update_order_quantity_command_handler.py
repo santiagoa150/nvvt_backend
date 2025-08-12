@@ -1,5 +1,5 @@
-from orders.application.command.update_order_quantity.update_order_quantity_command import UpdateOrderQuantityCommand
-from orders.application.query.get.order_by_id.get_order_by_id_query import GetOrderByIdQuery
+from orders.application.command import UpdateOrderQuantityCommand
+from orders.application.query import GetOrderByIdQuery
 from orders.domain.order import Order
 from orders.domain.repository.order_write_repository import OrderWriteRepository
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler

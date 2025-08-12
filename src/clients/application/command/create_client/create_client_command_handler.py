@@ -1,6 +1,6 @@
 import logging
 
-from clients.application.command.create_client.create_client_command import CreateClientCommand
+from clients.application.command import CreateClientCommand
 from clients.domain.client import Client
 from clients.domain.client_dict import ClientDict
 from clients.domain.repository.client_write_repository import ClientWriteRepository

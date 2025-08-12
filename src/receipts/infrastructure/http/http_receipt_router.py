@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 from fastapi.security import HTTPBearer
 
-from receipts.application.command.create_client_receipt.create_client_receipt_command import CreateClientReceiptCommand, \
-    CreateClientReceiptCommandResponse
+from receipts.application.command import CreateClientReceiptCommand, CreateClientReceiptCommandResponse
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 from shared.infrastructure.jwt.jwt_guard import jwt_guard

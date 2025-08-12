@@ -1,6 +1,6 @@
 import logging
 
-from campaigns.application.command.delete_campaign.delete_campaign_command import DeleteCampaignCommand
+from campaigns.application.command import DeleteCampaignCommand
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.repository.campaign_write_repository import CampaignWriteRepository
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler

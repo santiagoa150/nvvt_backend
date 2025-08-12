@@ -1,14 +1,13 @@
 import logging
 
-from campaigns.application.query.get.campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
+from campaigns.application.query import GetCampaignByIdQuery
 from campaigns.domain.campaign import Campaign
-from clients.application.query.get.client_by_id.get_client_by_id_query import GetClientByIdQuery
+from clients.application.query import GetClientByIdQuery
 from clients.domain.client import Client
-from orders.application.query.get.orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
+from orders.application.query import GetOrdersByCampaignQuery
 from orders.domain.order import Order
 from orders.domain.order_status import OrderStatus
-from receipts.application.command.create_client_receipt.create_client_receipt_command import CreateClientReceiptCommand, \
-    CreateClientReceiptCommandResponse
+from receipts.application.command import CreateClientReceiptCommand, CreateClientReceiptCommandResponse
 from receipts.domain.repository.receipt_generator import ReceiptGenerator
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler
 from shared.domain.cqrs.query.query_bus import QueryBus

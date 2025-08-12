@@ -1,7 +1,7 @@
 import logging
 
-from clients.application.command.update_client.update_client_command import UpdateClientCommand
-from clients.application.query.get.client_by_id.get_client_by_id_query import GetClientByIdQuery
+from clients.application.command import UpdateClientCommand
+from clients.application.query import GetClientByIdQuery
 from clients.domain.client import Client
 from clients.domain.repository.client_write_repository import ClientWriteRepository
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler

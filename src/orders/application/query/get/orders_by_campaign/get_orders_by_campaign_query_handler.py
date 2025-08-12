@@ -1,7 +1,7 @@
 import logging
 from collections.abc import Awaitable
 
-from orders.application.query.get.orders_by_campaign.get_orders_by_campaign_query import GetOrdersByCampaignQuery
+from orders.application.query import GetOrdersByCampaignQuery
 from orders.domain.order import Order
 from orders.domain.repository.order_read_repository import OrderReadRepository
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler

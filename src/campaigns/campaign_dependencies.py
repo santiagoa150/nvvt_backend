@@ -2,14 +2,9 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from campaigns.application.command.create_campaign.create_campaign_command import CreateCampaignCommand
-from campaigns.application.command.create_campaign.create_campaign_command_handler import CreateCampaignCommandHandler
-from campaigns.application.command.delete_campaign.delete_campaign_command import DeleteCampaignCommand
-from campaigns.application.command.delete_campaign.delete_campaign_command_handler import DeleteCampaignCommandHandler
-from campaigns.application.query.get.campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
-from campaigns.application.query.get.campaign_by_id.get_campaign_by_id_query_handler import GetCampaignByIdQueryHandler
-from campaigns.application.query.get.paginated_campaigns.get_paginated_campaigns_query import GetPaginatedCampaignsQuery
-from campaigns.application.query.get.paginated_campaigns.get_paginated_campaigns_query_handler import \
+from campaigns.application.command import CreateCampaignCommand, CreateCampaignCommandHandler, DeleteCampaignCommand, \
+    DeleteCampaignCommandHandler
+from campaigns.application.query import GetCampaignByIdQuery, GetCampaignByIdQueryHandler, GetPaginatedCampaignsQuery, \
     GetPaginatedCampaignsQueryHandler
 from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
 from campaigns.domain.repository.campaign_write_repository import CampaignWriteRepository

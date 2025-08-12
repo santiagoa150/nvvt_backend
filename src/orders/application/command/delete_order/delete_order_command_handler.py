@@ -1,6 +1,6 @@
 import logging
 
-from orders.application.command.delete_order.delete_order_command import DeleteOrderCommand
+from orders.application.command import DeleteOrderCommand
 from orders.domain.order import Order
 from orders.domain.repository.order_write_repository import OrderWriteRepository
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler

@@ -2,16 +2,9 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from clients.application.command.create_client.create_client_command import CreateClientCommand
-from clients.application.command.create_client.create_client_command_handler import CreateClientCommandHandler
-from clients.application.command.delete_client.delete_client_command import DeleteClientCommand
-from clients.application.command.delete_client.delete_client_command_handler import DeleteClientCommandHandler
-from clients.application.command.update_client.update_client_command import UpdateClientCommand
-from clients.application.command.update_client.update_client_command_handler import UpdateClientCommandHandler
-from clients.application.query.get.client_by_id.get_client_by_id_query import GetClientByIdQuery
-from clients.application.query.get.client_by_id.get_client_by_id_query_handler import GetClientByIdQueryHandler
-from clients.application.query.get.paginated_clients.get_paginated_clients_query import GetPaginatedClientsQuery
-from clients.application.query.get.paginated_clients.get_paginated_clients_query_handler import \
+from clients.application.command import CreateClientCommand, CreateClientCommandHandler, DeleteClientCommand, \
+    DeleteClientCommandHandler, UpdateClientCommand, UpdateClientCommandHandler
+from clients.application.query import GetClientByIdQuery, GetClientByIdQueryHandler, GetPaginatedClientsQuery, \
     GetPaginatedClientsQueryHandler
 from clients.infrastructure.mongodb.mongodb_client_constants import MongoDBClientConstants
 from clients.infrastructure.mongodb.mongodb_client_read_repository import MongoDBClientReadRepository

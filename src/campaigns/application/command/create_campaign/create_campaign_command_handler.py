@@ -1,6 +1,6 @@
 import logging
 
-from campaigns.application.command.create_campaign.create_campaign_command import CreateCampaignCommand
+from campaigns.application.command import CreateCampaignCommand
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.campaign_dict import CampaignDict
 from campaigns.domain.exceptions.campaign_already_exists_exception import CampaignAlreadyExistsException

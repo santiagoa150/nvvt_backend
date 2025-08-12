@@ -1,8 +1,8 @@
 import logging
 
-from campaigns.application.query.get.campaign_by_id.get_campaign_by_id_query import GetCampaignByIdQuery
-from clients.application.query.get.client_by_id.get_client_by_id_query import GetClientByIdQuery
-from orders.application.command.create_order.create_order_command import CreateOrderCommand
+from campaigns.application.query import GetCampaignByIdQuery
+from clients.application.query import GetClientByIdQuery
+from orders.application.command import CreateOrderCommand
 from orders.domain.order import Order
 from orders.domain.order_dict import OrderDict
 from orders.domain.repository.order_client import OrderClient

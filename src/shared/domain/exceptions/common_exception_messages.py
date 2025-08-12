@@ -20,6 +20,8 @@ class CommonExceptionMessages(str, Enum):
     FLOAT_VALUE_OBJECT_MAX_VALUE = "{float} must be less than or equal to {max_value}"
     PHONE_NUMBER_MUST_BE_VALID = "{number} must be a valid phone number"
     ENTITY_NOT_FOUND = "{entity} with identifier {id} was not found"
+    EMAIL_VALUE_OBJECT_MUST_BE_VALID_EMAIL = "{email} must be a valid email address"
+    BOOLEAN_VALUE_OBJECT_MUST_BE_BOOLEAN = "{boolean} must be a boolean value"
 
     def format(self, **kwargs) -> str:
         return self.value.format(**kwargs)

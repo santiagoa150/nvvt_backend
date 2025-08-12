@@ -1,7 +1,7 @@
 from campaigns.domain.value_objects.campaign_number import CampaignNumber
 from shared.domain.cqrs.command.icommand import ICommand
 from shared.domain.value_objects.common.year import Year
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class CreateCampaignCommand(ICommand):

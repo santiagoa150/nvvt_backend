@@ -9,7 +9,7 @@ from settings import settings
 from orders.domain.product.product_provider import ProductProvider
 from orders.domain.product.product import Product
 from orders.domain.repository.order_client import OrderClient
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class NovaVentaOrderClient(OrderClient):

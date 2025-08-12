@@ -64,6 +64,6 @@ class Order:
             campaign_id=IdValueObject(order_dict["campaign_id"], "campaign_id"),
             client_id=IdValueObject(order_dict["client_id"], "client_id"),
             quantity=PositiveIntValueObject(order_dict["quantity"], "order_quantity"),
-            status=OrderStatus(order_dict["status"]),
+            status=OrderStatus.create(order_dict["status"]),
             product=Product.from_dict(order_dict["product"])
         )

@@ -3,7 +3,7 @@ from typing import Optional
 from clients.domain.client_dict import ClientDict
 from shared.domain.phone import Phone
 from shared.domain.value_objects.id_value_object import IdValueObject
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class Client:
@@ -23,16 +23,6 @@ class Client:
         self._family_names = family_names
         self._delivery_place = delivery_place
         self._phone = phone
-
-    def to_dict(self) -> ClientDict:
-        """Converts the client to a dictionary representation."""
-        return ClientDict(
-            client_id=self._client_id.str,
-            given_names=self._given_names.str,
-            family_names=self._family_names.str if self._family_names else None,
-            delivery_place=self._delivery_place.str,
-            phone=self._phone.to_dict() if self._phone else None
-        )
 
     @property
     def client_id(self) -> IdValueObject:
@@ -75,6 +65,16 @@ class Client:
     @phone.setter
     def phone(self, value: Optional[Phone]) -> None:
         self._phone = value
+
+    def to_dict(self) -> ClientDict:
+        """Converts the client to a dictionary representation."""
+        return ClientDict(
+            client_id=self._client_id.str,
+            given_names=self._given_names.str,
+            family_names=self._family_names.str if self._family_names else None,
+            delivery_place=self._delivery_place.str,
+            phone=self._phone.to_dict() if self._phone else None
+        )
 
     @classmethod
     def from_dict(cls, client_dict: ClientDict) -> "Client":

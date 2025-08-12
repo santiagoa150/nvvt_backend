@@ -4,7 +4,7 @@ from orders.domain.product.product_provider_dict import ProductProviderDict
 from shared.domain.cqrs.command.icommand import ICommand
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.positive_int_value_object import PositiveIntValueObject
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class CreateOrderCommand(ICommand):
@@ -58,5 +58,5 @@ class CreateOrderCommand(ICommand):
             campaign_id=IdValueObject(campaign_id, 'campaign_id'),
             client_id=IdValueObject(client_id, 'client_id'),
             quantity=PositiveIntValueObject(quantity, 'order_quantity'),
-            status=OrderStatus(status),
+            status=OrderStatus.create(status),
         )

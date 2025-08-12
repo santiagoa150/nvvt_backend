@@ -3,7 +3,7 @@ from typing import Optional
 
 from orders.domain.order import Order
 from shared.domain.value_objects.id_value_object import IdValueObject
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class OrderReadRepository(ABC):

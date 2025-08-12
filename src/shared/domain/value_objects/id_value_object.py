@@ -1,7 +1,7 @@
 import uuid
 
-from shared.domain.exceptions.string_value_object_exception import StringValueObjectException
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.exceptions.str_value_object_exception import StrValueObjectException
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class IdValueObject(StringValueObject):
@@ -21,7 +21,7 @@ class IdValueObject(StringValueObject):
         try:
             uuid.UUID(value)
         except ValueError:
-            raise StringValueObjectException.value_must_be_and_id(value)
+            raise StrValueObjectException.value_must_be_and_id(value)
 
     @staticmethod
     def generate() -> str:

@@ -4,7 +4,7 @@ from shared.domain.cqrs.command.icommand import ICommand
 from shared.domain.value_objects.common.country_phone_code import CountryPhoneCode
 from shared.domain.value_objects.common.phone_number import PhoneNumber
 from shared.domain.value_objects.id_value_object import IdValueObject
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class UpdateClientCommand(ICommand):

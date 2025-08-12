@@ -6,7 +6,7 @@ from orders.domain.order import Order
 from orders.domain.order_dict import OrderDict
 from orders.domain.repository.order_read_repository import OrderReadRepository
 from shared.domain.value_objects.id_value_object import IdValueObject
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class MongoDBOrderReadRepository(OrderReadRepository):

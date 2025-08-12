@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from orders.domain.product.product_provider import ProductProvider
 from orders.domain.product.product import Product
-from shared.domain.value_objects.string_value_object import StringValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class OrderClient(ABC):

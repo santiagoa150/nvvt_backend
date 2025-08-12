@@ -7,11 +7,8 @@ from shared.domain.exceptions.common_exception import CommonException
 class ProductProviderException(CommonException):
     """Exception raised when there is an issue with the order provider."""
 
-    def __init__(self, message: str, status_code: int = None):
-        super().__init__(
-            status_code if status_code is not None else status.HTTP_500_INTERNAL_SERVER_ERROR,
-            message
-        )
+    def __init__(self, message: str, status_code: int = status.HTTP_500_INTERNAL_SERVER_ERROR):
+        super().__init__(status_code, message)
 
     @staticmethod
     def cannot_get_product_provider() -> "ProductProviderException":

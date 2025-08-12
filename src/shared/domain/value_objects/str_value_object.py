@@ -1,4 +1,4 @@
-from shared.domain.exceptions.string_value_object_exception import StringValueObjectException
+from shared.domain.exceptions.str_value_object_exception import StrValueObjectException
 
 
 class StringValueObject:
@@ -16,9 +16,9 @@ class StringValueObject:
             StringValueObjectException: If the value is not a string or is empty.
         """
         if not isinstance(value, str):
-            raise StringValueObjectException.value_must_be_string(self._field_name)
+            raise StrValueObjectException.value_must_be_string(self._field_name)
         if not value.strip():
-            raise StringValueObjectException.value_cannot_be_empty(self._field_name)
+            raise StrValueObjectException.value_cannot_be_empty(self._field_name)
 
     @property
     def str(self) -> str:

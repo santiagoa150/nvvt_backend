@@ -22,7 +22,8 @@ class IntValueObject:
         """
         Validates that the provided value is an integer and within the specified range.
         Raises:
-            IntValueObjectException: If the value is not an integer, or if it is outside the specified range.
+            IntValueObjectException: If the value is not an integer,
+            or if it is outside the specified range.
         """
 
         if not isinstance(value, int):

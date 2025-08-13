@@ -83,11 +83,11 @@ Ejecuta los siguientes comandos desde la raíz del proyecto:
 
 ```bash
 # Linter
-flake8 .
+flake8 src/
 
 # Formateo automático
-black .
+black src/
 
 # Ordenar imports
-isort .
+isort src/
 ```

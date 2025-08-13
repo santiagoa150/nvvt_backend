@@ -1,7 +1,7 @@
 import logging
 
 from auth.application.command.login_user.login_user_command import LoginUserCommand
-from auth.application.query.get.active_user_by_email.get_active_user_by_email_query import (
+from auth.application.query import (
     GetActiveUserByEmailQuery,
 )
 from auth.domain.auth_data import AuthData
@@ -70,5 +70,5 @@ class LoginUserCommandHandler(ICommandHandler[LoginUserCommand]):
             )
             return AuthTokens(access_token=access_token, refresh_token=refresh_token)
 
-        except:
+        except Exception:
             raise UnauthorizedException.user_not_authenticated()

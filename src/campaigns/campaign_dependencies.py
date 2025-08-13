@@ -80,30 +80,21 @@ async def create_mongodb_campaign_write_repository() -> MongoDBCampaignWriteRepo
 
 @query_handler(GetCampaignByIdQuery)
 async def create_get_campaign_by_id_query_handler() -> GetCampaignByIdQueryHandler:
-    """
-    Creates a query handler for GetCampaignByIdQuery.
-    This function is decorated with `@query_handler` to register the handler with the query bus automatically.
-    """
+    """Creates a query handler for GetCampaignByIdQuery."""
     repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     return GetCampaignByIdQueryHandler(repository)
 
 
 @query_handler(GetPaginatedCampaignsQuery)
 async def create_get_paginated_campaigns_query_handler() -> GetPaginatedCampaignsQueryHandler:
-    """
-    Creates a query handler for GetPaginatedCampaignsQuery.
-    This function is decorated with `@query_handler` to register the handler with the query bus automatically.
-    """
+    """Creates a query handler for GetPaginatedCampaignsQuery."""
     repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     return GetPaginatedCampaignsQueryHandler(repository)
 
 
 @command_handler(CreateCampaignCommand)
 async def create_create_campaign_command_handler() -> CreateCampaignCommandHandler:
-    """
-    Creates a command handler for CreateCampaignCommand.
-    This function is decorated with `@command_handler` to register the handler with the command bus automatically.
-    """
+    """Creates a command handler for CreateCampaignCommand."""
     read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
     return CreateCampaignCommandHandler(read_repository, write_repository)
@@ -111,9 +102,6 @@ async def create_create_campaign_command_handler() -> CreateCampaignCommandHandl
 
 @command_handler(DeleteCampaignCommand)
 async def create_delete_campaign_command_handler() -> DeleteCampaignCommandHandler:
-    """
-    Creates a command handler for DeleteCampaignCommand.
-    This function is decorated with `@command_handler` to register the handler with the command bus automatically.
-    """
+    """Creates a command handler for DeleteCampaignCommand."""
     write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
     return DeleteCampaignCommandHandler(write_repository)

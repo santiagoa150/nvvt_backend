@@ -36,7 +36,7 @@ class NovaVentaOrderClient(OrderClient):
 
         try:
             response = requests.get(product_url.str, headers=headers, cookies=cookies)
-        except:
+        except Exception:
             self._logger.error(f"Invalid product URL: {product_url.str}")
             raise ProductProviderException.invalid_product_url(product_url.str)
 

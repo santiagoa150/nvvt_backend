@@ -37,7 +37,8 @@ class CreateClientReceiptCommandHandler(ICommandHandler[CreateClientReceiptComma
         :param command: The command containing the receipt details.
         """
         self._logger.info(
-            f"INIT :: Generating receipt for Campaign and Client :: {command.campaign_id.str}, {command.client_id.str}"
+            f"INIT :: Generating receipt for Campaign and Client :: "
+            f"{command.campaign_id.str}, {command.client_id.str}"
         )
         campaign: Campaign = await self._query_bus.query(GetCampaignByIdQuery(command.campaign_id))
         client: Client = await self._query_bus.query(GetClientByIdQuery(command.client_id))
@@ -50,7 +51,8 @@ class CreateClientReceiptCommandHandler(ICommandHandler[CreateClientReceiptComma
 
         if not orders.get(OrderStatus.ACTIVE.value):
             self._logger.warning(
-                f"No active orders found for Campaign ID {command.campaign_id.str} and Client ID {command.client_id.str}"
+                f"No active orders found for:"
+                f"Campaign ID {command.campaign_id.str} and Client ID {command.client_id.str}"
             )
             raise NotFoundException.entity_not_found(
                 Order.__name__, f"ACTIVE ORDERS for client {command.client_id.str}"

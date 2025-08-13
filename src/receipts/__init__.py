@@ -1,1 +1,1 @@
-from .receipt_dependencies import *
+from .receipt_dependencies import create_client_receipt_command_handler

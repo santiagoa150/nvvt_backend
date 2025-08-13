@@ -1,8 +1,6 @@
 import logging
 
-from auth.application.query.get.active_user_by_email.get_active_user_by_email_query import (
-    GetActiveUserByEmailQuery,
-)
+from auth.application.query import GetActiveUserByEmailQuery
 from auth.domain.repository.user_read_repository import UserReadRepository
 from auth.domain.user import User
 from shared.domain.cqrs.query.iquery_handler import IQueryHandler

@@ -31,10 +31,12 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
         """
         Handle the CreateCampaignCommand to create a new campaign.
         :param command: The command containing the campaign details.
-        :raises CampaignAlreadyExistsException: If a campaign with the same year and number already exists.
+        :raises CampaignAlreadyExistsException: If a campaign with the same year and number
+        already exists.
         """
         self._logger.info(
-            f"INIT :: Creating Campaign with params: {command.year}, {command.number}, {command.name}"
+            f"INIT :: Creating Campaign with params: "
+            f"{command.year}, {command.number}, {command.name}"
         )
 
         if await self._read_repository.exists_by_year_and_number(command.year, command.number):

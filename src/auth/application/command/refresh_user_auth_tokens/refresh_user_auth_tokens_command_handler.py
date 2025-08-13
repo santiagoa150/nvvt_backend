@@ -47,3 +47,4 @@ class RefreshUserAuthTokensCommandHandler(ICommandHandler[RefreshUserAuthTokensC
             raise UnauthorizedException.invalid_refresh_token()
 
         refresh_data = cast(RefreshData, raw_refresh_data)
+        print(refresh_data)

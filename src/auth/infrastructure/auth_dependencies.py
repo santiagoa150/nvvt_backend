@@ -10,16 +10,10 @@ from auth.application.command.login_user.login_user_command import LoginUserComm
 from auth.application.command.login_user.login_user_command_handler import (
     LoginUserCommandHandler,
 )
-from auth.application.query.get.active_user_by_email.get_active_user_by_email_query import (
+from auth.application.query import (
     GetActiveUserByEmailQuery,
-)
-from auth.application.query.get.active_user_by_email.get_active_user_by_email_query_handler import (
     GetActiveUserByEmailQueryHandler,
-)
-from auth.application.query.verify_user_access_token.verify_user_access_token_query import (
     VerifyUserAccessTokenQuery,
-)
-from auth.application.query.verify_user_access_token.verify_user_access_token_query_handler import (
     VerifyUserAccessTokenQueryHandler,
 )
 from auth.infrastructure.jwt.jwt_token_repository import JwtTokenRepository

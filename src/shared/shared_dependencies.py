@@ -12,7 +12,8 @@ _mongo_client: MongoDBClient | None = None
 
 async def get_query_bus() -> QueryBus:
     """
-    This function initializes the QueryBus if it has not been created yet, and registers all query handlers.
+    This function initializes the QueryBus if it has not been created yet,
+    and registers all query handlers.
     """
 
     global _query_bus
@@ -27,7 +28,8 @@ async def get_query_bus() -> QueryBus:
 
 async def get_command_bus() -> CommandBus:
     """
-    This function initializes the CommandBus if it has not been created yet, and registers all command handlers.
+    This function initializes the CommandBus if it has not been created yet,
+    and registers all command handlers.
     """
 
     global _command_bus

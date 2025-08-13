@@ -42,7 +42,8 @@ class CreateOrderCommandHandler(ICommandHandler[CreateOrderCommand]):
         :param command: The command containing the order details.
         """
         self._logger.info(
-            f"INIT :: Validating Campaign and Client :: {command.campaign_id.str}, {command.client_id.str}"
+            f"INIT :: Validating Campaign and Client :: "
+            f"{command.campaign_id.str}, {command.client_id.str}"
         )
         await self._query_bus.query(GetCampaignByIdQuery(command.campaign_id))
         await self._query_bus.query(GetClientByIdQuery(command.client_id))
@@ -65,7 +66,7 @@ class CreateOrderCommandHandler(ICommandHandler[CreateOrderCommand]):
 
         else:
             self._logger.info(
-                f"Creating order with product {product.code.str} and quantity {command.quantity.int}"
+                f"Creating order, product {product.code.str} and quantity {command.quantity.int}"
             )
             order = Order.from_dict(
                 OrderDict(

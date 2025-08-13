@@ -6,6 +6,7 @@ from auth.domain.repository.user_read_repository import UserReadRepository
 from auth.domain.user import User
 from auth.domain.user_dict import UserDict
 from shared.domain.value_objects.common.email import Email
+from shared.domain.value_objects.id_value_object import IdValueObject
 
 
 class MongoDBUserReadRepository(UserReadRepository):
@@ -27,6 +28,15 @@ class MongoDBUserReadRepository(UserReadRepository):
     async def get_active_user_by_email(self, email: Email) -> Optional[User]:
         """Retrieve an active user by their email address."""
         document = await self._collection.find_one({"is_active": True, "email": email.str})
+
+        if document is None:
+            return None
+
+        return User.from_dict(cast(UserDict, document))
+
+    async def get_active_user_by_id(self, user_id: IdValueObject) -> Optional[User]:
+        """Retrieve an active user by their ID."""
+        document = await self._collection.find_one({"is_active": True, "user_id": user_id.str})
 
         if document is None:
             return None

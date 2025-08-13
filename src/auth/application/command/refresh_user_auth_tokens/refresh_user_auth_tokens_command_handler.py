@@ -1,9 +1,9 @@
 import logging
 from typing import cast
 
-from auth.application.command.refresh_user_auth_tokens.refresh_user_auth_tokens_command import (
-    RefreshUserAuthTokensCommand,
-)
+from auth.application.command import RefreshUserAuthTokensCommand
+from auth.application.query import GetActiveUserByIdQuery
+from auth.domain.auth_data import AuthData
 from auth.domain.auth_tokens import AuthTokens
 from auth.domain.exceptions.unauthorized_exception import UnauthorizedException
 from auth.domain.refresh_data import RefreshData
@@ -47,4 +47,16 @@ class RefreshUserAuthTokensCommandHandler(ICommandHandler[RefreshUserAuthTokensC
             raise UnauthorizedException.invalid_refresh_token()
 
         refresh_data = cast(RefreshData, raw_refresh_data)
-        print(refresh_data)
+
+        user = await self._query_bus.query(GetActiveUserByIdQuery.create(refresh_data["user_id"]))
+
+        access_token = await self._token_repository.sign(
+            dict(AuthData(user_id=user.user_id.str, email=user.email.str)),
+            settings.jwt_secret,
+            settings.jwt_expires_in,
+        )
+        refresh_token = await self._token_repository.sign(
+            raw_refresh_data, settings.jwt_refresh_secret, settings.jwt_refresh_expires_in
+        )
+
+        return AuthTokens(access_token=access_token, refresh_token=refresh_token)

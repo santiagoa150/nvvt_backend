@@ -1,9 +1,7 @@
 import logging
 
-from auth.application.command.login_user.login_user_command import LoginUserCommand
-from auth.application.query import (
-    GetActiveUserByEmailQuery,
-)
+from auth.application.command import LoginUserCommand
+from auth.application.query import GetActiveUserByEmailQuery
 from auth.domain.auth_data import AuthData
 from auth.domain.auth_tokens import AuthTokens
 from auth.domain.exceptions.unauthorized_exception import UnauthorizedException

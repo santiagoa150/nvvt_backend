@@ -1,6 +1,6 @@
 import logging
 
-from auth.application.command.create_user.create_user_command import CreateUserCommand
+from auth.application.command import CreateUserCommand
 from auth.domain.exceptions.user_already_exists_exception import (
     UserAlreadyExistsException,
 )

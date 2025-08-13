@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Body, Depends
+from fastapi.params import Header
 
-from auth.application.command.create_user.create_user_command import CreateUserCommand
-from auth.application.command.login_user.login_user_command import LoginUserCommand
+from auth.application.command import (
+    CreateUserCommand,
+    LoginUserCommand,
+    RefreshUserAuthTokensCommand,
+)
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 
@@ -37,4 +41,14 @@ async def login_user(
             password=password,
         )
     )
+    return auth_tokens
+
+
+@router.post("/refresh")
+async def refresh_user_auth_tokens(
+    refresh_token: str = Header(..., description="Refresh token of the user"),
+    command_bus: CommandBus = Depends(get_command_bus),
+):
+    """Refresh user authentication tokens."""
+    auth_tokens = await command_bus.dispatch(RefreshUserAuthTokensCommand(refresh_token))
     return auth_tokens

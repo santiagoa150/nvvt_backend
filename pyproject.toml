@@ -1,13 +1,25 @@
 [tool.black]
 line-length = 100
-target-version = ['py311']
+target-version = ["py311"]
+include = '\.pyi?$'
 exclude = '''
 /(
     \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
   | \.venv
-  | __pycache__
+  | _build
+  | buck-out
+  | build
+  | dist
+  | venv
+  | \.env
+  | \.flake8
 )/
 '''
 
 [tool.isort]
 profile = "black"
+line_length = 100
+src_paths = ["src"]

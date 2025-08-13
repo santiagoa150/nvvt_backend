@@ -2,17 +2,19 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from auth.application.command.create_user.create_user_command import CreateUserCommand
-from auth.application.command.create_user.create_user_command_handler import (
+from auth.application.command import (
+    CreateUserCommand,
     CreateUserCommandHandler,
-)
-from auth.application.command.login_user.login_user_command import LoginUserCommand
-from auth.application.command.login_user.login_user_command_handler import (
+    LoginUserCommand,
     LoginUserCommandHandler,
+    RefreshUserAuthTokensCommand,
+    RefreshUserAuthTokensCommandHandler,
 )
 from auth.application.query import (
     GetActiveUserByEmailQuery,
     GetActiveUserByEmailQueryHandler,
+    GetActiveUserByIdQuery,
+    GetActiveUserByIdQueryHandler,
     VerifyUserAccessTokenQuery,
     VerifyUserAccessTokenQueryHandler,
 )
@@ -115,3 +117,21 @@ async def create_verify_user_access_token_query_handler() -> VerifyUserAccessTok
 
     repository = await get_jwt_token_repository()
     return VerifyUserAccessTokenQueryHandler(repository)
+
+
+@query_handler(GetActiveUserByIdQuery)
+async def create_get_active_user_by_id_query_handler() -> GetActiveUserByIdQueryHandler:
+    """Creates a query handler for GetActiveUserByIdQuery."""
+
+    repository = await create_mongodb_user_read_repository()
+    return GetActiveUserByIdQueryHandler(repository)
+
+
+@command_handler(RefreshUserAuthTokensCommand)
+async def create_refresh_user_auth_tokens_command_handler() -> RefreshUserAuthTokensCommandHandler:
+    """Handles the RefreshUserAuthTokensCommand to refresh user authentication tokens."""
+
+    query_bus = await get_query_bus()
+    token_repository = await get_jwt_token_repository()
+
+    return RefreshUserAuthTokensCommandHandler(query_bus, token_repository)

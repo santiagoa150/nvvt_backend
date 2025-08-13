@@ -12,9 +12,7 @@ from orders.infrastructure.http import http_order_router
 from receipts.infrastructure.http import http_receipt_router
 from shared import get_command_bus, get_mongo_client, get_query_bus
 from shared.domain.exceptions.common_exception import CommonException
-from shared.domain.exceptions.common_exception_messages import (
-    CommonExceptionMessages,
-)
+from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
 
 logging.basicConfig(
     level=logging.INFO,

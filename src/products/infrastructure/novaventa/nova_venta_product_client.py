@@ -3,24 +3,24 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-from orders.domain.exceptions.product_provider_exception import ProductProviderException
-from orders.domain.product.product import Product
-from orders.domain.product.product_dict import ProductDict
-from orders.domain.product.product_provider import ProductProvider
-from orders.domain.repository.order_client import OrderClient
+from products.domain.exceptions.product_provider_exception import ProductProviderException
+from products.domain.product_provider import ProductProvider
+from products.domain.repository.product_client import ProductClient
+from products.domain.scraped_product import ScrapedProduct
+from products.domain.scraped_product_dict import ScrapedProductDict
 from settings import settings
 from shared.domain.value_objects.str_value_object import StringValueObject
 
 
-class NovaVentaOrderClient(OrderClient):
-    """Nova Venta Order Client for handling order operations."""
+class NovaVentaProductClient(ProductClient):
+    """Nova Venta Product Client for fetching product data."""
 
     def __init__(self):
         self._logger = logging.getLogger(__name__)
 
     async def build_product(
         self, provider: ProductProvider, product_url: StringValueObject
-    ) -> Product:
+    ) -> ScrapedProduct:
         headers = {
             "User-Agent": settings.nova_venta_user_agent,
             "Referer": settings.nova_venta_referer,
@@ -72,8 +72,8 @@ class NovaVentaOrderClient(OrderClient):
                 raw_list_price.text.replace("$", "").replace(".", "").replace(",", ".").strip()
             )
 
-            product = Product.from_dict(
-                ProductDict(
+            product = ScrapedProduct.from_dict(
+                ScrapedProductDict(
                     image_url=image_url,
                     list_price=float(list_price),
                     catalog_price=float(catalog_price),

@@ -7,6 +7,7 @@ from clients.domain.client import Client
 from orders.application.query import GetOrdersByCampaignQuery
 from orders.domain.order import Order
 from orders.domain.order_status import OrderStatus
+from products.application.query import GetProductsByIdsQuery
 from receipts.application.command import (
     CreateClientReceiptCommand,
     CreateClientReceiptCommandResponse,
@@ -22,7 +23,7 @@ class CreateClientReceiptCommandHandler(ICommandHandler[CreateClientReceiptComma
 
     def __init__(self, query_bus: QueryBus, receipt_generator: ReceiptGenerator):
         """
-        :param query_bus: The query bus to use for querying campaigns and clients.
+        :param query_bus: The query bus to use for querying campaigns, clients, orders and products.
         :param receipt_generator: The receipt generator to use for creating receipts.
         """
         self._query_bus = query_bus
@@ -49,7 +50,9 @@ class CreateClientReceiptCommandHandler(ICommandHandler[CreateClientReceiptComma
             )
         )
 
-        if not orders.get(OrderStatus.ACTIVE.value):
+        active_orders = orders.get(OrderStatus.ACTIVE.value)
+
+        if not active_orders:
             self._logger.warning(
                 f"No active orders found for:"
                 f"Campaign ID {command.campaign_id.str} and Client ID {command.client_id.str}"
@@ -58,11 +61,18 @@ class CreateClientReceiptCommandHandler(ICommandHandler[CreateClientReceiptComma
                 Order.__name__, f"ACTIVE ORDERS for client {command.client_id.str}"
             )
 
+        out_of_stock_orders = orders.get(OrderStatus.OUT_OF_STOCK.value, None)
+
+        product_ids = [order.product_id for order in active_orders + (out_of_stock_orders or [])]
+        products = await self._query_bus.query(GetProductsByIdsQuery(product_ids))
+        products_by_id = {product.product_id.str: product for product in products}
+
         receipt = await self._receipt_generator.create_client_receipt(
             campaign,
             client,
-            orders.get(OrderStatus.ACTIVE.value),
-            orders.get(OrderStatus.OUT_OF_STOCK.value, None),
+            active_orders,
+            out_of_stock_orders,
+            products_by_id,
         )
         receipt_name = (
             f"Recibo-{client.full_name.str}-Campaña-{campaign.year.int}-{campaign.number.int}.pdf"

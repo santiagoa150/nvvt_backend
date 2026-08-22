@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import List, Optional
 
 from orders.domain.order import Order
 from shared.domain.value_objects.id_value_object import IdValueObject
-from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class OrderReadRepository(ABC):
@@ -20,28 +19,27 @@ class OrderReadRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_order_by_campaign_client_code(
-        self, campaign_id: IdValueObject, client_id: IdValueObject, code: StringValueObject
+    async def get_order_by_client_and_product(
+        self, client_id: IdValueObject, product_id: IdValueObject
     ) -> Optional[Order]:
         """
-        Retrieve an order by its code associated with a specific campaign and client.
+        Retrieve the order a client placed for a specific product.
 
-        :param campaign_id: The ID of the campaign associated with the order.
         :param client_id: The ID of the client associated with the order.
-        :param code: The code of the order to retrieve.
+        :param product_id: The ID of the product associated with the order.
         :return: An Order object if found, otherwise None.
         """
         pass
 
     @abstractmethod
-    async def get_orders_by_campaign(
-        self, campaign_id: IdValueObject, client_id: Optional[IdValueObject]
+    async def get_orders_by_product_ids(
+        self, product_ids: List[IdValueObject], client_id: Optional[IdValueObject]
     ) -> dict[str, list[Order]]:
         """
-        Retrieve all orders associated with a specific campaign ID.
+        Retrieve all orders placed for the given products.
 
-        :param campaign_id: The ID of the campaign to retrieve orders for.
+        :param product_ids: The IDs of the products to retrieve orders for.
         :param client_id: Optional client ID to filter orders.
-        :return: A dictionary grouping orders by their state.
+        :return: A dictionary grouping orders by their status.
         """
         pass

@@ -1,9 +1,9 @@
-from orders.domain.product.product_provider_dict import ProductProviderDict
+from products.domain.product_provider_dict import ProductProviderDict
 from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class ProductProvider:
-    """Represents an order provider in the system."""
+    """Represents the credentials needed to fetch a product from an external provider."""
 
     __slots__ = ("_session_id", "_route", "_accelerator_secure_guid", "_cebs_p", "_cebs")
 
@@ -42,7 +42,7 @@ class ProductProvider:
         return self._cebs
 
     def to_dict(self) -> ProductProviderDict:
-        """Converts the order provider to a dictionary representation."""
+        """Converts the product provider to a dictionary representation."""
         return ProductProviderDict(
             session_id=self._session_id.str,
             route=self._route.str,
@@ -53,7 +53,7 @@ class ProductProvider:
 
     @classmethod
     def from_dict(cls, product_provider_dict: ProductProviderDict) -> "ProductProvider":
-        """Creates an OrderProvider instance from a dictionary representation."""
+        """Creates a ProductProvider instance from a dictionary representation."""
         return cls(
             session_id=StringValueObject(product_provider_dict["session_id"], "session_id"),
             route=StringValueObject(product_provider_dict["route"], "route"),

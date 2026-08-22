@@ -1,5 +1,5 @@
 from io import BytesIO
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
@@ -10,6 +10,7 @@ from reportlab.platypus import HRFlowable, Paragraph, SimpleDocTemplate, Spacer,
 from campaigns.domain.campaign import Campaign
 from clients.domain.client import Client
 from orders.domain.order import Order
+from products.domain.product import Product
 from receipts.domain.repository.receipt_generator import ReceiptGenerator
 
 
@@ -61,6 +62,7 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
         client: Client,
         active_orders: List[Order],
         out_of_stock_orders: Optional[List[Order]],
+        products_by_id: Dict[str, Product],
     ) -> BytesIO:
         buffer = BytesIO()
 
@@ -105,7 +107,8 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
         # Summary Configuration
         total_products = sum(order.quantity.int for order in active_orders)
         total_catalog_price = sum(
-            order.product.catalog_price.float * order.quantity.int for order in active_orders
+            products_by_id[order.product_id.str].catalog_price.float * order.quantity.int
+            for order in active_orders
         )
 
         summary = [
@@ -163,8 +166,14 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
             ]
             no_stock_products += [
                 [
-                    Paragraph(order.product.code.str, self._custom_styles["texts"]["small"]),
-                    Paragraph(order.product.name.str, self._custom_styles["texts"]["small"]),
+                    Paragraph(
+                        products_by_id[order.product_id.str].code.str,
+                        self._custom_styles["texts"]["small"],
+                    ),
+                    Paragraph(
+                        products_by_id[order.product_id.str].name.str,
+                        self._custom_styles["texts"]["small"],
+                    ),
                     Paragraph(str(order.quantity.int), self._custom_styles["texts"]["small"]),
                 ]
                 for order in out_of_stock_orders
@@ -213,22 +222,21 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
                 Paragraph("<b>Total</b>", self._custom_styles["texts"]["small"]),
             ]
         ]
-        active_products += [
-            [
-                Paragraph(order.product.code.str, self._custom_styles["texts"]["small"]),
-                Paragraph(order.product.name.str, self._custom_styles["texts"]["small"]),
-                Paragraph(str(order.quantity.int), self._custom_styles["texts"]["small"]),
-                Paragraph(
-                    f"${order.product.catalog_price.float:,.0f}",
-                    self._custom_styles["texts"]["small"],
-                ),
-                Paragraph(
-                    f"${(order.product.catalog_price.float * order.quantity.int):,.0f}",
-                    self._custom_styles["texts"]["small"],
-                ),
-            ]
-            for order in active_orders
-        ]
+        for order in active_orders:
+            product = products_by_id[order.product_id.str]
+            line_total = product.catalog_price.float * order.quantity.int
+            active_products.append(
+                [
+                    Paragraph(product.code.str, self._custom_styles["texts"]["small"]),
+                    Paragraph(product.name.str, self._custom_styles["texts"]["small"]),
+                    Paragraph(str(order.quantity.int), self._custom_styles["texts"]["small"]),
+                    Paragraph(
+                        f"${product.catalog_price.float:,.0f}",
+                        self._custom_styles["texts"]["small"],
+                    ),
+                    Paragraph(f"${line_total:,.0f}", self._custom_styles["texts"]["small"]),
+                ]
+            )
         active_products_table = Table(
             active_products,
             colWidths=[

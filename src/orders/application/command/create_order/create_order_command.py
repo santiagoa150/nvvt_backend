@@ -1,6 +1,6 @@
 from orders.domain.order_status import OrderStatus
-from orders.domain.product.product_provider import ProductProvider
-from orders.domain.product.product_provider_dict import ProductProviderDict
+from products.domain.product_provider import ProductProvider
+from products.domain.product_provider_dict import ProductProviderDict
 from shared.domain.cqrs.command.icommand import ICommand
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.positive_int_value_object import PositiveIntValueObject
@@ -20,10 +20,12 @@ class CreateOrderCommand(ICommand):
         status: OrderStatus,
     ):
         """
-        :param provider: The order provider associated with the order.
+        :param provider: The product provider associated with the order.
         :param product_url: The URL of the product to order.
+        :param campaign_id: The ID of the campaign the product belongs to.
         :param client_id: The ID of the client placing the order.
         :param quantity: The quantity of the item to order.
+        :param status: The initial status for the order.
         """
         self.provider = provider
         self.product_url = product_url

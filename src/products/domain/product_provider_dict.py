@@ -2,7 +2,7 @@ from typing import TypedDict
 
 
 class ProductProviderDict(TypedDict):
-    """Dictionary representation of an order provider."""
+    """Dictionary representation of a product provider."""
 
     session_id: str
     route: str

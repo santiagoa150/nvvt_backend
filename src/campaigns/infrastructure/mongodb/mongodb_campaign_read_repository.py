@@ -35,7 +35,9 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
     ) -> PaginationDict[Campaign]:
         """Retrieves paginated campaigns from the MongoDB collection."""
 
-        pipeline = MongoDBUtils.build_paginated_query(page, limit, sort={"year": -1, "number": -1})
+        pipeline = MongoDBUtils.build_paginated_query(
+            page, limit, sort={"is_active": -1, "year": -1, "number": -1}
+        )
         result = await self._collection.aggregate(pipeline).to_list(length=1)
         aggregated = result[0]
 
@@ -57,4 +59,9 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
     async def exists_by_year_and_number(self, year: Year, number: CampaignNumber) -> bool:
         """Checks if a campaign exists by year and number."""
         document = await self._collection.find_one({"year": year.int, "number": number.int})
+        return document is not None
+
+    async def exists_active_campaign(self) -> bool:
+        """Checks if there is already an active campaign."""
+        document = await self._collection.find_one({"is_active": True})
         return document is not None

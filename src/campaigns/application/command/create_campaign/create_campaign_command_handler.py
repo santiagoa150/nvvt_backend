@@ -32,11 +32,12 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
         Handle the CreateCampaignCommand to create a new campaign.
         :param command: The command containing the campaign details.
         :raises CampaignAlreadyExistsException: If a campaign with the same year and number
-        already exists.
+        already exists, or if the command marks the campaign as active while another active
+        campaign already exists.
         """
         self._logger.info(
             f"INIT :: Creating Campaign with params: "
-            f"{command.year}, {command.number}, {command.name}"
+            f"{command.year}, {command.number}, {command.name}, {command.is_active}"
         )
 
         if await self._read_repository.exists_by_year_and_number(command.year, command.number):
@@ -44,12 +45,16 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
                 command.year.int, command.number.int
             )
 
+        if command.is_active.bool and await self._read_repository.exists_active_campaign():
+            raise CampaignAlreadyExistsException.active_campaign_already_exists()
+
         campaign = Campaign.from_dict(
             CampaignDict(
                 campaign_id=IdValueObject.generate(),
                 name=command.name.str,
                 year=command.year.int,
                 number=command.number.int,
+                is_active=command.is_active.bool,
             )
         )
         await self._write_repository.create_campaign(campaign)

@@ -39,6 +39,7 @@ async def create_campaign(
     name: str = Body(..., description="Name of the campaign"),
     year: int = Body(..., description="Year of the campaign"),
     number: int = Body(..., description="Number of the campaign"),
+    is_active: bool = Body(False, description="Whether the campaign is the active one"),
     command_bus: CommandBus = Depends(get_command_bus),
 ):
     """Create a new campaign."""
@@ -47,6 +48,7 @@ async def create_campaign(
             name=name,
             year=year,
             number=number,
+            is_active=is_active,
         )
     )
     return {}

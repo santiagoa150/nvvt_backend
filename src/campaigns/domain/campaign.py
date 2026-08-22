@@ -1,5 +1,6 @@
 from campaigns.domain.campaign_dict import CampaignDict
 from campaigns.domain.value_objects.campaign_number import CampaignNumber
+from shared.domain.value_objects.bool_value_object import BoolValueObject
 from shared.domain.value_objects.common.year import Year
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.str_value_object import StringValueObject
@@ -8,7 +9,7 @@ from shared.domain.value_objects.str_value_object import StringValueObject
 class Campaign:
     """Represents a campaign with its associated properties."""
 
-    __slots__ = ("_campaign_id", "_name", "_year", "_number")
+    __slots__ = ("_campaign_id", "_name", "_year", "_number", "_is_active")
 
     def __init__(
         self,
@@ -16,11 +17,13 @@ class Campaign:
         name: StringValueObject,
         year: Year,
         number: CampaignNumber,
+        is_active: BoolValueObject,
     ):
         self._campaign_id = campaign_id
         self._name = name
         self._year = year
         self._number = number
+        self._is_active = is_active
 
     @property
     def year(self) -> Year:
@@ -30,6 +33,10 @@ class Campaign:
     def number(self) -> CampaignNumber:
         return self._number
 
+    @property
+    def is_active(self) -> BoolValueObject:
+        return self._is_active
+
     def to_dict(self) -> CampaignDict:
         """Converts the campaign to a dictionary representation."""
         return CampaignDict(
@@ -37,6 +44,7 @@ class Campaign:
             name=self._name.str,
             year=self._year.int,
             number=self._number.int,
+            is_active=self._is_active.bool,
         )
 
     @classmethod
@@ -47,4 +55,5 @@ class Campaign:
             name=StringValueObject(campaign_dict["name"], "campaign_name"),
             year=Year(campaign_dict["year"], "campaign_year"),
             number=CampaignNumber(campaign_dict["number"]),
+            is_active=BoolValueObject(campaign_dict.get("is_active", False), "campaign_is_active"),
         )

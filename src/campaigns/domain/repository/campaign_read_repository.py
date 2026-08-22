@@ -46,3 +46,12 @@ class CampaignReadRepository(ABC):
         :return: True if a campaign exists with the specified year and number, otherwise False.
         """
         pass
+
+    @abstractmethod
+    async def exists_active_campaign(self) -> bool:
+        """
+        Check if there is already an active campaign.
+
+        :return: True if a campaign with is_active set to True exists, otherwise False.
+        """
+        pass

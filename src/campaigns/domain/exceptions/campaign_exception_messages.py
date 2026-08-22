@@ -7,6 +7,10 @@ class CampaignExceptionMessages(str, Enum):
     YEAR_AND_NUMBER_ALREADY_EXISTS = "Campaign with year {year} and number {number} already exists."
     ACTIVE_CAMPAIGN_ALREADY_EXISTS = "An active campaign already exists."
     INVALID_CAMPAIGN_STATUS = "Invalid campaign status: {campaign_status}"
+    CAMPAIGN_CANNOT_BE_DELETED = (
+        "Campaign with status {campaign_status} cannot be deleted. "
+        "Only campaigns with status SCHEDULED can be deleted."
+    )
 
     def format(self, **kwargs) -> str:
         return self.value.format(**kwargs)

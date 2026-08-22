@@ -103,5 +103,6 @@ async def create_create_campaign_command_handler() -> CreateCampaignCommandHandl
 @command_handler(DeleteCampaignCommand)
 async def create_delete_campaign_command_handler() -> DeleteCampaignCommandHandler:
     """Creates a command handler for DeleteCampaignCommand."""
+    read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
-    return DeleteCampaignCommandHandler(write_repository)
+    return DeleteCampaignCommandHandler(read_repository, write_repository)

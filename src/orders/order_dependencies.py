@@ -2,20 +2,6 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from orders.application.command import (
-    CreateOrderCommand,
-    CreateOrderCommandHandler,
-    DeleteOrderCommand,
-    DeleteOrderCommandHandler,
-    UpdateOrderQuantityCommand,
-    UpdateOrderQuantityCommandHandler,
-)
-from orders.application.query import (
-    GetOrderByIdQuery,
-    GetOrderByIdQueryHandler,
-    GetOrdersByCampaignQuery,
-    GetOrdersByCampaignQueryHandler,
-)
 from orders.infrastructure.mongodb.mongodb_order_constants import MongoDBOrderConstants
 from orders.infrastructure.mongodb.mongodb_order_read_repository import (
     MongoDBOrderReadRepository,
@@ -24,18 +10,11 @@ from orders.infrastructure.mongodb.mongodb_order_schema import create_order_inde
 from orders.infrastructure.mongodb.mongodb_order_write_repository import (
     MongoDBOrderWriteRepository,
 )
-from products.infrastructure.novaventa.nova_venta_product_client import (
-    NovaVentaProductClient,
-)
-from products.product_dependencies import create_mongodb_product_write_repository
-from shared import get_mongo_client, get_query_bus
-from shared.domain.cqrs.command.command_handler import command_handler
-from shared.domain.cqrs.query.query_handler import query_handler
+from shared import get_mongo_client
 
 _orders_collection: Optional[AsyncIOMotorCollection] = None
 _mongo_order_read_repository: Optional[MongoDBOrderReadRepository] = None
 _mongo_order_write_repository: Optional[MongoDBOrderWriteRepository] = None
-_nova_venta_product_client: Optional[NovaVentaProductClient] = None
 
 
 async def get_clients_collection() -> AsyncIOMotorCollection:
@@ -71,59 +50,3 @@ async def create_mongodb_order_write_repository() -> MongoDBOrderWriteRepository
         _mongo_order_write_repository = MongoDBOrderWriteRepository(await get_clients_collection())
 
     return _mongo_order_write_repository
-
-
-async def create_nova_venta_product_client() -> NovaVentaProductClient:
-    """Creates an instance of NovaVentaProductClient."""
-
-    global _nova_venta_product_client
-
-    if _nova_venta_product_client is None:
-        _nova_venta_product_client = NovaVentaProductClient()
-
-    return _nova_venta_product_client
-
-
-@query_handler(GetOrderByIdQuery)
-async def get_order_by_id_query_handler():
-    """Creates a query handler for GetOrderByIdQuery."""
-
-    repository = await create_mongodb_order_read_repository()
-    return GetOrderByIdQueryHandler(repository)
-
-
-@query_handler(GetOrdersByCampaignQuery)
-async def get_orders_by_campaign_query_handler():
-    """Creates a query handler for GetOrdersByCampaignQuery."""
-
-    query_bus = await get_query_bus()
-    repository = await create_mongodb_order_read_repository()
-    return GetOrdersByCampaignQueryHandler(query_bus, repository)
-
-
-@command_handler(CreateOrderCommand)
-async def create_order_command_handler():
-    """Creates a command handler for CreateOrderCommand."""
-    query_bus = await get_query_bus()
-    read_repository = await create_mongodb_order_read_repository()
-    write_repository = await create_mongodb_order_write_repository()
-    product_client = await create_nova_venta_product_client()
-    product_write_repository = await create_mongodb_product_write_repository()
-    return CreateOrderCommandHandler(
-        query_bus, read_repository, write_repository, product_client, product_write_repository
-    )
-
-
-@command_handler(DeleteOrderCommand)
-async def delete_order_command_handler():
-    """Creates a command handler for DeleteOrderCommand."""
-    repository = await create_mongodb_order_write_repository()
-    return DeleteOrderCommandHandler(repository)
-
-
-@command_handler(UpdateOrderQuantityCommand)
-async def update_order_quantity_command_handler():
-    """Creates a command handler for UpdateOrderQuantityCommand."""
-    query_bus = await get_query_bus()
-    repository = await create_mongodb_order_write_repository()
-    return UpdateOrderQuantityCommandHandler(query_bus, repository)

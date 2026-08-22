@@ -35,7 +35,7 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
     ) -> PaginationDict[Campaign]:
         """Retrieves paginated campaigns from the MongoDB collection."""
 
-        pipeline = MongoDBUtils.build_paginated_query(page, limit)
+        pipeline = MongoDBUtils.build_paginated_query(page, limit, sort={"year": -1, "number": -1})
         result = await self._collection.aggregate(pipeline).to_list(length=1)
         aggregated = result[0]
 

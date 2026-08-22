@@ -42,8 +42,17 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
         if not result or not aggregated:
             return empty_pagination_dict()
 
+        # $facet always returns each named facet as an array, even a summary
+        # facet with a single document (or none, when the collection is empty).
+        metadata_facet = aggregated["metadata"]
+        metadata = (
+            metadata_facet[0]
+            if metadata_facet
+            else {"total": 0, "total_pages": 0, "page": page.int}
+        )
+
         campaigns = [Campaign.from_dict(cast(CampaignDict, doc)) for doc in aggregated["data"]]
-        return PaginationDict(data=campaigns, metadata=aggregated["metadata"])
+        return PaginationDict(data=campaigns, metadata=metadata)
 
     async def exists_by_year_and_number(self, year: Year, number: CampaignNumber) -> bool:
         """Checks if a campaign exists by year and number."""

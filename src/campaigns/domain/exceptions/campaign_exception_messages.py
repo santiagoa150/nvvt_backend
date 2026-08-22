@@ -11,6 +11,7 @@ class CampaignExceptionMessages(str, Enum):
         "Campaign with status {campaign_status} cannot be deleted. "
         "Only campaigns with status SCHEDULED can be deleted."
     )
+    CAMPAIGN_ALREADY_ACTIVE = "Campaign {campaign_id} is already active."
 
     def format(self, **kwargs) -> str:
         return self.value.format(**kwargs)

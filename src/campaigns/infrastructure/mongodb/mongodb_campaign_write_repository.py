@@ -1,6 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from campaigns.domain.campaign import Campaign
+from campaigns.domain.campaign_status import CampaignStatus
 from campaigns.domain.repository.campaign_write_repository import (
     CampaignWriteRepository,
 )
@@ -22,3 +23,11 @@ class MongoDBCampaignWriteRepository(CampaignWriteRepository):
         """Delete an existing campaign."""
         result = await self._collection.delete_one({"campaign_id": campaign_id.str})
         return result.deleted_count > 0
+
+    async def update_campaign_status(
+        self, campaign_id: IdValueObject, status: CampaignStatus
+    ) -> None:
+        """Updates the status of an existing campaign."""
+        await self._collection.update_one(
+            {"campaign_id": campaign_id.str}, {"$set": {"status": status.value}}
+        )

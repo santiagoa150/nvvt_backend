@@ -55,3 +55,13 @@ class CampaignReadRepository(ABC):
         :return: True if a campaign with status ACTIVE exists, otherwise False.
         """
         pass
+
+    @abstractmethod
+    async def exists_active_campaign_excluding(self, campaign_id: IdValueObject) -> bool:
+        """
+        Check if there is an active campaign other than the given one.
+
+        :param campaign_id: The ID of the campaign to exclude from the check.
+        :return: True if a different campaign with status ACTIVE exists, otherwise False.
+        """
+        pass

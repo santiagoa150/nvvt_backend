@@ -92,3 +92,10 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
         """Checks if there is already an active campaign."""
         document = await self._collection.find_one({"status": CampaignStatus.ACTIVE.value})
         return document is not None
+
+    async def exists_active_campaign_excluding(self, campaign_id: IdValueObject) -> bool:
+        """Checks if there is an active campaign other than the given one."""
+        document = await self._collection.find_one(
+            {"status": CampaignStatus.ACTIVE.value, "campaign_id": {"$ne": campaign_id.str}}
+        )
+        return document is not None

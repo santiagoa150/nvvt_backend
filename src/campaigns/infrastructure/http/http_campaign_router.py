@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Body, Depends, Query
 from fastapi.security import HTTPBearer
 
-from campaigns.application.command import CreateCampaignCommand, DeleteCampaignCommand
+from campaigns.application.command import (
+    ActivateCampaignCommand,
+    CreateCampaignCommand,
+    DeleteCampaignCommand,
+)
 from campaigns.application.query import GetCampaignByIdQuery, GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.campaign_status import CampaignStatus
@@ -66,4 +70,11 @@ async def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get
 async def delete_campaign(campaign_id: str, command_bus: CommandBus = Depends(get_command_bus)):
     """Delete a campaign by its ID."""
     await command_bus.dispatch(DeleteCampaignCommand.create(campaign_id))
+    return {}
+
+
+@router.patch("/{campaign_id}/activate", dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
+async def activate_campaign(campaign_id: str, command_bus: CommandBus = Depends(get_command_bus)):
+    """Activate a campaign by its ID."""
+    await command_bus.dispatch(ActivateCampaignCommand.create(campaign_id))
     return {}

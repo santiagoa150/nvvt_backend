@@ -3,6 +3,8 @@ from typing import Optional
 from motor.motor_asyncio import AsyncIOMotorCollection
 
 from campaigns.application.command import (
+    ActivateCampaignCommand,
+    ActivateCampaignCommandHandler,
     CreateCampaignCommand,
     CreateCampaignCommandHandler,
     DeleteCampaignCommand,
@@ -106,3 +108,11 @@ async def create_delete_campaign_command_handler() -> DeleteCampaignCommandHandl
     read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
     return DeleteCampaignCommandHandler(read_repository, write_repository)
+
+
+@command_handler(ActivateCampaignCommand)
+async def create_activate_campaign_command_handler() -> ActivateCampaignCommandHandler:
+    """Creates a command handler for ActivateCampaignCommand."""
+    read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
+    write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
+    return ActivateCampaignCommandHandler(read_repository, write_repository)

@@ -37,3 +37,12 @@ class CampaignAlreadyExistsException(CommonException):
             CampaignExceptionMessages.ACTIVE_CAMPAIGN_ALREADY_EXISTS.format(),
             error_code="ACTIVE_CAMPAIGN_ALREADY_EXISTS",
         )
+
+    @staticmethod
+    def campaign_already_active(campaign_id: str) -> "CampaignAlreadyExistsException":
+        """Raises an exception when the campaign is already active."""
+        return CampaignAlreadyExistsException(
+            CampaignExceptionMessages.CAMPAIGN_ALREADY_ACTIVE.format(campaign_id=campaign_id),
+            detail={"campaign_id": campaign_id},
+            error_code="CAMPAIGN_ALREADY_ACTIVE",
+        )

@@ -39,5 +39,14 @@ class MongoDBClientReadRepository(ClientReadRepository):
         if not result or not aggregated:
             return empty_pagination_dict()
 
+        # $facet always returns each named facet as an array, even a summary
+        # facet with a single document (or none, when the collection is empty).
+        metadata_facet = aggregated["metadata"]
+        metadata = (
+            metadata_facet[0]
+            if metadata_facet
+            else {"total": 0, "total_pages": 0, "page": page.int}
+        )
+
         clients = [Client.from_dict(cast(ClientDict, doc)) for doc in aggregated["data"]]
-        return PaginationDict(data=clients, metadata=aggregated["metadata"])
+        return PaginationDict(data=clients, metadata=metadata)

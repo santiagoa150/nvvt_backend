@@ -28,7 +28,6 @@ class CreateClientCommandHandler(ICommandHandler[CreateClientCommand]):
             f"INIT :: Creating Client with params: "
             f"- {command.given_names.str}, "
             f"- {command.family_names.str if command.family_names else None}, "
-            f"- {command.delivery_place.str}, "
             f"- {command.phone_number.str if command.phone_number else None}, "
             f"- {command.country_phone_code.int if command.country_phone_code else None}"
         )
@@ -38,7 +37,6 @@ class CreateClientCommandHandler(ICommandHandler[CreateClientCommand]):
                 client_id=IdValueObject.generate(),
                 given_names=command.given_names.str,
                 family_names=command.family_names.str if command.family_names else None,
-                delivery_place=command.delivery_place.str,
                 phone=(
                     PhoneDict(
                         number=command.phone_number.str, country_code=command.country_phone_code.int

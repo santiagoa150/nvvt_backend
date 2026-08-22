@@ -36,7 +36,6 @@ async def get_paginated_clients(
 async def create_client(
     given_names: str = Body(..., description="Given names of the client"),
     family_names: str = Body(None, description="Family names of the client"),
-    delivery_place: str = Body(..., description="Delivery place of the client"),
     phone_number: str = Body(None, description="Phone number of the client"),
     country_phone_code: int = Body(None, description="Country phone code of the client"),
     command_bus: CommandBus = Depends(get_command_bus),
@@ -46,7 +45,6 @@ async def create_client(
         CreateClientCommand.create(
             given_names=given_names,
             family_names=family_names,
-            delivery_place=delivery_place,
             phone_number=phone_number,
             country_phone_code=country_phone_code,
         )
@@ -66,7 +64,6 @@ async def update_client_by_id(
     client_id: str,
     given_names: str = Body(None, description="Given names of the client"),
     family_names: str = Body(None, description="Family names of the client"),
-    delivery_place: str = Body(None, description="Delivery place of the client"),
     phone_number: str = Body(None, description="Phone number of the client"),
     country_phone_code: int = Body(None, description="Country phone code of the client"),
     command_bus: CommandBus = Depends(get_command_bus),
@@ -77,7 +74,6 @@ async def update_client_by_id(
             client_id=client_id,
             given_names=given_names,
             family_names=family_names,
-            delivery_place=delivery_place,
             phone_number=phone_number,
             country_phone_code=country_phone_code,
         )

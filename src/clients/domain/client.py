@@ -9,20 +9,18 @@ from shared.domain.value_objects.str_value_object import StringValueObject
 class Client:
     """Represents a client in the system with its associated properties."""
 
-    __slots__ = ("_client_id", "_given_names", "_family_names", "_delivery_place", "_phone")
+    __slots__ = ("_client_id", "_given_names", "_family_names", "_phone")
 
     def __init__(
         self,
         client_id: IdValueObject,
         given_names: StringValueObject,
         family_names: Optional[StringValueObject],
-        delivery_place: StringValueObject,
         phone: Optional[Phone],
     ):
         self._client_id = client_id
         self._given_names = given_names
         self._family_names = family_names
-        self._delivery_place = delivery_place
         self._phone = phone
 
     @property
@@ -54,14 +52,6 @@ class Client:
         return self._given_names
 
     @property
-    def delivery_place(self) -> StringValueObject:
-        return self._delivery_place
-
-    @delivery_place.setter
-    def delivery_place(self, value: StringValueObject) -> None:
-        self._delivery_place = value
-
-    @property
     def phone(self) -> Optional[Phone]:
         return self._phone
 
@@ -75,7 +65,6 @@ class Client:
             client_id=self._client_id.str,
             given_names=self._given_names.str,
             family_names=self._family_names.str if self._family_names else None,
-            delivery_place=self._delivery_place.str,
             phone=self._phone.to_dict() if self._phone else None,
         )
 
@@ -90,6 +79,5 @@ class Client:
                 if client_dict.get("family_names")
                 else None
             ),
-            delivery_place=StringValueObject(client_dict["delivery_place"], "delivery_place"),
             phone=Phone.from_dict(client_dict["phone"]) if client_dict.get("phone") else None,
         )

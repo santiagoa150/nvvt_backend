@@ -79,10 +79,6 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
                 Paragraph("<b>Cliente</b>", self._custom_styles["texts"]["normal"]),
                 Paragraph(client.full_name.str, self._custom_styles["texts"]["normal"]),
             ],
-            [
-                Paragraph("<b>Dirección</b>", self._custom_styles["texts"]["normal"]),
-                Paragraph(client.delivery_place.str, self._custom_styles["texts"]["normal"]),
-            ],
         ]
 
         if client.phone:

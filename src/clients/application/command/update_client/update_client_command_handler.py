@@ -35,9 +35,6 @@ class UpdateClientCommandHandler(ICommandHandler[UpdateClientCommand]):
         if command.family_names is not None:
             client.family_names = command.family_names
 
-        if command.delivery_place is not None:
-            client.delivery_place = command.delivery_place
-
         if command.phone_number is not None and command.country_phone_code is not None:
             client.phone = Phone.from_dict(
                 {"country_code": command.country_phone_code.int, "number": command.phone_number.str}

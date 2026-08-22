@@ -1,9 +1,12 @@
 VENV_DIR := .venv
 
-.PHONY: start venv
+.PHONY: start venv seed-countries
 
 start:
 	fastapi dev src/main.py
+
+seed-countries:
+	cd src && python -m countries.infrastructure.mongodb.seed_countries
 
 venv:
 	@if [ ! -d "$(VENV_DIR)" ]; then \

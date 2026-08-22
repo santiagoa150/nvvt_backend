@@ -52,6 +52,6 @@ class CampaignReadRepository(ABC):
         """
         Check if there is already an active campaign.
 
-        :return: True if a campaign with is_active set to True exists, otherwise False.
+        :return: True if a campaign with status ACTIVE exists, otherwise False.
         """
         pass

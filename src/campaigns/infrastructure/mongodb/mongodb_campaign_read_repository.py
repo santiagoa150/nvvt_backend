@@ -4,6 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.campaign_dict import CampaignDict
+from campaigns.domain.campaign_status import CampaignStatus
 from campaigns.domain.repository.campaign_read_repository import CampaignReadRepository
 from campaigns.domain.value_objects.campaign_number import CampaignNumber
 from shared.domain.pagination_dict import PaginationDict, empty_pagination_dict
@@ -12,6 +13,14 @@ from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.pagination.limit_param import LimitParam
 from shared.domain.value_objects.pagination.page_param import PageParam
 from shared.infrastructure.mongodb.mongodb_utils import MongoDBUtils
+
+# Ranks statuses so the active campaign surfaces first, then the ones still
+# scheduled, then archived ones last.
+_STATUS_SORT_WEIGHTS = {
+    CampaignStatus.ACTIVE.value: 0,
+    CampaignStatus.SCHEDULED.value: 1,
+    CampaignStatus.ARCHIVED.value: 2,
+}
 
 
 class MongoDBCampaignReadRepository(CampaignReadRepository):
@@ -35,9 +44,27 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
     ) -> PaginationDict[Campaign]:
         """Retrieves paginated campaigns from the MongoDB collection."""
 
-        pipeline = MongoDBUtils.build_paginated_query(
-            page, limit, sort={"is_active": -1, "year": -1, "number": -1}
-        )
+        pipeline = [
+            {
+                "$addFields": {
+                    "_status_order": {
+                        "$switch": {
+                            "branches": [
+                                {
+                                    "case": {"$eq": ["$status", status_value]},
+                                    "then": weight,
+                                }
+                                for status_value, weight in _STATUS_SORT_WEIGHTS.items()
+                            ],
+                            "default": len(_STATUS_SORT_WEIGHTS),
+                        }
+                    }
+                }
+            },
+            *MongoDBUtils.build_paginated_query(
+                page, limit, sort={"_status_order": 1, "year": -1, "number": -1}
+            ),
+        ]
         result = await self._collection.aggregate(pipeline).to_list(length=1)
         aggregated = result[0]
 
@@ -63,5 +90,5 @@ class MongoDBCampaignReadRepository(CampaignReadRepository):
 
     async def exists_active_campaign(self) -> bool:
         """Checks if there is already an active campaign."""
-        document = await self._collection.find_one({"is_active": True})
+        document = await self._collection.find_one({"status": CampaignStatus.ACTIVE.value})
         return document is not None

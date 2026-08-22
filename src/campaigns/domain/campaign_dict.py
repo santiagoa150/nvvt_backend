@@ -8,4 +8,4 @@ class CampaignDict(TypedDict):
     name: str
     year: int
     number: int
-    is_active: bool
+    status: str

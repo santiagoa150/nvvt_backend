@@ -1,6 +1,6 @@
 from campaigns.domain.campaign_dict import CampaignDict
+from campaigns.domain.campaign_status import CampaignStatus
 from campaigns.domain.value_objects.campaign_number import CampaignNumber
-from shared.domain.value_objects.bool_value_object import BoolValueObject
 from shared.domain.value_objects.common.year import Year
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.str_value_object import StringValueObject
@@ -9,7 +9,7 @@ from shared.domain.value_objects.str_value_object import StringValueObject
 class Campaign:
     """Represents a campaign with its associated properties."""
 
-    __slots__ = ("_campaign_id", "_name", "_year", "_number", "_is_active")
+    __slots__ = ("_campaign_id", "_name", "_year", "_number", "_status")
 
     def __init__(
         self,
@@ -17,13 +17,13 @@ class Campaign:
         name: StringValueObject,
         year: Year,
         number: CampaignNumber,
-        is_active: BoolValueObject,
+        status: CampaignStatus,
     ):
         self._campaign_id = campaign_id
         self._name = name
         self._year = year
         self._number = number
-        self._is_active = is_active
+        self._status = status
 
     @property
     def year(self) -> Year:
@@ -34,8 +34,8 @@ class Campaign:
         return self._number
 
     @property
-    def is_active(self) -> BoolValueObject:
-        return self._is_active
+    def status(self) -> CampaignStatus:
+        return self._status
 
     def to_dict(self) -> CampaignDict:
         """Converts the campaign to a dictionary representation."""
@@ -44,7 +44,7 @@ class Campaign:
             name=self._name.str,
             year=self._year.int,
             number=self._number.int,
-            is_active=self._is_active.bool,
+            status=self._status.value,
         )
 
     @classmethod
@@ -55,5 +55,5 @@ class Campaign:
             name=StringValueObject(campaign_dict["name"], "campaign_name"),
             year=Year(campaign_dict["year"], "campaign_year"),
             number=CampaignNumber(campaign_dict["number"]),
-            is_active=BoolValueObject(campaign_dict.get("is_active", False), "campaign_is_active"),
+            status=CampaignStatus.create(campaign_dict["status"]),
         )

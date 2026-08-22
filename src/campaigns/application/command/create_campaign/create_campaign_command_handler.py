@@ -3,6 +3,7 @@ import logging
 from campaigns.application.command import CreateCampaignCommand
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.campaign_dict import CampaignDict
+from campaigns.domain.campaign_status import CampaignStatus
 from campaigns.domain.exceptions.campaign_already_exists_exception import (
     CampaignAlreadyExistsException,
 )
@@ -37,7 +38,7 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
         """
         self._logger.info(
             f"INIT :: Creating Campaign with params: "
-            f"{command.year}, {command.number}, {command.name}, {command.is_active}"
+            f"{command.year}, {command.number}, {command.name}, {command.status}"
         )
 
         if await self._read_repository.exists_by_year_and_number(command.year, command.number):
@@ -45,7 +46,10 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
                 command.year.int, command.number.int
             )
 
-        if command.is_active.bool and await self._read_repository.exists_active_campaign():
+        if (
+            command.status == CampaignStatus.ACTIVE
+            and await self._read_repository.exists_active_campaign()
+        ):
             raise CampaignAlreadyExistsException.active_campaign_already_exists()
 
         campaign = Campaign.from_dict(
@@ -54,7 +58,7 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
                 name=command.name.str,
                 year=command.year.int,
                 number=command.number.int,
-                is_active=command.is_active.bool,
+                status=command.status.value,
             )
         )
         await self._write_repository.create_campaign(campaign)

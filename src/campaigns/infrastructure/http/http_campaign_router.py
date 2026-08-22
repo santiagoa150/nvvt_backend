@@ -4,6 +4,7 @@ from fastapi.security import HTTPBearer
 from campaigns.application.command import CreateCampaignCommand, DeleteCampaignCommand
 from campaigns.application.query import GetCampaignByIdQuery, GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
+from campaigns.domain.campaign_status import CampaignStatus
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 from shared.domain.cqrs.query.query_bus import QueryBus
@@ -39,7 +40,7 @@ async def create_campaign(
     name: str = Body(..., description="Name of the campaign"),
     year: int = Body(..., description="Year of the campaign"),
     number: int = Body(..., description="Number of the campaign"),
-    is_active: bool = Body(False, description="Whether the campaign is the active one"),
+    status: str = Body(CampaignStatus.SCHEDULED.value, description="Status of the campaign"),
     command_bus: CommandBus = Depends(get_command_bus),
 ):
     """Create a new campaign."""
@@ -48,7 +49,7 @@ async def create_campaign(
             name=name,
             year=year,
             number=number,
-            is_active=is_active,
+            status=status,
         )
     )
     return {}

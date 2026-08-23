@@ -47,8 +47,8 @@ class CampaignSummary:
         total_list_price = 0.0
 
         for product in products:
-            total_catalog_price += product.catalog_price.float
-            total_list_price += product.list_price.float
+            total_catalog_price += product.catalog_price.float * product.quantity.int
+            total_list_price += product.list_price.float * product.quantity.int
 
         return cls(
             total_catalog_price=FloatValueObject(total_catalog_price, "total_catalog_price"),

@@ -13,6 +13,8 @@ from campaigns.application.command import (
 from campaigns.application.query import (
     GetCampaignByIdQuery,
     GetCampaignByIdQueryHandler,
+    GetCampaignSummaryQuery,
+    GetCampaignSummaryQueryHandler,
     GetPaginatedCampaignsQuery,
     GetPaginatedCampaignsQueryHandler,
 )
@@ -32,7 +34,7 @@ from campaigns.infrastructure.mongodb.mongodb_campaign_schema import (
 from campaigns.infrastructure.mongodb.mongodb_campaign_write_repository import (
     MongoDBCampaignWriteRepository,
 )
-from shared import get_campaign_file_storage, get_mongo_client
+from shared import get_campaign_file_storage, get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
@@ -85,6 +87,14 @@ async def create_get_campaign_by_id_query_handler() -> GetCampaignByIdQueryHandl
     """Creates a query handler for GetCampaignByIdQuery."""
     repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     return GetCampaignByIdQueryHandler(repository)
+
+
+@query_handler(GetCampaignSummaryQuery)
+async def create_get_campaign_summary_query_handler() -> GetCampaignSummaryQueryHandler:
+    """Creates a query handler for GetCampaignSummaryQuery."""
+    repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
+    query_bus = await get_query_bus()
+    return GetCampaignSummaryQueryHandler(repository, query_bus)
 
 
 @query_handler(GetPaginatedCampaignsQuery)

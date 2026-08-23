@@ -6,7 +6,7 @@ from campaigns.application.command import (
     CreateCampaignCommand,
     DeleteCampaignCommand,
 )
-from campaigns.application.query import GetCampaignByIdQuery, GetPaginatedCampaignsQuery
+from campaigns.application.query import GetCampaignSummaryQuery, GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
 from campaigns.domain.campaign_status import CampaignStatus
 from shared import get_command_bus
@@ -60,10 +60,9 @@ async def create_campaign(
 
 
 @router.get("/{campaign_id}", dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
-async def get_campaign_by_id(campaign_id: str, query_bus: QueryBus = Depends(get_query_bus)):
-    """Retrieve a campaign by its ID."""
-    campaign: Campaign = await query_bus.query(GetCampaignByIdQuery.create(campaign_id))
-    return campaign.to_dict()
+async def get_campaign_summary(campaign_id: str, query_bus: QueryBus = Depends(get_query_bus)):
+    """Retrieve a campaign's summary, including its products, by its ID."""
+    return await query_bus.query(GetCampaignSummaryQuery.create(campaign_id))
 
 
 @router.delete("/{campaign_id}", dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])

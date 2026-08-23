@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 
 from products.domain.product import Product
 from shared.domain.value_objects.id_value_object import IdValueObject
@@ -8,6 +8,16 @@ from shared.domain.value_objects.str_value_object import StringValueObject
 
 class ProductReadRepository(ABC):
     """Abstract base class for product reading repository operations."""
+
+    @abstractmethod
+    async def get_product_by_id(self, product_id: IdValueObject) -> Optional[Product]:
+        """
+        Retrieve a product by its ID.
+
+        :param product_id: The ID of the product to retrieve.
+        :return: The product with the given ID, or None if it doesn't exist.
+        """
+        pass
 
     @abstractmethod
     async def get_products_by_campaign_id(self, campaign_id: IdValueObject) -> List[Product]:

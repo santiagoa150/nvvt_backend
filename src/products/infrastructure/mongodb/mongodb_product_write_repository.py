@@ -2,6 +2,7 @@ from motor.motor_asyncio import AsyncIOMotorCollection
 
 from products.domain.product import Product
 from products.domain.repository.product_write_repository import ProductWriteRepository
+from shared.domain.value_objects.id_value_object import IdValueObject
 
 
 class MongoDBProductWriteRepository(ProductWriteRepository):
@@ -14,3 +15,8 @@ class MongoDBProductWriteRepository(ProductWriteRepository):
     async def create_product(self, product: Product) -> None:
         """Creates a new product in the MongoDB collection."""
         await self._collection.insert_one(product.to_dict())
+
+    async def delete_product(self, product_id: IdValueObject) -> bool:
+        """Deletes an existing product from the MongoDB collection."""
+        result = await self._collection.delete_one({"product_id": product_id.str})
+        return result.deleted_count > 0

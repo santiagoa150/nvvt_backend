@@ -1,4 +1,4 @@
-from typing import List, cast
+from typing import List, Optional, cast
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
@@ -15,6 +15,15 @@ class MongoDBProductReadRepository(ProductReadRepository):
     def __init__(self, collection: AsyncIOMotorCollection):
         """Initializes the MongoDBProductReadRepository with a MongoDB collection."""
         self._collection = collection
+
+    async def get_product_by_id(self, product_id: IdValueObject) -> Optional[Product]:
+        """Retrieves a product by its ID."""
+        document = await self._collection.find_one({"product_id": product_id.str})
+
+        if document is None:
+            return None
+
+        return Product.from_dict(cast(ProductDict, document))
 
     async def get_products_by_campaign_id(self, campaign_id: IdValueObject) -> List[Product]:
         """Retrieves all products belonging to a campaign."""

@@ -25,3 +25,12 @@ class ProductException(CommonException):
         return ProductException(
             ProductExceptionMessages.CAMPAIGN_NOT_ACTIVE.format(campaign_id=campaign_id),
         )
+
+    @staticmethod
+    def campaign_not_active_to_delete(campaign_id: str) -> "ProductException":
+        """Raises an exception when trying to delete a product for a non-active campaign."""
+        return ProductException(
+            ProductExceptionMessages.CAMPAIGN_NOT_ACTIVE_TO_DELETE_PRODUCT.format(
+                campaign_id=campaign_id
+            ),
+        )

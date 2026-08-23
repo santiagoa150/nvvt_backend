@@ -38,3 +38,9 @@ class LocalCampaignFileStorage(CampaignFileStorage):
             file.write(content)
 
         return f"{self._url_prefix}/{campaign_id}/{file_name}"
+
+    def delete_file(self, campaign_id: str, file_name: str) -> None:
+        """Deletes a file from the campaign's folder, if it exists."""
+        file_path = os.path.join(self._campaign_folder_path(campaign_id), file_name)
+        if os.path.isfile(file_path):
+            os.remove(file_path)

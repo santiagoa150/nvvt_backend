@@ -2,7 +2,12 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
-from products.application.command import CreateProductCommand, CreateProductCommandHandler
+from products.application.command import (
+    CreateProductCommand,
+    CreateProductCommandHandler,
+    DeleteProductCommand,
+    DeleteProductCommandHandler,
+)
 from products.application.query import (
     GetProductsByCampaignQuery,
     GetProductsByCampaignQueryHandler,
@@ -109,4 +114,17 @@ async def create_create_product_command_handler() -> CreateProductCommandHandler
     campaign_file_storage = get_campaign_file_storage()
     return CreateProductCommandHandler(
         query_bus, read_repository, write_repository, product_client, campaign_file_storage
+    )
+
+
+@command_handler(DeleteProductCommand)
+async def create_delete_product_command_handler() -> DeleteProductCommandHandler:
+    """Creates a command handler for DeleteProductCommand."""
+
+    query_bus = await get_query_bus()
+    read_repository = await create_mongodb_product_read_repository()
+    write_repository = await create_mongodb_product_write_repository()
+    campaign_file_storage = get_campaign_file_storage()
+    return DeleteProductCommandHandler(
+        query_bus, read_repository, write_repository, campaign_file_storage
     )

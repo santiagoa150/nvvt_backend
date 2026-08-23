@@ -20,6 +20,9 @@ class ProductExceptionMessages(str, Enum):
         "Product with code {product_code} already exists for campaign {campaign_id}."
     )
     CAMPAIGN_NOT_ACTIVE = "Campaign {campaign_id} must be active to create products for it."
+    CAMPAIGN_NOT_ACTIVE_TO_DELETE_PRODUCT = (
+        "Campaign {campaign_id} must be active to delete its products."
+    )
 
     def format(self, **kwargs) -> str:
         """Format the message with the provided keyword arguments."""

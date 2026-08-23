@@ -33,3 +33,13 @@ class CampaignFileStorage(ABC):
         :return: The public path under which the file is now accessible.
         """
         pass
+
+    @abstractmethod
+    def delete_file(self, campaign_id: str, file_name: str) -> None:
+        """
+        Delete a file from the campaign's folder, if it exists.
+
+        :param campaign_id: The ID of the campaign the file belongs to.
+        :param file_name: The name of the file to delete.
+        """
+        pass

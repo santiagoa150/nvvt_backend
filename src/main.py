@@ -9,6 +9,7 @@ from auth.infrastructure.http import http_auth_router
 from campaigns.infrastructure.http import http_campaign_router
 from clients.infrastructure.http import http_client_router
 from countries.infrastructure.http import http_country_router
+from products.infrastructure.http import http_product_router
 from receipts.infrastructure.http import http_receipt_router
 from shared import get_command_bus, get_mongo_client, get_query_bus
 from shared.domain.exceptions.common_exception import CommonException
@@ -83,6 +84,11 @@ def init_routes(api: FastAPI):
         http_country_router.router,
         prefix="/api/v1/countries",
         tags=["Countries"],
+    )
+    api.include_router(
+        http_product_router.router,
+        prefix="/api/v1/products",
+        tags=["Products"],
     )
     api.include_router(
         http_receipt_router.router,

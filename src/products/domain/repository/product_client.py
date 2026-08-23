@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from products.domain.product_provider import ProductProvider
 from products.domain.scraped_product import ScrapedProduct
+from shared.domain.value_objects.int_value_object import IntValueObject
 from shared.domain.value_objects.str_value_object import StringValueObject
 
 
@@ -10,13 +11,14 @@ class ProductClient(ABC):
 
     @abstractmethod
     async def build_product(
-        self, provider: ProductProvider, product_url: StringValueObject
+        self, provider: ProductProvider, code: StringValueObject, campaign_number: IntValueObject
     ) -> ScrapedProduct:
         """
-        Fetch a product's data from the provided product provider and URL.
+        Fetch a product's data from the provided product provider.
 
-        :param provider: The product provider containing session and route information.
-        :param product_url: The URL of the product to fetch.
+        :param provider: The product provider containing the provider's bearer token.
+        :param code: The code of the product to fetch.
+        :param campaign_number: The number of the campaign the product belongs to.
         :return: A ScrapedProduct instance representing the fetched product data.
         """
         pass

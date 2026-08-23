@@ -2,6 +2,7 @@ from typing import Optional
 
 from motor.motor_asyncio import AsyncIOMotorCollection
 
+from products.application.command import CreateProductCommand, CreateProductCommandHandler
 from products.application.query import (
     GetProductsByCampaignQuery,
     GetProductsByCampaignQueryHandler,
@@ -18,12 +19,17 @@ from products.infrastructure.mongodb.mongodb_product_schema import create_produc
 from products.infrastructure.mongodb.mongodb_product_write_repository import (
     MongoDBProductWriteRepository,
 )
-from shared import get_mongo_client
+from products.infrastructure.novaventa.novaventa_product_client import (
+    NovaventaProductClient,
+)
+from shared import get_mongo_client, get_query_bus
+from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
 _products_collection: Optional[AsyncIOMotorCollection] = None
 _mongo_product_read_repository: Optional[MongoDBProductReadRepository] = None
 _mongo_product_write_repository: Optional[MongoDBProductWriteRepository] = None
+_novaventa_product_client: Optional[NovaventaProductClient] = None
 
 
 async def get_products_collection() -> AsyncIOMotorCollection:
@@ -79,3 +85,25 @@ async def create_get_products_by_ids_query_handler() -> GetProductsByIdsQueryHan
 
     repository = await create_mongodb_product_read_repository()
     return GetProductsByIdsQueryHandler(repository)
+
+
+async def create_novaventa_product_client() -> NovaventaProductClient:
+    """Creates an instance of NovaventaProductClient."""
+
+    global _novaventa_product_client
+
+    if _novaventa_product_client is None:
+        _novaventa_product_client = NovaventaProductClient()
+
+    return _novaventa_product_client
+
+
+@command_handler(CreateProductCommand)
+async def create_create_product_command_handler() -> CreateProductCommandHandler:
+    """Creates a command handler for CreateProductCommand."""
+
+    query_bus = await get_query_bus()
+    read_repository = await create_mongodb_product_read_repository()
+    write_repository = await create_mongodb_product_write_repository()
+    product_client = await create_novaventa_product_client()
+    return CreateProductCommandHandler(query_bus, read_repository, write_repository, product_client)

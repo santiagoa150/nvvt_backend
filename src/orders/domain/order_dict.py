@@ -6,6 +6,5 @@ class OrderDict(TypedDict):
 
     order_id: str
     client_id: str
-    quantity: int
-    status: str
+    client_quantity: int
     product_id: str

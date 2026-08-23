@@ -1,14 +1,26 @@
+from typing import List
+
 from products.domain.scraped_product_dict import ScrapedProductDict
 from shared.domain.value_objects.positive_float_value_object import (
     PositiveFloatValueObject,
 )
+from shared.domain.value_objects.positive_int_value_object import PositiveIntValueObject
 from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class ScrapedProduct:
     """Represents raw product data scraped from an external provider, before it is persisted."""
 
-    __slots__ = ("_code", "_name", "_image_url", "_catalog_price", "_list_price")
+    __slots__ = (
+        "_code",
+        "_name",
+        "_image_url",
+        "_catalog_price",
+        "_list_price",
+        "_installment_amounts",
+        "_installments",
+        "_page",
+    )
 
     def __init__(
         self,
@@ -17,12 +29,18 @@ class ScrapedProduct:
         image_url: StringValueObject,
         catalog_price: PositiveFloatValueObject,
         list_price: PositiveFloatValueObject,
+        installment_amounts: List[PositiveFloatValueObject],
+        installments: PositiveIntValueObject,
+        page: PositiveIntValueObject,
     ):
         self._code = code
         self._name = name
         self._image_url = image_url
         self._catalog_price = catalog_price
         self._list_price = list_price
+        self._installment_amounts = installment_amounts
+        self._installments = installments
+        self._page = page
 
     @property
     def code(self) -> StringValueObject:
@@ -44,6 +62,18 @@ class ScrapedProduct:
     def list_price(self) -> PositiveFloatValueObject:
         return self._list_price
 
+    @property
+    def installment_amounts(self) -> List[PositiveFloatValueObject]:
+        return self._installment_amounts
+
+    @property
+    def installments(self) -> PositiveIntValueObject:
+        return self._installments
+
+    @property
+    def page(self) -> PositiveIntValueObject:
+        return self._page
+
     def to_dict(self) -> ScrapedProductDict:
         """Converts the scraped product to a dictionary representation."""
         return ScrapedProductDict(
@@ -52,6 +82,9 @@ class ScrapedProduct:
             image_url=self._image_url.str,
             catalog_price=self._catalog_price.float,
             list_price=self._list_price.float,
+            installment_amounts=[amount.float for amount in self._installment_amounts],
+            installments=self._installments.int,
+            page=self._page.int,
         )
 
     @classmethod
@@ -67,4 +100,12 @@ class ScrapedProduct:
             list_price=PositiveFloatValueObject(
                 float(scraped_product_dict["list_price"]), "product_list_price"
             ),
+            installment_amounts=[
+                PositiveFloatValueObject(float(amount), "product_installment_amount")
+                for amount in scraped_product_dict["installment_amounts"]
+            ],
+            installments=PositiveIntValueObject(
+                scraped_product_dict["installments"], "product_installments"
+            ),
+            page=PositiveIntValueObject(scraped_product_dict["page"], "product_page"),
         )

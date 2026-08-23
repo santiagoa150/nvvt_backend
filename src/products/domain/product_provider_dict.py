@@ -1,11 +1,8 @@
-from typing import TypedDict
+from typing import Optional, TypedDict
 
 
 class ProductProviderDict(TypedDict):
     """Dictionary representation of a product provider."""
 
-    session_id: str
-    route: str
-    accelerator_secure_guid: str
-    cebs_p: str
-    cebs: str
+    provider_token: str
+    cart_id: Optional[str]

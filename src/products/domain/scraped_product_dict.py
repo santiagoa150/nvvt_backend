@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import List, TypedDict
 
 
 class ScrapedProductDict(TypedDict):
@@ -9,3 +9,6 @@ class ScrapedProductDict(TypedDict):
     image_url: str
     catalog_price: float
     list_price: float
+    installment_amounts: List[float]
+    installments: int
+    page: int

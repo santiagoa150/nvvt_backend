@@ -105,9 +105,9 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
         )
 
         # Summary Configuration
-        total_products = sum(order.quantity.int for order in active_orders)
+        total_products = sum(order.client_quantity.int for order in active_orders)
         total_catalog_price = sum(
-            products_by_id[order.product_id.str].catalog_price.float * order.quantity.int
+            products_by_id[order.product_id.str].catalog_price.float * order.client_quantity.int
             for order in active_orders
         )
 
@@ -174,7 +174,9 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
                         products_by_id[order.product_id.str].name.str,
                         self._custom_styles["texts"]["small"],
                     ),
-                    Paragraph(str(order.quantity.int), self._custom_styles["texts"]["small"]),
+                    Paragraph(
+                        str(order.client_quantity.int), self._custom_styles["texts"]["small"]
+                    ),
                 ]
                 for order in out_of_stock_orders
             ]
@@ -224,12 +226,14 @@ class ReportlabReceiptGenerator(ReceiptGenerator):
         ]
         for order in active_orders:
             product = products_by_id[order.product_id.str]
-            line_total = product.catalog_price.float * order.quantity.int
+            line_total = product.catalog_price.float * order.client_quantity.int
             active_products.append(
                 [
                     Paragraph(product.code.str, self._custom_styles["texts"]["small"]),
                     Paragraph(product.name.str, self._custom_styles["texts"]["small"]),
-                    Paragraph(str(order.quantity.int), self._custom_styles["texts"]["small"]),
+                    Paragraph(
+                        str(order.client_quantity.int), self._custom_styles["texts"]["small"]
+                    ),
                     Paragraph(
                         f"${product.catalog_price.float:,.0f}",
                         self._custom_styles["texts"]["small"],

@@ -1,5 +1,4 @@
 from orders.domain.order_dict import OrderDict
-from orders.domain.order_status import OrderStatus
 from shared.domain.value_objects.id_value_object import IdValueObject
 from shared.domain.value_objects.positive_int_value_object import PositiveIntValueObject
 
@@ -7,20 +6,18 @@ from shared.domain.value_objects.positive_int_value_object import PositiveIntVal
 class Order:
     """Represents an order in the system."""
 
-    __slots__ = ("_order_id", "_client_id", "_quantity", "_status", "_product_id")
+    __slots__ = ("_order_id", "_client_id", "_client_quantity", "_product_id")
 
     def __init__(
         self,
         order_id: IdValueObject,
         client_id: IdValueObject,
-        quantity: PositiveIntValueObject,
-        status: OrderStatus,
+        client_quantity: PositiveIntValueObject,
         product_id: IdValueObject,
     ):
         self._order_id = order_id
         self._client_id = client_id
-        self._quantity = quantity
-        self._status = status
+        self._client_quantity = client_quantity
         self._product_id = product_id
 
     @property
@@ -28,16 +25,12 @@ class Order:
         return self._order_id
 
     @property
-    def quantity(self) -> PositiveIntValueObject:
-        return self._quantity
+    def client_quantity(self) -> PositiveIntValueObject:
+        return self._client_quantity
 
-    @quantity.setter
-    def quantity(self, value: PositiveIntValueObject):
-        self._quantity = value
-
-    @property
-    def status(self) -> OrderStatus:
-        return self._status
+    @client_quantity.setter
+    def client_quantity(self, value: PositiveIntValueObject):
+        self._client_quantity = value
 
     @property
     def product_id(self) -> IdValueObject:
@@ -48,8 +41,7 @@ class Order:
         return OrderDict(
             order_id=self._order_id.str,
             client_id=self._client_id.str,
-            quantity=self._quantity.int,
-            status=self._status.value,
+            client_quantity=self._client_quantity.int,
             product_id=self._product_id.str,
         )
 
@@ -59,7 +51,8 @@ class Order:
         return cls(
             order_id=IdValueObject(order_dict["order_id"], "order_id"),
             client_id=IdValueObject(order_dict["client_id"], "client_id"),
-            quantity=PositiveIntValueObject(order_dict["quantity"], "order_quantity"),
-            status=OrderStatus.create(order_dict["status"]),
+            client_quantity=PositiveIntValueObject(
+                order_dict["client_quantity"], "order_client_quantity"
+            ),
             product_id=IdValueObject(order_dict["product_id"], "product_id"),
         )

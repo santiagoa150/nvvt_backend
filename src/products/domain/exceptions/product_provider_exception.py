@@ -34,3 +34,13 @@ class ProductProviderException(CommonException):
     def cannot_build_product_data() -> "ProductProviderException":
         """Raises an exception when there is an error building product data."""
         return ProductProviderException(ProductExceptionMessages.CANNOT_BUILD_PRODUCT_DATA.value)
+
+    @staticmethod
+    def product_not_found_in_provider(product_code: str) -> "ProductProviderException":
+        """Raises an exception when the product code doesn't exist in the provider."""
+        return ProductProviderException(
+            ProductExceptionMessages.PRODUCT_NOT_FOUND_IN_PROVIDER.format(
+                product_code=product_code
+            ),
+            status.HTTP_400_BAD_REQUEST,
+        )

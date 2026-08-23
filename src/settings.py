@@ -11,8 +11,8 @@ class Settings(BaseSettings):
 
     mongodb_uri: AnyUrl = Field(..., validation_alias="MONGODB_URI")
     mongodb_database: str = Field(..., validation_alias="MONGODB_DATABASE")
-    nova_venta_user_agent: str = Field(..., validation_alias="NOVAVENTA_USER_AGENT")
-    nova_venta_referer: str = Field(..., validation_alias="NOVAVENTA_REFERER")
+    novaventa_product_search_url: str = Field(..., validation_alias="NOVAVENTA_PRODUCT_SEARCH_URL")
+    novaventa_product_image_url: str = Field(..., validation_alias="NOVAVENTA_PRODUCT_IMAGE_URL")
     jwt_secret: str = Field(..., validation_alias="JWT_SECRET")
     jwt_expires_in: int = Field(..., validation_alias="JWT_EXPIRATION_IN_MINUTES")
     jwt_refresh_secret: str = Field(..., validation_alias="JWT_REFRESH_SECRET")

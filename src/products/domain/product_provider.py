@@ -1,3 +1,5 @@
+from typing import Optional
+
 from products.domain.product_provider_dict import ProductProviderDict
 from shared.domain.value_objects.str_value_object import StringValueObject
 
@@ -5,61 +7,41 @@ from shared.domain.value_objects.str_value_object import StringValueObject
 class ProductProvider:
     """Represents the credentials needed to fetch a product from an external provider."""
 
-    __slots__ = ("_session_id", "_route", "_accelerator_secure_guid", "_cebs_p", "_cebs")
+    __slots__ = ("_provider_token", "_cart_id")
 
     def __init__(
         self,
-        session_id: StringValueObject,
-        route: StringValueObject,
-        accelerator_secure_guid: StringValueObject,
-        cebs_p: StringValueObject,
-        cebs: StringValueObject,
+        provider_token: StringValueObject,
+        cart_id: Optional[StringValueObject],
     ):
-        self._session_id = session_id
-        self._route = route
-        self._accelerator_secure_guid = accelerator_secure_guid
-        self._cebs_p = cebs_p
-        self._cebs = cebs
+        self._provider_token = provider_token
+        self._cart_id = cart_id
 
     @property
-    def session_id(self) -> StringValueObject:
-        return self._session_id
+    def provider_token(self) -> StringValueObject:
+        return self._provider_token
 
     @property
-    def route(self) -> StringValueObject:
-        return self._route
-
-    @property
-    def accelerator_secure_guid(self) -> StringValueObject:
-        return self._accelerator_secure_guid
-
-    @property
-    def cebs_p(self) -> StringValueObject:
-        return self._cebs_p
-
-    @property
-    def cebs(self) -> StringValueObject:
-        return self._cebs
+    def cart_id(self) -> Optional[StringValueObject]:
+        return self._cart_id
 
     def to_dict(self) -> ProductProviderDict:
         """Converts the product provider to a dictionary representation."""
         return ProductProviderDict(
-            session_id=self._session_id.str,
-            route=self._route.str,
-            accelerator_secure_guid=self._accelerator_secure_guid.str,
-            cebs_p=self._cebs_p.str,
-            cebs=self._cebs.str,
+            provider_token=self._provider_token.str,
+            cart_id=self._cart_id.str if self._cart_id else None,
         )
 
     @classmethod
     def from_dict(cls, product_provider_dict: ProductProviderDict) -> "ProductProvider":
         """Creates a ProductProvider instance from a dictionary representation."""
         return cls(
-            session_id=StringValueObject(product_provider_dict["session_id"], "session_id"),
-            route=StringValueObject(product_provider_dict["route"], "route"),
-            accelerator_secure_guid=StringValueObject(
-                product_provider_dict["accelerator_secure_guid"], "accelerator_secure_guid"
+            provider_token=StringValueObject(
+                product_provider_dict["provider_token"], "provider_token"
             ),
-            cebs_p=StringValueObject(product_provider_dict["cebs_p"], "cebs_p"),
-            cebs=StringValueObject(product_provider_dict["cebs"], "cebs"),
+            cart_id=(
+                StringValueObject(product_provider_dict["cart_id"], "cart_id")
+                if product_provider_dict.get("cart_id")
+                else None
+            ),
         )

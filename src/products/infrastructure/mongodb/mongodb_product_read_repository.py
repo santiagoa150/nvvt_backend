@@ -6,6 +6,7 @@ from products.domain.product import Product
 from products.domain.product_dict import ProductDict
 from products.domain.repository.product_read_repository import ProductReadRepository
 from shared.domain.value_objects.id_value_object import IdValueObject
+from shared.domain.value_objects.str_value_object import StringValueObject
 
 
 class MongoDBProductReadRepository(ProductReadRepository):
@@ -31,3 +32,12 @@ class MongoDBProductReadRepository(ProductReadRepository):
             {"product_id": {"$in": [product_id.str for product_id in product_ids]}}
         ).to_list(length=None)
         return [Product.from_dict(cast(ProductDict, document)) for document in documents]
+
+    async def exists_by_campaign_and_code(
+        self, campaign_id: IdValueObject, code: StringValueObject
+    ) -> bool:
+        """Check if a product with the given code already exists for the campaign."""
+        document = await self._collection.find_one(
+            {"campaign_id": campaign_id.str, "code": code.str}
+        )
+        return document is not None

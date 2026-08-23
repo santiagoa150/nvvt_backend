@@ -8,6 +8,7 @@ class CampaignStatus(str, Enum):
 
     ACTIVE = "ACTIVE"
     SCHEDULED = "SCHEDULED"
+    FINISHED = "FINISHED"
     ARCHIVED = "ARCHIVED"
 
     @classmethod

@@ -19,7 +19,8 @@ from shared.infrastructure.mongodb.mongodb_utils import MongoDBUtils
 _STATUS_SORT_WEIGHTS = {
     CampaignStatus.ACTIVE.value: 0,
     CampaignStatus.SCHEDULED.value: 1,
-    CampaignStatus.ARCHIVED.value: 2,
+    CampaignStatus.FINISHED.value: 2,
+    CampaignStatus.ARCHIVED.value: 3,
 }
 
 

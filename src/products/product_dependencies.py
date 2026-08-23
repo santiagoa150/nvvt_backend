@@ -22,7 +22,7 @@ from products.infrastructure.mongodb.mongodb_product_write_repository import (
 from products.infrastructure.novaventa.novaventa_product_client import (
     NovaventaProductClient,
 )
-from shared import get_mongo_client, get_query_bus
+from shared import get_campaign_file_storage, get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
@@ -106,4 +106,7 @@ async def create_create_product_command_handler() -> CreateProductCommandHandler
     read_repository = await create_mongodb_product_read_repository()
     write_repository = await create_mongodb_product_write_repository()
     product_client = await create_novaventa_product_client()
-    return CreateProductCommandHandler(query_bus, read_repository, write_repository, product_client)
+    campaign_file_storage = get_campaign_file_storage()
+    return CreateProductCommandHandler(
+        query_bus, read_repository, write_repository, product_client, campaign_file_storage
+    )

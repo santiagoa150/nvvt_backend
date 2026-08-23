@@ -55,6 +55,11 @@ class NovaventaProductClient(ProductClient):
                 campaign_number=campaign_number.int, code=code.str
             )
 
+            installments = int(raw_product["cuotas"])
+            installment_amounts = raw_product.get("cuotasNovaventa")
+            if installment_amounts is None and installments == 1:
+                installment_amounts = [raw_product["precioLista"]]
+
             product = ScrapedProduct.from_dict(
                 ScrapedProductDict(
                     code=str(raw_product["codigoCl"]),
@@ -62,10 +67,8 @@ class NovaventaProductClient(ProductClient):
                     image_url=image_url,
                     catalog_price=float(raw_product["precio"]),
                     list_price=float(raw_product["precioLista"]),
-                    installment_amounts=[
-                        float(amount) for amount in raw_product["cuotasNovaventa"]
-                    ],
-                    installments=int(raw_product["cuotas"]),
+                    installment_amounts=[float(amount) for amount in installment_amounts],
+                    installments=installments,
                     page=int(raw_product["page"]),
                 )
             )

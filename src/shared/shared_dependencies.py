@@ -3,11 +3,16 @@ from shared.domain.cqrs.command.command_bus import CommandBus
 from shared.domain.cqrs.command.command_handler import get_registered_command_handlers
 from shared.domain.cqrs.query.query_bus import QueryBus
 from shared.domain.cqrs.query.query_handler import get_registered_query_handlers
+from shared.domain.repository.campaign_file_storage import CampaignFileStorage
 from shared.infrastructure.mongodb.mongodb_client import MongoDBClient
+from shared.infrastructure.storage.local_campaign_file_storage import (
+    LocalCampaignFileStorage,
+)
 
 _query_bus: QueryBus | None = None
 _command_bus: CommandBus | None = None
 _mongo_client: MongoDBClient | None = None
+_campaign_file_storage: CampaignFileStorage | None = None
 
 
 async def get_query_bus() -> QueryBus:
@@ -58,3 +63,20 @@ def get_mongo_client() -> MongoDBClient:
         )
 
     return _mongo_client
+
+
+def get_campaign_file_storage() -> CampaignFileStorage:
+    """
+    This function initializes the CampaignFileStorage if it has not been created yet.
+    It is used to manage campaign-scoped files served as static assets.
+    """
+
+    global _campaign_file_storage
+
+    if _campaign_file_storage is None:
+        _campaign_file_storage = LocalCampaignFileStorage(
+            base_path=settings.campaign_files_storage_path,
+            url_prefix=settings.campaign_files_static_url_prefix,
+        )
+
+    return _campaign_file_storage

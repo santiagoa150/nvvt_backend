@@ -3,6 +3,9 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+# Campaign-scoped file storage (downloaded product images, etc.)
+/storage/
+
 # C extensions
 *.so
 

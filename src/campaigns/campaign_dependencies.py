@@ -32,7 +32,7 @@ from campaigns.infrastructure.mongodb.mongodb_campaign_schema import (
 from campaigns.infrastructure.mongodb.mongodb_campaign_write_repository import (
     MongoDBCampaignWriteRepository,
 )
-from shared import get_mongo_client
+from shared import get_campaign_file_storage, get_mongo_client
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
@@ -99,7 +99,8 @@ async def create_create_campaign_command_handler() -> CreateCampaignCommandHandl
     """Creates a command handler for CreateCampaignCommand."""
     read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
-    return CreateCampaignCommandHandler(read_repository, write_repository)
+    file_storage = get_campaign_file_storage()
+    return CreateCampaignCommandHandler(read_repository, write_repository, file_storage)
 
 
 @command_handler(DeleteCampaignCommand)
@@ -107,7 +108,8 @@ async def create_delete_campaign_command_handler() -> DeleteCampaignCommandHandl
     """Creates a command handler for DeleteCampaignCommand."""
     read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
-    return DeleteCampaignCommandHandler(read_repository, write_repository)
+    file_storage = get_campaign_file_storage()
+    return DeleteCampaignCommandHandler(read_repository, write_repository, file_storage)
 
 
 @command_handler(ActivateCampaignCommand)

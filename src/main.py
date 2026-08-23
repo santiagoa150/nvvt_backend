@@ -1,9 +1,11 @@
 import logging
+import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from auth.infrastructure.http import http_auth_router
 from campaigns.infrastructure.http import http_campaign_router
@@ -11,6 +13,7 @@ from clients.infrastructure.http import http_client_router
 from countries.infrastructure.http import http_country_router
 from products.infrastructure.http import http_product_router
 from receipts.infrastructure.http import http_receipt_router
+from settings import settings
 from shared import get_command_bus, get_mongo_client, get_query_bus
 from shared.domain.exceptions.common_exception import CommonException
 from shared.domain.exceptions.common_exception_messages import CommonExceptionMessages
@@ -70,6 +73,17 @@ def init_middlewares(api: FastAPI):
     )
 
 
+def init_static_files(api: FastAPI):
+    """Mounts the campaign files folder as static assets."""
+
+    os.makedirs(settings.campaign_files_storage_path, exist_ok=True)
+    api.mount(
+        settings.campaign_files_static_url_prefix,
+        StaticFiles(directory=settings.campaign_files_storage_path),
+        name="campaign_files",
+    )
+
+
 def init_routes(api: FastAPI):
     """Initializes the routes for the FastAPI application."""
 
@@ -101,4 +115,5 @@ app = FastAPI(lifespan=lifespan)
 
 init_middlewares(app)
 init_exception_handlers(app)
+init_static_files(app)
 init_routes(app)

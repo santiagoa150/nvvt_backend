@@ -12,6 +12,7 @@ from campaigns.domain.repository.campaign_write_repository import (
     CampaignWriteRepository,
 )
 from shared.domain.cqrs.command.icommand_handler import ICommandHandler
+from shared.domain.repository.campaign_file_storage import CampaignFileStorage
 from shared.domain.value_objects.id_value_object import IdValueObject
 
 
@@ -19,13 +20,18 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
     """Handler for the CreateCampaignCommand."""
 
     def __init__(
-        self, read_repository: CampaignReadRepository, write_repository: CampaignWriteRepository
+        self,
+        read_repository: CampaignReadRepository,
+        write_repository: CampaignWriteRepository,
+        file_storage: CampaignFileStorage,
     ):
         """
         :param write_repository: The campaign repository to use for creating campaigns.
+        :param file_storage: The storage used to create the campaign's file folder.
         """
         self._read_repository = read_repository
         self._write_repository = write_repository
+        self._file_storage = file_storage
         self._logger = logging.getLogger(__name__)
 
     async def handle(self, command: CreateCampaignCommand) -> None:
@@ -52,9 +58,10 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
         ):
             raise CampaignAlreadyExistsException.active_campaign_already_exists()
 
+        campaign_id = IdValueObject.generate()
         campaign = Campaign.from_dict(
             CampaignDict(
-                campaign_id=IdValueObject.generate(),
+                campaign_id=campaign_id,
                 name=command.name.str,
                 year=command.year.int,
                 number=command.number.int,
@@ -62,3 +69,4 @@ class CreateCampaignCommandHandler(ICommandHandler[CreateCampaignCommand]):
             )
         )
         await self._write_repository.create_campaign(campaign)
+        self._file_storage.create_campaign_folder(campaign_id)

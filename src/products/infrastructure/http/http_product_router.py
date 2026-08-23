@@ -1,7 +1,11 @@
 from fastapi import APIRouter, Body, Depends, Header
 from fastapi.security import HTTPBearer
 
-from products.application.command import CreateProductCommand, DeleteProductCommand
+from products.application.command import (
+    CreateProductCommand,
+    DeleteProductCommand,
+    UpdateProductQuantityCommand,
+)
 from shared import get_command_bus
 from shared.domain.cqrs.command.command_bus import CommandBus
 from shared.infrastructure.jwt.jwt_guard import jwt_guard
@@ -36,4 +40,15 @@ async def create_product(
 async def delete_product(product_id: str, command_bus: CommandBus = Depends(get_command_bus)):
     """Delete a product by its ID."""
     await command_bus.dispatch(DeleteProductCommand.create(product_id))
+    return {}
+
+
+@router.patch("/{product_id}/quantity", dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
+async def update_product_quantity(
+    product_id: str,
+    quantity: int = Body(..., embed=True, description="New quantity for the product"),
+    command_bus: CommandBus = Depends(get_command_bus),
+):
+    """Update the quantity of a product by its ID."""
+    await command_bus.dispatch(UpdateProductQuantityCommand.create(product_id, quantity))
     return {}

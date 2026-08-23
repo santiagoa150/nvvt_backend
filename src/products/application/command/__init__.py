@@ -2,3 +2,9 @@ from .create_product.create_product_command import CreateProductCommand
 from .create_product.create_product_command_handler import CreateProductCommandHandler
 from .delete_product.delete_product_command import DeleteProductCommand
 from .delete_product.delete_product_command_handler import DeleteProductCommandHandler
+from .update_product_quantity.update_product_quantity_command import (
+    UpdateProductQuantityCommand,
+)
+from .update_product_quantity.update_product_quantity_command_handler import (
+    UpdateProductQuantityCommandHandler,
+)

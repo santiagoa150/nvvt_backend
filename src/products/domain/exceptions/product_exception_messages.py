@@ -23,6 +23,12 @@ class ProductExceptionMessages(str, Enum):
     CAMPAIGN_NOT_ACTIVE_TO_DELETE_PRODUCT = (
         "Campaign {campaign_id} must be active to delete its products."
     )
+    CAMPAIGN_NOT_ACTIVE_TO_UPDATE_PRODUCT = (
+        "Campaign {campaign_id} must be active to update its products."
+    )
+    PRODUCT_QUANTITY_ALREADY_SET = (
+        "Product {product_id} quantity is already set to {quantity}."
+    )
 
     def format(self, **kwargs) -> str:
         """Format the message with the provided keyword arguments."""

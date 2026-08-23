@@ -34,3 +34,21 @@ class ProductException(CommonException):
                 campaign_id=campaign_id
             ),
         )
+
+    @staticmethod
+    def campaign_not_active_to_update(campaign_id: str) -> "ProductException":
+        """Raises an exception when trying to update a product for a non-active campaign."""
+        return ProductException(
+            ProductExceptionMessages.CAMPAIGN_NOT_ACTIVE_TO_UPDATE_PRODUCT.format(
+                campaign_id=campaign_id
+            ),
+        )
+
+    @staticmethod
+    def quantity_already_set(product_id: str, quantity: int) -> "ProductException":
+        """Raises an exception when the requested quantity matches the product's current one."""
+        return ProductException(
+            ProductExceptionMessages.PRODUCT_QUANTITY_ALREADY_SET.format(
+                product_id=product_id, quantity=quantity
+            ),
+        )

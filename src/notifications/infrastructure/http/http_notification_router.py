@@ -6,10 +6,7 @@ from fastapi import APIRouter, Body, Depends, Query, Request
 from fastapi.responses import StreamingResponse
 from fastapi.security import HTTPBearer
 
-from notifications.application.command import (
-    MarkNotificationsAsSeenCommand,
-    SendNotificationCommand,
-)
+from notifications.application.command import MarkNotificationsAsSeenCommand
 from notifications.application.query import GetPaginatedNotificationsQuery
 from notifications.infrastructure.broker.in_memory_notification_broker import (
     InMemoryNotificationBroker,
@@ -100,25 +97,3 @@ async def stream_notifications(
             "X-Accel-Buffering": "no",
         },
     )
-
-
-@router.post("/test", dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
-async def send_test_notification(
-    request: Request,
-    action: str = Body(..., description="Action of the test notification"),
-    recipient: str = Body(
-        None, description="Recipient user ID; defaults to the caller's own user ID"
-    ),
-    command_bus: CommandBus = Depends(get_command_bus),
-):
-    """
-    Test-support endpoint: sends a notification through the same path a real
-    one would take, so a client's SSE connection can be exercised manually.
-    """
-    await command_bus.dispatch(
-        SendNotificationCommand.create(
-            action=action,
-            recipient=recipient or request.state.user["user_id"],
-        )
-    )
-    return {}

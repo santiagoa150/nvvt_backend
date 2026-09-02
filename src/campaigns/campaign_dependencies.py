@@ -9,6 +9,8 @@ from campaigns.application.command import (
     CreateCampaignCommandHandler,
     DeleteCampaignCommand,
     DeleteCampaignCommandHandler,
+    FinishCampaignCommand,
+    FinishCampaignCommandHandler,
 )
 from campaigns.application.query import (
     GetCampaignByIdQuery,
@@ -128,3 +130,11 @@ async def create_activate_campaign_command_handler() -> ActivateCampaignCommandH
     read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
     write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
     return ActivateCampaignCommandHandler(read_repository, write_repository)
+
+
+@command_handler(FinishCampaignCommand)
+async def create_finish_campaign_command_handler() -> FinishCampaignCommandHandler:
+    """Creates a command handler for FinishCampaignCommand."""
+    read_repository: CampaignReadRepository = await create_mongodb_campaign_read_repository()
+    write_repository: CampaignWriteRepository = await create_mongodb_campaign_write_repository()
+    return FinishCampaignCommandHandler(read_repository, write_repository)

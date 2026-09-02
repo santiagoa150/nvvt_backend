@@ -49,7 +49,9 @@ class LoadCartCommandHandler(ICommandHandler[LoadCartCommand]):
         )
 
         try:
-            provider = ProductProvider(provider_token=command.provider_token, cart_id=command.cart_id)
+            provider = ProductProvider(
+                provider_token=command.provider_token, cart_id=command.cart_id
+            )
             cart_items = await self._product_client.get_cart_items(provider, command.cart_id)
 
             for item in cart_items:
@@ -92,5 +94,9 @@ class LoadCartCommandHandler(ICommandHandler[LoadCartCommand]):
             action = NotificationAction.CART_LOAD_FAILED.value
 
         await self._command_bus.dispatch(
-            SendNotificationCommand.create(action=action, recipient=command.requested_by.str)
+            SendNotificationCommand.create(
+                action=action,
+                recipient=command.requested_by.str,
+                reference=command.campaign_id.str,
+            )
         )

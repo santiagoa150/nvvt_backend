@@ -5,6 +5,7 @@ from campaigns.application.command import (
     ActivateCampaignCommand,
     CreateCampaignCommand,
     DeleteCampaignCommand,
+    FinishCampaignCommand,
 )
 from campaigns.application.query import GetCampaignSummaryQuery, GetPaginatedCampaignsQuery
 from campaigns.domain.campaign import Campaign
@@ -76,4 +77,11 @@ async def delete_campaign(campaign_id: str, command_bus: CommandBus = Depends(ge
 async def activate_campaign(campaign_id: str, command_bus: CommandBus = Depends(get_command_bus)):
     """Activate a campaign by its ID."""
     await command_bus.dispatch(ActivateCampaignCommand.create(campaign_id))
+    return {}
+
+
+@router.patch("/{campaign_id}/finish", dependencies=[Depends(bearer_scheme), Depends(jwt_guard)])
+async def finish_campaign(campaign_id: str, command_bus: CommandBus = Depends(get_command_bus)):
+    """Finish a campaign by its ID. Only campaigns that are currently active can be finished."""
+    await command_bus.dispatch(FinishCampaignCommand.create(campaign_id))
     return {}

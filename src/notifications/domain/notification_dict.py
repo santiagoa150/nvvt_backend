@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import Optional, TypedDict
 
 
 class NotificationDict(TypedDict):
@@ -8,3 +8,4 @@ class NotificationDict(TypedDict):
     action: str
     recipient: str
     seen: bool
+    reference: Optional[str]

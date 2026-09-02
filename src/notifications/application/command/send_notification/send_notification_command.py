@@ -1,3 +1,5 @@
+from typing import Optional
+
 from notifications.domain.notification import Notification
 from shared.domain.cqrs.command.icommand import ICommand
 from shared.domain.value_objects.bool_value_object import BoolValueObject
@@ -15,7 +17,9 @@ class SendNotificationCommand(ICommand):
         self.notification = notification
 
     @staticmethod
-    def create(action: str, recipient: str) -> "SendNotificationCommand":
+    def create(
+        action: str, recipient: str, reference: Optional[str] = None
+    ) -> "SendNotificationCommand":
         """Factory method to create a SendNotificationCommand instance."""
         return SendNotificationCommand(
             notification=Notification(
@@ -23,5 +27,8 @@ class SendNotificationCommand(ICommand):
                 action=StringValueObject(action, "notification_action"),
                 recipient=StringValueObject(recipient, "notification_recipient"),
                 seen=BoolValueObject(False, "notification_seen"),
+                reference=(
+                    StringValueObject(reference, "notification_reference") if reference else None
+                ),
             )
         )

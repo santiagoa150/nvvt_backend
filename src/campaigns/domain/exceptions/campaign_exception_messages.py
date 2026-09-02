@@ -12,6 +12,10 @@ class CampaignExceptionMessages(str, Enum):
         "Only campaigns with status SCHEDULED can be deleted."
     )
     CAMPAIGN_ALREADY_ACTIVE = "Campaign {campaign_id} is already active."
+    CAMPAIGN_CANNOT_BE_FINISHED = (
+        "Campaign with status {campaign_status} cannot be finished. "
+        "Only campaigns with status ACTIVE can be finished."
+    )
 
     def format(self, **kwargs) -> str:
         return self.value.format(**kwargs)

@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     jwt_expires_in: int = Field(..., validation_alias="JWT_EXPIRATION_IN_MINUTES")
     jwt_refresh_secret: str = Field(..., validation_alias="JWT_REFRESH_SECRET")
     jwt_refresh_expires_in: int = Field(..., validation_alias="JWT_REFRESH_EXPIRATION_IN_MINUTES")
+    notification_heartbeat_interval_seconds: int = Field(
+        15, validation_alias="NOTIFICATION_HEARTBEAT_INTERVAL_SECONDS"
+    )
 
 
 settings = Settings()

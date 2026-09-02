@@ -11,6 +11,7 @@ from auth.infrastructure.http import http_auth_router
 from campaigns.infrastructure.http import http_campaign_router
 from clients.infrastructure.http import http_client_router
 from countries.infrastructure.http import http_country_router
+from notifications.infrastructure.http import http_notification_router
 from products.infrastructure.http import http_product_router
 from receipts.infrastructure.http import http_receipt_router
 from settings import settings
@@ -98,6 +99,11 @@ def init_routes(api: FastAPI):
         http_country_router.router,
         prefix="/api/v1/countries",
         tags=["Countries"],
+    )
+    api.include_router(
+        http_notification_router.router,
+        prefix="/api/v1/notifications",
+        tags=["Notifications"],
     )
     api.include_router(
         http_product_router.router,

@@ -1,2 +1,8 @@
+from .mark_notifications_as_seen.mark_notifications_as_seen_command import (
+    MarkNotificationsAsSeenCommand,
+)
+from .mark_notifications_as_seen.mark_notifications_as_seen_command_handler import (
+    MarkNotificationsAsSeenCommandHandler,
+)
 from .send_notification.send_notification_command import SendNotificationCommand
 from .send_notification.send_notification_command_handler import SendNotificationCommandHandler

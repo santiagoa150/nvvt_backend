@@ -149,5 +149,6 @@ async def create_load_cart_command_handler() -> LoadCartCommandHandler:
     """Creates a command handler for LoadCartCommand."""
 
     command_bus = await get_command_bus()
+    read_repository = await create_mongodb_product_read_repository()
     product_client = await create_novaventa_product_client()
-    return LoadCartCommandHandler(command_bus, product_client)
+    return LoadCartCommandHandler(command_bus, read_repository, product_client)

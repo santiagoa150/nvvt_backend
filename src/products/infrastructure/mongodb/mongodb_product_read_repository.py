@@ -50,3 +50,16 @@ class MongoDBProductReadRepository(ProductReadRepository):
             {"campaign_id": campaign_id.str, "code": code.str}
         )
         return document is not None
+
+    async def get_product_by_campaign_and_code(
+        self, campaign_id: IdValueObject, code: StringValueObject
+    ) -> Optional[Product]:
+        """Retrieves a product by its campaign and code."""
+        document = await self._collection.find_one(
+            {"campaign_id": campaign_id.str, "code": code.str}
+        )
+
+        if document is None:
+            return None
+
+        return Product.from_dict(cast(ProductDict, document))

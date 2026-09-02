@@ -51,3 +51,16 @@ class ProductReadRepository(ABC):
         :return: True if the product exists, False otherwise.
         """
         pass
+
+    @abstractmethod
+    async def get_product_by_campaign_and_code(
+        self, campaign_id: IdValueObject, code: StringValueObject
+    ) -> Optional[Product]:
+        """
+        Retrieve a product by its campaign and code.
+
+        :param campaign_id: The ID of the campaign the product belongs to.
+        :param code: The code of the product to retrieve.
+        :return: The matching product, or None if it doesn't exist.
+        """
+        pass

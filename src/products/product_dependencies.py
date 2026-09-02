@@ -7,6 +7,8 @@ from products.application.command import (
     CreateProductCommandHandler,
     DeleteProductCommand,
     DeleteProductCommandHandler,
+    LoadCartCommand,
+    LoadCartCommandHandler,
     UpdateProductQuantityCommand,
     UpdateProductQuantityCommandHandler,
 )
@@ -29,7 +31,7 @@ from products.infrastructure.mongodb.mongodb_product_write_repository import (
 from products.infrastructure.novaventa.novaventa_product_client import (
     NovaventaProductClient,
 )
-from shared import get_campaign_file_storage, get_mongo_client, get_query_bus
+from shared import get_campaign_file_storage, get_command_bus, get_mongo_client, get_query_bus
 from shared.domain.cqrs.command.command_handler import command_handler
 from shared.domain.cqrs.query.query_handler import query_handler
 
@@ -140,3 +142,12 @@ async def create_update_product_quantity_command_handler() -> UpdateProductQuant
     read_repository = await create_mongodb_product_read_repository()
     write_repository = await create_mongodb_product_write_repository()
     return UpdateProductQuantityCommandHandler(query_bus, read_repository, write_repository)
+
+
+@command_handler(LoadCartCommand)
+async def create_load_cart_command_handler() -> LoadCartCommandHandler:
+    """Creates a command handler for LoadCartCommand."""
+
+    command_bus = await get_command_bus()
+    product_client = await create_novaventa_product_client()
+    return LoadCartCommandHandler(command_bus, product_client)
